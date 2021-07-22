@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "visiblebarriers",
+  "version": "${version}",
+  "name": "Visible Barriers",
+  "description": "Allows barriers, lights and structure blocks to make use of a block model.",
+  "authors": [
+    "AmyMialee"
+  ],
+  "contact": {},
+  "license": "GPL-3.0",
+  "icon": "assets/visiblebarriers/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "amymialee.visiblebarriers.client.VisibleBarriersClient"
+    ]
+  },
+  "mixins": [
+    "visiblebarriers.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": "*",
+    "minecraft": "*",
+    "fabric": "*"
+  }
+}

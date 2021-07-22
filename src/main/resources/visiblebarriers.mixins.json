@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "amymialee.visiblebarriers.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "BarrierBlockMixin",
+    "LightBlockMixin",
+    "StructureVoidBlockMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
