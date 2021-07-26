@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "level=0": {
+      "model": "visiblebarriers:block/light_00"
+    },
+    "level=1": {
+      "model": "visiblebarriers:block/light_01"
+    },
+    "level=2": {
+      "model": "visiblebarriers:block/light_02"
+    },
+    "level=3": {
+      "model": "visiblebarriers:block/light_03"
+    },
+    "level=4": {
+      "model": "visiblebarriers:block/light_04"
+    },
+    "level=5": {
+      "model": "visiblebarriers:block/light_05"
+    },
+    "level=6": {
+      "model": "visiblebarriers:block/light_06"
+    },
+    "level=7": {
+      "model": "visiblebarriers:block/light_07"
+    },
+    "level=8": {
+      "model": "visiblebarriers:block/light_08"
+    },
+    "level=9": {
+      "model": "visiblebarriers:block/light_09"
+    },
+    "level=10": {
+      "model": "visiblebarriers:block/light_10"
+    },
+    "level=11": {
+      "model": "visiblebarriers:block/light_11"
+    },
+    "level=12": {
+      "model": "visiblebarriers:block/light_12"
+    },
+    "level=13": {
+      "model": "visiblebarriers:block/light_13"
+    },
+    "level=14": {
+      "model": "visiblebarriers:block/light_14"
+    },
+    "level=15": {
+      "model": "visiblebarriers:block/light_15"
+    }
+  }
+}
