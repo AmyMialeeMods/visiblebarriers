@@ -1,7 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "visiblebarriers:block/structure_void"
+		"0": "visiblebarriers:block/structure_void",
+		"particle": "visiblebarriers:block/structure_void"
 	},
 	"elements": [
 		{
