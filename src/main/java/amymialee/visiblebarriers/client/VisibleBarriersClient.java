@@ -1,5 +1,6 @@
 package amymialee.visiblebarriers.client;
 
+import amymialee.visiblebarriers.VisibleBarriers;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -15,7 +16,6 @@ import org.lwjgl.glfw.GLFW;
 @Environment(EnvType.CLIENT)
 public class VisibleBarriersClient implements ClientModInitializer {
     private static KeyBinding keyBinding;
-    public static boolean visible = false;
 
     @Override
     public void onInitializeClient() {
@@ -30,7 +30,7 @@ public class VisibleBarriersClient implements ClientModInitializer {
         ));
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (keyBinding.wasPressed()) {
-                visible = !visible;
+                VisibleBarriers.visible = !VisibleBarriers.visible;
                 client.worldRenderer.reload();
             }
         });
