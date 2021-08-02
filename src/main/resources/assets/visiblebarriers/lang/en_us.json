@@ -1,4 +1,6 @@
 {
   "category.visiblebarriers.bind" : "Visible Barriers",
-  "key.visiblebarriers.bind" : "Toggle Visibility"
+  "key.visiblebarriers.bind" : "Toggle Visibility",
+  "itemGroup.visiblebarriers.extra_items" : "Extra Items",
+  "config.visiblebarriers.allowHotbarQuickSaving" : "Allow saving directly to the Saved Hotbars tab."
 }

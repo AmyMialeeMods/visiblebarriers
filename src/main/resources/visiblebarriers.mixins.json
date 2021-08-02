@@ -2,10 +2,16 @@
   "required": true,
   "minVersion": "0.8",
   "package": "amymialee.visiblebarriers.mixin",
-  "compatibilityLevel": "JAVA_8",
+  "compatibilityLevel": "JAVA_16",
   "mixins": [
+    "ArmorStandEntityRendererMixin",
     "BarrierBlockMixin",
+    "CreativeInventoryScreenMixin",
+    "EmptyEntityRendererMixin",
+    "EntityTypeMixin",
+    "ItemStackMixin",
     "LightBlockMixin",
+    "MarkerEntityMixin",
     "StructureVoidBlockMixin"
   ],
   "injectors": {
