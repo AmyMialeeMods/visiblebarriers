@@ -2,17 +2,11 @@ package amymialee.visiblebarriers;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
-import me.shedaniel.cloth.clothconfig.shadowed.com.moandjiezana.toml.Toml;
-import me.shedaniel.cloth.clothconfig.shadowed.com.moandjiezana.toml.TomlWriter;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
-
-import java.io.File;
-import java.io.IOException;
 
 public class VisibleBarriersModMenu implements ModMenuApi {
     @Override

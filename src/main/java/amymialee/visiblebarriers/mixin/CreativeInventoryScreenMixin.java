@@ -27,15 +27,17 @@ public abstract class CreativeInventoryScreenMixin extends AbstractInventoryScre
     @Inject(method = "onMouseClick", at = @At("HEAD"), cancellable = true)
     protected void onMouseClick(Slot slot, int slotId, int button, SlotActionType actionType, CallbackInfo ci) {
         if (VisibleBarriersConfig.load().allowHotbarQuickSaving) {
-            if (selectedTab == ItemGroup.HOTBAR.getIndex() && !((CreativeInventoryScreen) ((Object) this)).getScreenHandler().getCursorStack().isEmpty() &&
+            CreativeInventoryScreen this2 = ((CreativeInventoryScreen) ((Object) this));
+            if (selectedTab == ItemGroup.HOTBAR.getIndex() && !this2.getScreenHandler().getCursorStack().isEmpty() &&
                     slot != null) {
                 int barSlot = slotId % 9;
                 int barRow = slotId / 9;
+                assert this.client != null;
                 HotbarStorageEntry entry = this.client.getCreativeHotbarStorage().getSavedHotbar(barRow);
-                entry.set(barSlot, ((CreativeInventoryScreen) ((Object) this)).getScreenHandler().getCursorStack());
+                entry.set(barSlot, this2.getScreenHandler().getCursorStack());
                 this.client.getCreativeHotbarStorage().save();
-                slot.setStack(((CreativeInventoryScreen) ((Object) this)).getScreenHandler().getCursorStack());
-                ((CreativeInventoryScreen) ((Object) this)).getScreenHandler().setCursorStack(ItemStack.EMPTY);
+                slot.setStack(this2.getScreenHandler().getCursorStack());
+                this2.getScreenHandler().setCursorStack(ItemStack.EMPTY);
                 ci.cancel();
             }
         }

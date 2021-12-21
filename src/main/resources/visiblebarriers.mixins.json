@@ -4,8 +4,10 @@
   "package": "amymialee.visiblebarriers.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
+    "AirBlockMixin",
     "ArmorStandEntityRendererMixin",
     "BarrierBlockMixin",
+    "CommandManagerMixin",
     "CreativeInventoryScreenMixin",
     "EmptyEntityRendererMixin",
     "EntityTypeMixin",

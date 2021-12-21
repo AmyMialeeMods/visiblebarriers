@@ -57,6 +57,7 @@ public abstract class EmptyEntityRendererMixin<T extends Entity> extends EntityR
                     this.itemStack = Items.STRUCTURE_BLOCK.getDefaultStack().copy();
                 }
             }
+            assert itemStack != null;
             int j = itemStack.isEmpty() ? 187 : Item.getRawId(itemStack.getItem()) + itemStack.getDamage();
             this.random.setSeed(j);
             BakedModel bakedModel = this.itemRenderer.getHeldItemModel(itemStack, itemEntity.world, null, itemEntity.getId());
@@ -89,5 +90,6 @@ public abstract class EmptyEntityRendererMixin<T extends Entity> extends EntityR
             matrixStack.pop();
             super.render(itemEntity, f, g, matrixStack, vertexConsumerProvider, i);
         }
+        super.render(itemEntity, f, g, matrixStack, vertexConsumerProvider, i);
     }
 }
