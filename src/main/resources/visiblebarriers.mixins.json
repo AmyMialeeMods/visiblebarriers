@@ -2,19 +2,19 @@
   "required": true,
   "minVersion": "0.8",
   "package": "amymialee.visiblebarriers.mixin",
-  "compatibilityLevel": "JAVA_16",
+  "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "AirBlockMixin",
+    "visibility.AirBlockMixin",
     "ArmorStandEntityRendererMixin",
-    "BarrierBlockMixin",
+    "visibility.BarrierBlockMixin",
     "CommandManagerMixin",
     "CreativeInventoryScreenMixin",
     "EmptyEntityRendererMixin",
-    "EntityTypeMixin",
-    "ItemStackMixin",
-    "LightBlockMixin",
-    "MarkerEntityMixin",
-    "StructureVoidBlockMixin"
+    "visibility.EntityTypeMixin",
+    "visibility.ItemStackMixin",
+    "visibility.LightBlockMixin",
+    "visibility.MarkerEntityMixin",
+    "visibility.StructureVoidBlockMixin"
   ],
   "injectors": {
     "defaultRequire": 1

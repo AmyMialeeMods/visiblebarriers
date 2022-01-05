@@ -1,6 +1,5 @@
 package amymialee.visiblebarriers.mixin;
 
-import amymialee.visiblebarriers.VisibleBarriers;
 import amymialee.visiblebarriers.VisibleBarriersCommand;
 import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.server.command.CommandManager;

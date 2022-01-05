@@ -1,6 +1,6 @@
 package amymialee.visiblebarriers.mixin;
 
-import amymialee.visiblebarriers.VisibleBarriersConfig;
+import amymialee.visiblebarriers.VisibleBarriers;
 import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.option.HotbarStorageEntry;
@@ -26,7 +26,7 @@ public abstract class CreativeInventoryScreenMixin extends AbstractInventoryScre
 
     @Inject(method = "onMouseClick", at = @At("HEAD"), cancellable = true)
     protected void onMouseClick(Slot slot, int slotId, int button, SlotActionType actionType, CallbackInfo ci) {
-        if (VisibleBarriersConfig.load().allowHotbarQuickSaving) {
+        if (VisibleBarriers.config.allowHotbarQuickSaving) {
             CreativeInventoryScreen this2 = ((CreativeInventoryScreen) ((Object) this));
             if (selectedTab == ItemGroup.HOTBAR.getIndex() && !this2.getScreenHandler().getCursorStack().isEmpty() &&
                     slot != null) {

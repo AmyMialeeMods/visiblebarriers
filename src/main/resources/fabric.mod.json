@@ -1,25 +1,22 @@
 {
   "schemaVersion": 1,
   "id": "visiblebarriers",
-  "version": "1.2.0",
+  "version": "${version}",
   "name": "Visible Barriers",
-  "description": "Allows barriers, lights and structure blocks to make use of a block model.",
+  "description": "Various tools for Minecraft Mapmaking.",
   "authors": [
     "AmyMialee"
   ],
   "contact": {
-    "homepage": "https://www.curseforge.com/minecraft/mc-mods/visible-barriers",
-    "issues": "https://github.com/AmyMialee/visible-barriers/issues"
+    "homepage": "https://github.com/AmyMialeeMods/visible-barriers",
+    "issues": "https://github.com/AmyMialeeMods/visible-barriers/issues"
   },
-  "license": "GPL-3.0",
+  "license": "All-Rights-Reserved",
   "icon": "assets/visiblebarriers/icon.png",
   "environment": "*",
   "entrypoints": {
-    "main": [
-      "amymialee.visiblebarriers.VisibleBarriers"
-    ],
     "client": [
-      "amymialee.visiblebarriers.client.VisibleBarriersClient"
+      "amymialee.visiblebarriers.VisibleBarriers"
     ],
     "modmenu": [
       "amymialee.visiblebarriers.VisibleBarriersModMenu"
@@ -30,10 +27,8 @@
     "visiblebarriers.mixins.json"
   ],
   "depends": {
-    "fabricloader": "*",
-    "minecraft": "*",
     "fabric": "*",
-    "cloth-config2": "*"
+    "cloth-config": "*"
   },
   "custom": {
     "modupdater": {

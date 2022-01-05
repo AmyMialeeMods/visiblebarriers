@@ -1,4 +1,4 @@
-package amymialee.visiblebarriers.mixin;
+package amymialee.visiblebarriers.mixin.visibility;
 
 import amymialee.visiblebarriers.VisibleBarriers;
 import net.minecraft.block.AirBlock;
@@ -16,10 +16,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(AirBlock.class)
 public abstract class AirBlockMixin extends Block {
-    public AirBlockMixin(Settings settings) {
-        super(settings);
-    }
-
     @Inject(method = "getRenderType", at = @At("HEAD"), cancellable = true)
     public void getRenderType(BlockState state, CallbackInfoReturnable<BlockRenderType> cir) {
         if (VisibleBarriers.visible_air) {
@@ -35,5 +31,9 @@ public abstract class AirBlockMixin extends Block {
     @Unique
     public boolean isTranslucent(BlockState state, BlockView world, BlockPos pos) {
         return true;
+    }
+
+    public AirBlockMixin(Settings settings) {
+        super(settings);
     }
 }

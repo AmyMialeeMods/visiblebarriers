@@ -1,4 +1,4 @@
-package amymialee.visiblebarriers.mixin;
+package amymialee.visiblebarriers.mixin.visibility;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;

@@ -1,4 +1,4 @@
-package amymialee.visiblebarriers.mixin;
+package amymialee.visiblebarriers.mixin.visibility;
 
 import amymialee.visiblebarriers.VisibleBarriers;
 import net.minecraft.item.ItemStack;
