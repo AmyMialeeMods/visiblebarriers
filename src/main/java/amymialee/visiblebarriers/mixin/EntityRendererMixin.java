@@ -3,20 +3,18 @@ package amymialee.visiblebarriers.mixin;
 import amymialee.visiblebarriers.VisibleBarriers;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.EmptyEntityRenderer;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.AreaEffectCloudEntity;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.MarkerEntity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.potion.PotionUtil;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3f;
 import org.spongepowered.asm.mixin.Mixin;
@@ -27,38 +25,27 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Random;
 
-@Mixin(EmptyEntityRenderer.class)
-public abstract class EmptyEntityRendererMixin<T extends Entity> extends EntityRenderer<T> {
-    protected EmptyEntityRendererMixin(EntityRendererFactory.Context ctx) {
-        super(ctx);
-    }
-
+@Mixin(EntityRenderer.class)
+public class EntityRendererMixin<T extends Entity> {
     @Unique private ItemRenderer itemRenderer;
     @Unique private final Random random = new Random();
     @Unique public float uniqueOffset;
     @Unique private ItemStack itemStack;
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    public void EmptyEntityRenderer(EntityRendererFactory.Context context, CallbackInfo ci) {
+    public void EntityRenderer(EntityRendererFactory.Context context, CallbackInfo ci) {
         this.itemRenderer = context.getItemRenderer();
         this.uniqueOffset = this.random.nextFloat() * 3.1415927F * 2.0F;
     }
 
-    @Unique
-    public void render(T itemEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
-        if (VisibleBarriers.visible) {
-            matrixStack.push();
+    @Inject(method = "render", at = @At("HEAD"))
+    public void render(T itemEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo ci) {
+        if (VisibleBarriers.visible && itemEntity instanceof LivingEntity living && living.hasStatusEffect(StatusEffects.INVISIBILITY)) {
             if (this.itemStack == null) {
-                if (itemEntity instanceof AreaEffectCloudEntity) {
-                    this.itemStack = Items.LINGERING_POTION.getDefaultStack().copy();
-                    PotionUtil.setPotion(itemStack, ((AreaEffectCloudEntity) itemEntity).getPotion());
-                } else if (itemEntity instanceof MarkerEntity) {
-                    this.itemStack = Items.STRUCTURE_BLOCK.getDefaultStack().copy();
-                } else {
-                    this.itemStack = Items.BARRIER.getDefaultStack().copy();
-                }
+                if (itemEntity.getPickBlockStack() != null) this.itemStack = itemEntity.getPickBlockStack().copy();
+                if (this.itemStack == null) this.itemStack = Items.STRUCTURE_VOID.getDefaultStack().copy();
             }
-            assert itemStack != null;
+            matrixStack.push();
             int j = itemStack.isEmpty() ? 187 : Item.getRawId(itemStack.getItem()) + itemStack.getDamage();
             this.random.setSeed(j);
             BakedModel bakedModel = this.itemRenderer.getModel(itemStack, itemEntity.world, null, itemEntity.getId());
@@ -72,12 +59,10 @@ public abstract class EmptyEntityRendererMixin<T extends Entity> extends EntityR
             float o = bakedModel.getTransformation().ground.scale.getX();
             float p = bakedModel.getTransformation().ground.scale.getY();
             float q = bakedModel.getTransformation().ground.scale.getZ();
-            float v;
-            float w;
             if (!bl) {
                 float r = -0.0F * 0 * 0.5F * o;
-                v = -0.0F * 0 * 0.5F * p;
-                w = -0.09375F * 0 * 0.5F * q;
+                float v = -0.0F * 0 * 0.5F * p;
+                float w = -0.09375F * 0 * 0.5F * q;
                 matrixStack.translate(r, v, w);
             }
             for (int u = 0; u < k; ++u) {
@@ -89,8 +74,6 @@ public abstract class EmptyEntityRendererMixin<T extends Entity> extends EntityR
                 }
             }
             matrixStack.pop();
-            super.render(itemEntity, f, g, matrixStack, vertexConsumerProvider, i);
         }
-        super.render(itemEntity, f, g, matrixStack, vertexConsumerProvider, i);
     }
 }

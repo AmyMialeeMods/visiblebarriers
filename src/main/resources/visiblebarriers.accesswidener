@@ -1,4 +1,1 @@
 accessWidener	v1	named
-
-accessible field net/minecraft/client/gui/screen/ingame/CreativeInventoryScreen deleteItemSlot Lnet/minecraft/screen/slot;
-# accessible field net/minecraft/client/gui/screen/ingame/HandledScreen deleteItemSlot T

@@ -1,6 +1,7 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "visiblebarriers:block/barrier"
+    "all": "visiblebarriers:block/barrier",
+    "particle": "minecraft:item/barrier"
   }
 }
