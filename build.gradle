@@ -31,3 +31,12 @@ processResources {
         expand "version": project.version
     }
 }
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {}
+}
