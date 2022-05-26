@@ -10,19 +10,25 @@ import org.lwjgl.glfw.GLFW;
 @SuppressWarnings("SameParameterValue")
 public class VisibleControls {
     public static final KeyBinding VISIBILITY = createSafeKeyMapping("key.%s.visibility".formatted(VisibleBarriers.MOD_ID), GLFW.GLFW_KEY_B);
+    private static boolean visibilityHeld = false;
 
     public static void keyInput(int key, int scancode) {
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
         if (player != null) {
             if (VISIBILITY.matchesKey(key, scancode)) {
-                VisibleBarriers.visible = !VisibleBarriers.visible;
-                if (MinecraftClient.getInstance().player != null && MinecraftClient.getInstance().player.isSneaking()) {
-                    VisibleBarriers.visible_air = VisibleBarriers.visible;
+                if (!visibilityHeld) {
+                    VisibleBarriers.visible = !VisibleBarriers.visible;
+                    if (MinecraftClient.getInstance().player != null && MinecraftClient.getInstance().player.isSneaking()) {
+                        VisibleBarriers.visible_air = VisibleBarriers.visible;
+                    }
+                    if (!VisibleBarriers.visible) {
+                        VisibleBarriers.visible_air = false;
+                    }
+                    MinecraftClient.getInstance().worldRenderer.reload();
+                    visibilityHeld = true;
                 }
-                if (!VisibleBarriers.visible) {
-                    VisibleBarriers.visible_air = false;
-                }
-                MinecraftClient.getInstance().worldRenderer.reload();
+            } else {
+                visibilityHeld = false;
             }
         }
     }
