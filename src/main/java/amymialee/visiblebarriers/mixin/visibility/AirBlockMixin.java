@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class AirBlockMixin extends Block {
     @Inject(method = "getRenderType", at = @At("HEAD"), cancellable = true)
     public void getRenderType(BlockState state, CallbackInfoReturnable<BlockRenderType> cir) {
-        if (VisibleBarriers.visible_air) {
+        if (VisibleBarriers.isVisibleAir()) {
             cir.setReturnValue(BlockRenderType.MODEL);
         }
     }

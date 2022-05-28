@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class StructureVoidBlockMixin {
     @Inject(method = "getRenderType", at = @At("HEAD"), cancellable = true)
     public void getRenderType(BlockState state, CallbackInfoReturnable<BlockRenderType> cir) {
-        if (VisibleBarriers.visible) {
+        if (VisibleBarriers.isVisible()) {
             cir.setReturnValue(BlockRenderType.MODEL);
         }
     }

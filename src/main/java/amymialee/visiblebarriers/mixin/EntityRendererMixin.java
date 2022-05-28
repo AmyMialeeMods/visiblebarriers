@@ -40,7 +40,7 @@ public class EntityRendererMixin<T extends Entity> {
 
     @Inject(method = "render", at = @At("HEAD"))
     public void render(T itemEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo ci) {
-        if (VisibleBarriers.visible && itemEntity instanceof LivingEntity living && living.hasStatusEffect(StatusEffects.INVISIBILITY)) {
+        if (VisibleBarriers.isVisible() && itemEntity instanceof LivingEntity living && living.hasStatusEffect(StatusEffects.INVISIBILITY)) {
             if (this.itemStack == null) {
                 if (itemEntity.getPickBlockStack() != null) this.itemStack = itemEntity.getPickBlockStack().copy();
                 if (this.itemStack == null) this.itemStack = Items.STRUCTURE_VOID.getDefaultStack().copy();

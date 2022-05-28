@@ -44,7 +44,7 @@ public abstract class ArmorStandEntityRendererMixin extends LivingEntityRenderer
 
     @Unique
     public void render(ArmorStandEntity itemEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
-        if (itemEntity.isInvisible() && VisibleBarriers.visible) {
+        if (itemEntity.isInvisible() && VisibleBarriers.isVisible()) {
             renderInvis(itemEntity, f, g, matrixStack, vertexConsumerProvider, i);
         }
         super.render(itemEntity, f, g, matrixStack, vertexConsumerProvider, i);

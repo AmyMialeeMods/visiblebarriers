@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class LightBlockMixin {
     @Inject(method = "getRenderType", at = @At("HEAD"), cancellable = true)
     public void getRenderType(BlockState state, CallbackInfoReturnable<BlockRenderType> cir) {
-        if (VisibleBarriers.visible) {
+        if (VisibleBarriers.isVisible()) {
             cir.setReturnValue(BlockRenderType.MODEL);
         }
     }
@@ -31,7 +31,7 @@ public class LightBlockMixin {
 
     @Inject(method = "getOutlineShape", at = @At("HEAD"), cancellable = true)
     public void getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context, CallbackInfoReturnable<VoxelShape> cir) {
-        if (VisibleBarriers.visible) {
+        if (VisibleBarriers.isVisible()) {
             cir.setReturnValue(VoxelShapes.fullCube());
         }
     }

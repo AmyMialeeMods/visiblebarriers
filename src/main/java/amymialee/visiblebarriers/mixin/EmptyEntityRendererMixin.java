@@ -46,7 +46,7 @@ public abstract class EmptyEntityRendererMixin<T extends Entity> extends EntityR
 
     @Unique
     public void render(T itemEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
-        if (VisibleBarriers.visible) {
+        if (VisibleBarriers.isVisible()) {
             matrixStack.push();
             if (this.itemStack == null) {
                 if (itemEntity instanceof AreaEffectCloudEntity) {

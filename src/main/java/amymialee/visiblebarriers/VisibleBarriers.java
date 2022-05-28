@@ -26,8 +26,8 @@ public class VisibleBarriers implements ClientModInitializer {
     public static VisibleBarriersConfig config = null;
     private static KeyBinding keyBinding;
 
-    public static boolean visible = false;
-    public static boolean visible_air = false;
+    private static boolean visible = false;
+    private static boolean visibleAir = false;
 
     public static final ItemGroup EXTRA_ITEMS = FabricItemGroupBuilder.create(new Identifier(MODID, "extra_items")).icon(() -> new ItemStack(Items.COMMAND_BLOCK))
             .appendItems(stacks -> {
@@ -73,14 +73,22 @@ public class VisibleBarriers implements ClientModInitializer {
                 visible = !visible;
                 if (Screen.hasShiftDown()) {
                     if (visible) {
-                        visible_air = true;
+                        visibleAir = true;
                     }
                 }
                 if (!visible) {
-                    visible_air = false;
+                    visibleAir = false;
                 }
                 client.worldRenderer.reload();
             }
         });
+    }
+
+    public static boolean isVisible() {
+        return visible;
+    }
+
+    public static boolean isVisibleAir() {
+        return visibleAir;
     }
 }
