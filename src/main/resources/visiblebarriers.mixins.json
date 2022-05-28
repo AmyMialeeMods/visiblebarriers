@@ -10,8 +10,6 @@
     "CreativeInventoryScreenMixin",
     "EmptyEntityRendererMixin",
     "EntityRendererMixin",
-    "KeyBindingAccessor",
-    "KeyboardMixin",
     "visibility.AirBlockMixin",
     "visibility.BarrierBlockMixin",
     "visibility.EntityTypeMixin",
