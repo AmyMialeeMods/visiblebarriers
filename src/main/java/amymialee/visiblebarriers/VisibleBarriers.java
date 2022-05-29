@@ -8,11 +8,11 @@ import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 
 public class VisibleBarriers implements ModInitializer {
-    public final static String MODID = "visiblebarriers";
+    public final static String MOD_ID = "visiblebarriers";
     protected static boolean visible = false;
     protected static boolean visibleAir = false;
 
-    public static final ItemGroup VISIBLE_BARRIERS = FabricItemGroupBuilder.create(new Identifier(MODID, "visible_barriers"))
+    public static final ItemGroup VISIBLE_BARRIERS = FabricItemGroupBuilder.create(new Identifier(MOD_ID, "visible_barriers"))
             .icon(() -> new ItemStack(Items.BARRIER))
             .appendItems(stacks -> {
                 stacks.add(new ItemStack(Items.COMMAND_BLOCK));
