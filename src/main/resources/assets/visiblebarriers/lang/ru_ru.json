@@ -1,6 +1,5 @@
 {
   "category.visiblebarriers.bind" : "Visible Barriers",
   "key.visiblebarriers.bind" : "Переключить видимость",
-  "itemGroup.visiblebarriers.extra_items" : "Дополнительные предметы",
-  "config.visiblebarriers.allowHotbarQuickSaving" : "Разрешить добавление прямо в «Сохранённые инструменты»."
+  "itemGroup.visiblebarriers.visible_barriers" : "Дополнительные предметы"
 }

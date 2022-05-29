@@ -1,0 +1,23 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "amymialee.visiblebarriers.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "ItemStackMixin",
+    "blocks.AirBlockMixin",
+    "blocks.BarrierBlockMixin",
+    "blocks.LightBlockMixin",
+    "blocks.StructureVoidBlockMixin",
+    "entities.EntityTypeMixin",
+    "entities.MarkerEntityMixin"
+  ],
+  "client": [
+    "entities.ArmorStandEntityRendererMixin",
+    "entities.EmptyEntityRendererMixin",
+    "entities.EntityRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

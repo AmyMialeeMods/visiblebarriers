@@ -16,26 +16,19 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "amymialee.visiblebarriers.VisibleBarriers"
+      "amymialee.visiblebarriers.VisibleBarriersClient"
     ],
-    "modmenu": [
-      "amymialee.visiblebarriers.VisibleBarriersModMenu"
+    "main": [
+      "amymialee.visiblebarriers.VisibleBarriers"
     ]
   },
-  "accessWidener" : "visiblebarriers.accesswidener",
   "mixins": [
-    "visiblebarriers.mixins.json"
+    "visible-barriers.mixins.json"
   ],
   "depends": {
-    "fabric": "*",
-    "cloth-config": "*"
+    "fabric": "*"
   },
   "custom": {
-    "modupdater": {
-      "strategy": "curseforge",
-      "projectID": 507228,
-      "strict": false
-    },
     "modmenu": {
       "links": {
         "modmenu.discord": "https://discord.gg/P4dUsxv6An"

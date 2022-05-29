@@ -1,4 +1,4 @@
-package amymialee.visiblebarriers.mixin.visibility;
+package amymialee.visiblebarriers.mixin.entities;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -18,7 +18,7 @@ public abstract class MarkerEntityMixin extends Entity {
     }
 
     @Inject(method = "createSpawnPacket", at = @At("HEAD"), cancellable = true)
-    public void createSpawnPacket(CallbackInfoReturnable<Packet<?>> cir) {
+    public void VisibleBarriers$ForcePacket(CallbackInfoReturnable<Packet<?>> cir) {
         cir.setReturnValue(new EntitySpawnS2CPacket((MarkerEntity)((Object)this)));
         cir.cancel();
     }

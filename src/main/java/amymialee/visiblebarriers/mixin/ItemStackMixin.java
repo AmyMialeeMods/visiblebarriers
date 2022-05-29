@@ -1,4 +1,4 @@
-package amymialee.visiblebarriers.mixin.visibility;
+package amymialee.visiblebarriers.mixin;
 
 import amymialee.visiblebarriers.VisibleBarriers;
 import net.minecraft.item.ItemStack;
@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ItemStack.class)
 public abstract class ItemStackMixin {
     @Inject(method = "isSectionVisible", at = @At(value = "HEAD"), cancellable = true)
-    private static void isSectionVisible(int flags, ItemStack.TooltipSection tooltipSection, CallbackInfoReturnable<Boolean> cir) {
+    private static void VisibleBarriers$ShowDetails(int flags, ItemStack.TooltipSection tooltipSection, CallbackInfoReturnable<Boolean> cir) {
         if (VisibleBarriers.isVisible()) {
             cir.setReturnValue(true);
         }
