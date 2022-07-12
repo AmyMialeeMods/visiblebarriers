@@ -25,7 +25,7 @@ dependencies {
     </tr>
     <tr>
         <th>
-            <a href="https://discord.gg/P4dUsxv6An">
+            <a href="http://discord.amymialee.xyz">
                 <img src="https://cdn.discordapp.com/attachments/793182374410059887/924000460292104282/3437c10597c1526c3dbd98c737c2bcae.svg" width="150" height="150">
             </a>
         </th>
@@ -40,7 +40,7 @@ dependencies {
             </a>
         </th>
         <th>
-            <a href="https://ko-fi.com/amymialee">
+            <a href="http://kofi.amymialee.xyz">
                 <img src="https://storage.ko-fi.com/cdn/kofi_stroke_cup.svg" width="150" height="150">
             </a>
         </th>
