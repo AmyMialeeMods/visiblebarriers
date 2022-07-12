@@ -13,6 +13,7 @@ Also includes various tools such as a creative tab of unlisted blocks, commands 
         <th><b>Join my Discord</b></th>
         <th><b>Find the mod on Curseforge!</b></th>
         <th><b>Find the mod on Modrinth!</b></th>
+        <th><b>Support me on Ko-fi!</b></th>
     </tr>
     <tr>
         <th>
@@ -28,6 +29,11 @@ Also includes various tools such as a creative tab of unlisted blocks, commands 
         <th>
             <a href="https://modrinth.com/mod/visible-barriers">
                 <img src="https://docs.modrinth.com/img/logo.svg" width="150" height="150">
+            </a>
+        </th>
+        <th>
+            <a href="https://ko-fi.com/amymialee">
+                <img src="https://storage.ko-fi.com/cdn/kofi_stroke_cup.svg" width="150" height="150">
             </a>
         </th>
     </tr>

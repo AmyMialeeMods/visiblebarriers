@@ -39,6 +39,7 @@ public class FloatyRenderer<T extends Entity> {
         int k = 1;
         float l = MathHelper.sin(((float) entity.age * 8 + g) / 10.0F + this.uniqueOffset) * 0.1F + 0.1F;
         float m = bakedModel.getTransformation().getTransformation(ModelTransformation.Mode.GROUND).scale.getY();
+        matrixStack.translate(0.0D, entity.getHeight() / 2, 0.0D);
         matrixStack.translate(0.0D, l + 0.25F * m, 0.0D);
         float n = (((float) entity.age * 8 + g) / 20.0F + this.uniqueOffset);
         matrixStack.multiply(Vec3f.POSITIVE_Y.getRadialQuaternion(-n));
