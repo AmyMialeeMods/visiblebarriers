@@ -3,7 +3,18 @@ Visible Barriers is a useful mod for mapmakers and map playtesters.
 It adds multiple tools for mapmaking and testing, namely the ability to render barrier blocks as solid blocks using a keybind (default: b).  
 Also includes various tools such as a creative tab of unlisted blocks, commands to mass infect and lock blocks, and the ability to see marker entities.
 
-<img src="https://github.com/AmyMialeeMods/visible-barriers/raw/main/assets/barriers.png"><br><br>
+<img src="https://github.com/AmyMialeeMods/visible-barriers/raw/main/assets/barriers.png">
+
+To add Visible Barriers to your project as a dependency you need to add the following to your `build.gradle`:
+```gradle
+repositories {
+	maven { url = "https://maven.willbl.dev/releases" }
+}
+
+dependencies {
+	modImplementation "amymialee:visible-barriers:1.5.1+1.19"
+}
+```
 
 <table align="center">
     <tr>
