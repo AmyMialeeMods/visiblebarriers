@@ -37,6 +37,16 @@ public class VisibleBarriersClient implements ClientModInitializer {
 
         ColorProviderRegistry.BLOCK.register((state, view, pos, tintIndex) -> VisibleBarriers.visible ? 11546150 : -1, Blocks.PETRIFIED_OAK_SLAB);
 
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> VisibleBarriers.visible ? 11546150 : -1, Blocks.INFESTED_STONE, Blocks.INFESTED_DEEPSLATE,
+                Blocks.INFESTED_COBBLESTONE, Blocks.INFESTED_STONE_BRICKS, Blocks.INFESTED_MOSSY_STONE_BRICKS, Blocks.INFESTED_CRACKED_STONE_BRICKS, Blocks.INFESTED_CHISELED_STONE_BRICKS);
+
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> VisibleBarriers.visible ? 11546150 : -1, Blocks.WAXED_COPPER_BLOCK, Blocks.WAXED_EXPOSED_COPPER,
+                Blocks.WAXED_WEATHERED_COPPER, Blocks.WAXED_OXIDIZED_COPPER, Blocks.WAXED_CUT_COPPER, Blocks.WAXED_EXPOSED_CUT_COPPER, Blocks.WAXED_WEATHERED_CUT_COPPER,
+                Blocks.WAXED_OXIDIZED_CUT_COPPER, Blocks.WAXED_CUT_COPPER_SLAB, Blocks.WAXED_EXPOSED_CUT_COPPER_SLAB, Blocks.WAXED_WEATHERED_CUT_COPPER_SLAB, Blocks.WAXED_OXIDIZED_CUT_COPPER_SLAB,
+                Blocks.WAXED_CUT_COPPER_STAIRS, Blocks.WAXED_EXPOSED_CUT_COPPER_STAIRS, Blocks.WAXED_WEATHERED_CUT_COPPER_STAIRS, Blocks.WAXED_OXIDIZED_CUT_COPPER_STAIRS);
+
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> VisibleBarriers.visible ? 11546150 : -1, Blocks.PETRIFIED_OAK_SLAB);
+
         keyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.visiblebarriers.bind",
                 InputUtil.Type.KEYSYM,

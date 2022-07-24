@@ -20,6 +20,5 @@ public abstract class MarkerEntityMixin extends Entity {
     @Inject(method = "createSpawnPacket", at = @At("HEAD"), cancellable = true)
     public void VisibleBarriers$ForcePacket(CallbackInfoReturnable<Packet<?>> cir) {
         cir.setReturnValue(new EntitySpawnS2CPacket((MarkerEntity)((Object)this)));
-        cir.cancel();
     }
 }
