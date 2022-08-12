@@ -12,7 +12,7 @@ repositories {
 }
 
 dependencies {
-	modImplementation "amymialee:visible-barriers:1.5.1+1.19"
+	modImplementation "amymialee:visible-barriers:1.5.1+1.19.x"
 }
 ```
 
