@@ -21,11 +21,4 @@ public class EntityTypeMixin {
             this.maxTrackingRange = 4;
         }
     }
-
-    @Inject(method = "setDimensions", at = @At("RETURN"))
-    public void VisibleBarriers$MinDimensions(float width, float height, CallbackInfoReturnable<EntityType.Builder<Entity>> cir) {
-        if (this.dimensions.width == 0 && this.dimensions.height == 0) {
-            this.dimensions = EntityDimensions.changing(0.4f, 0.4f);
-        }
-    }
 }
