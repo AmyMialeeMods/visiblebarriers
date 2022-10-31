@@ -10,10 +10,10 @@
     "blocks.LightBlockMixin",
     "blocks.StructureVoidBlockMixin",
     "entities.EntityTypeMixin",
-    "entities.MarkerEntityMixin"
+    "entities.MarkerEntityMixin",
+    "entities.EntityMixin"
   ],
   "client": [
-    "entities.ArmorStandEntityRendererMixin",
     "entities.EmptyEntityRendererMixin",
     "entities.EntityRendererMixin"
   ],
