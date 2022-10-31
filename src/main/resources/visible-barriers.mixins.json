@@ -14,7 +14,6 @@
     "entities.EntityMixin"
   ],
   "client": [
-    "entities.ArmorStandEntityRendererMixin",
     "entities.EmptyEntityRendererMixin",
     "entities.EntityRendererMixin"
   ],
