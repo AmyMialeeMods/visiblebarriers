@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "visiblebarriers:block/moving_piston_sticky",
+    "particle": "minecraft:block/piston_top_sticky"
+  }
+}

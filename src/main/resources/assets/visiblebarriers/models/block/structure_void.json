@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench",
 	"textures": {
 		"0": "visiblebarriers:block/structure_void",
-		"particle": "visiblebarriers:block/structure_void"
+		"particle": "minecraft:item/structure_void"
 	},
 	"elements": [
 		{

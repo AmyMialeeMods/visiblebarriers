@@ -15,15 +15,15 @@
   "icon": "assets/visiblebarriers/icon.png",
   "environment": "*",
   "entrypoints": {
-    "client": [
-      "amymialee.visiblebarriers.VisibleBarriersClient"
+    "preLaunch": [
+      "xyz.amymialee.visiblebarriers.VisibleBarriersPreLaunch"
     ],
-    "main": [
-      "amymialee.visiblebarriers.VisibleBarriers"
+    "client": [
+      "xyz.amymialee.visiblebarriers.VisibleBarriers"
     ]
   },
   "mixins": [
-    "visible-barriers.mixins.json"
+    "visiblebarriers.mixins.json"
   ],
   "depends": {
     "fabric": "*"

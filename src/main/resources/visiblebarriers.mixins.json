@@ -1,0 +1,32 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "xyz.amymialee.visiblebarriers.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "server.AirBlockMixin",
+    "server.EntityTypeMixin",
+    "server.LightBlockMixin",
+    "server.MarkerEntityMixin"
+  ],
+  "client": [
+    "AbstractBlockStateMixin",
+    "EntityMixin",
+    "ItemStackMixin",
+    "LightBlockMixin",
+    "PistonExtensionBlockMixin",
+    "boxing.AbstractBlockMixin",
+    "boxing.BlockMixin",
+    "boxing.EntityRendererMixin",
+    "client.AbstractQuadRendererMixin",
+    "client.BakedQuadMixin",
+    "client.BlockColorsMixin",
+    "client.ClientWorldMixin",
+    "client.EmptyEntityRendererMixin",
+    "client.ItemColorsMixin",
+    "client.LightmapTextureManagerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

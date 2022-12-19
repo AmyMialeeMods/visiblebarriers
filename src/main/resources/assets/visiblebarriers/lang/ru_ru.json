@@ -1,5 +1,5 @@
 {
-  "category.visiblebarriers.bind" : "Visible Barriers",
+  "category.visiblebarriers" : "Visible Barriers",
   "key.visiblebarriers.bind" : "Переключить видимость",
   "itemGroup.visiblebarriers.visible_barriers" : "Дополнительные предметы"
 }
