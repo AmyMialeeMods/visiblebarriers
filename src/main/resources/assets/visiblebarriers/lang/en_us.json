@@ -1,9 +1,12 @@
 {
   "category.visiblebarriers" : "Visible Barriers",
 
+  "visiblebarriers.zoom.amount" : "Zoom: %s %%",
+
   "key.visiblebarriers.bind" : "Toggle All Visibility",
   "key.visiblebarriers.menu" : "Open Menu",
   "key.visiblebarriers.fullbright" : "Toggle Fullbright",
+  "key.visiblebarriers.zoom" : "Zoom",
   "key.visiblebarriers.barriers" : "Show Barriers",
   "key.visiblebarriers.lights" : "Show Lights",
   "key.visiblebarriers.structure_voids" : "Show Structure Voids",
@@ -39,6 +42,13 @@
   "command.visiblebarriers.customkey" : "[Visible Barriers] Custom Key %s is now %s",
   "command.visiblebarriers.customkey.on" : "enabled",
   "command.visiblebarriers.customkey.off" : "disabled",
+  "command.visiblebarriers.time.day" : "[Visible Barriers] Set time to Day",
+  "command.visiblebarriers.time.noon" : "[Visible Barriers] Set time to Noon",
+  "command.visiblebarriers.time.night" : "[Visible Barriers] Set time to Night",
+  "command.visiblebarriers.time.midnight" : "[Visible Barriers] Set time to Midnight",
+  "command.visiblebarriers.time.custom" : "[Visible Barriers] Set time to %s",
+  "command.visiblebarriers.time.enable" : "[Visible Barriers] Time Lock Enabled",
+  "command.visiblebarriers.time.disable" : "[Visible Barriers] Time Lock Disabled",
 
   "itemGroup.visiblebarriers.visible_barriers" : "Visible Barriers"
 }
