@@ -10,8 +10,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RotationAxis;
-import org.joml.Vector3f;
+import net.minecraft.util.math.Vec3f;
 
 import java.util.Random;
 
@@ -39,14 +38,14 @@ public class FloatyRenderer<T extends Entity> {
         boolean bl = bakedModel.hasDepth();
         int k = 1;
         float l = MathHelper.sin(((float) entity.age * 8 + g) / 10.0F + this.uniqueOffset) * 0.1F + 0.1F;
-        float m = bakedModel.getTransformation().getTransformation(ModelTransformation.Mode.GROUND).scale.y;
+        float m = bakedModel.getTransformation().getTransformation(ModelTransformation.Mode.GROUND).scale.getY();
         matrixStack.translate(0.0D, entity.getHeight() / 2, 0.0D);
         matrixStack.translate(0.0D, l + 0.25F * m, 0.0D);
         float n = (((float) entity.age * 8 + g) / 20.0F + this.uniqueOffset);
-        matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-n));
-        float o = bakedModel.getTransformation().ground.scale.x;
-        float p = bakedModel.getTransformation().ground.scale.y;
-        float q = bakedModel.getTransformation().ground.scale.z;
+        matrixStack.multiply(Vec3f.POSITIVE_Y.getRadialQuaternion(-n));
+        float o = bakedModel.getTransformation().ground.scale.getX();
+        float p = bakedModel.getTransformation().ground.scale.getY();
+        float q = bakedModel.getTransformation().ground.scale.getZ();
         float v;
         float w;
         if (!bl) {

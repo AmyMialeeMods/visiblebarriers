@@ -11,8 +11,8 @@ import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
@@ -24,7 +24,6 @@ import net.minecraft.command.argument.BlockStateArgument;
 import net.minecraft.command.argument.BlockStateArgumentType;
 import net.minecraft.command.argument.ItemStackArgumentType;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.text.Text;
@@ -99,27 +98,27 @@ public class VisibleBarriers implements ClientModInitializer {
                 }
             });
         }
-        ItemGroup ITEM_GROUP = FabricItemGroup.builder(new Identifier(VisibleBarriers.MOD_ID, "visible_barriers"))
+        FabricItemGroupBuilder.create(id("visible_barriers"))
                 .icon(() -> new ItemStack(Items.REPEATING_COMMAND_BLOCK))
-                .entries((enabledFeatures, entries, operatorEnabled) -> {
-                    entries.add(new ItemStack(Items.COMMAND_BLOCK));
-                    entries.add(new ItemStack(Items.CHAIN_COMMAND_BLOCK));
-                    entries.add(new ItemStack(Items.REPEATING_COMMAND_BLOCK));
-                    entries.add(new ItemStack(Items.STRUCTURE_BLOCK));
-                    entries.add(new ItemStack(Items.JIGSAW));
-                    entries.add(new ItemStack(Items.SPAWNER));
-                    entries.add(new ItemStack(Items.BARRIER));
-                    entries.add(new ItemStack(Items.STRUCTURE_VOID));
-                    entries.add(new ItemStack(Items.LIGHT));
-                    entries.add(new ItemStack(Items.DEBUG_STICK));
-                    entries.add(new ItemStack(Items.KNOWLEDGE_BOOK));
-                    entries.add(new ItemStack(Items.DRAGON_EGG));
-                    entries.add(new ItemStack(Items.COMMAND_BLOCK_MINECART));
-                    entries.add(new ItemStack(Items.FIREWORK_STAR));
+                .appendItems(stacks -> {
+                    stacks.add(new ItemStack(Items.COMMAND_BLOCK));
+                    stacks.add(new ItemStack(Items.CHAIN_COMMAND_BLOCK));
+                    stacks.add(new ItemStack(Items.REPEATING_COMMAND_BLOCK));
+                    stacks.add(new ItemStack(Items.STRUCTURE_BLOCK));
+                    stacks.add(new ItemStack(Items.JIGSAW));
+                    stacks.add(new ItemStack(Items.SPAWNER));
+                    stacks.add(new ItemStack(Items.BARRIER));
+                    stacks.add(new ItemStack(Items.STRUCTURE_VOID));
+                    stacks.add(new ItemStack(Items.LIGHT));
+                    stacks.add(new ItemStack(Items.DEBUG_STICK));
+                    stacks.add(new ItemStack(Items.KNOWLEDGE_BOOK));
+                    stacks.add(new ItemStack(Items.DRAGON_EGG));
+                    stacks.add(new ItemStack(Items.COMMAND_BLOCK_MINECART));
+                    stacks.add(new ItemStack(Items.FIREWORK_STAR));
                     for (int i = 1; i <= 3; i++) {
                         ItemStack firework1 = new ItemStack(Items.FIREWORK_ROCKET);
                         firework1.getOrCreateSubNbt("Fireworks").putByte("Flight", (byte)i);
-                        entries.add(firework1);
+                        stacks.add(firework1);
                     }
                 }).build();
         BlockRenderLayerMap.INSTANCE.putBlock(Blocks.BARRIER, RenderLayer.getTranslucent());
