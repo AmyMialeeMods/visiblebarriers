@@ -5,24 +5,26 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
-import net.minecraft.util.registry.Registry;
 import xyz.amymialee.visiblebarriers.util.HashPairMap;
 
-import java.io.File;
+import java.nio.file.Files;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.nio.file.Path;
+import java.util.Collections;
 import java.util.Map;
 
 public class VBConfig {
-    private final File optionsFile = new File(MinecraftClient.getInstance().runDirectory, "config/visiblebarriers.json");
+    private final Path configFile = FabricLoader.getInstance().getConfigDir().resolve("visiblebarriers.json");
     private boolean hideParticles = true;
     private boolean visibleAir = false;
     private boolean fullBright = false;
@@ -183,7 +185,7 @@ public class VBConfig {
             JsonArray blockColors = new JsonArray();
             for (Map.Entry<Block, Pair<Integer, Integer>> entry : config.blockColors.entrySet()) {
                 JsonObject object = new JsonObject();
-                object.addProperty("block", String.valueOf(Registry.BLOCK.getId(entry.getKey())));
+                object.addProperty("block", String.valueOf(Registries.BLOCK.getId(entry.getKey())));
                 Pair<Integer, Integer> value = entry.getValue();
                 object.addProperty("color", value.getLeft());
                 if (value.getRight() != -1) {
@@ -196,7 +198,7 @@ public class VBConfig {
             JsonArray itemColors = new JsonArray();
             for (Map.Entry<Item, Pair<Integer, Integer>> entry : config.itemColors.entrySet()) {
                 JsonObject object = new JsonObject();
-                object.addProperty("item", String.valueOf(Registry.ITEM.getId(entry.getKey())));
+                object.addProperty("item", String.valueOf(Registries.ITEM.getId(entry.getKey())));
                 Pair<Integer, Integer> value = entry.getValue();
                 object.addProperty("color", value.getLeft());
                 if (value.getRight() != -1) {
@@ -206,9 +208,7 @@ public class VBConfig {
             }
             json.add("itemColors", itemColors);
             String jsonData = gson.toJson(json);
-            FileWriter writer = new FileWriter(config.optionsFile);
-            writer.write(jsonData);
-            writer.close();
+            Files.writeString(config.configFile, jsonData);
         } catch (Exception e) {
             VisibleBarriers.LOGGER.info(e.toString());
         }
@@ -221,7 +221,7 @@ public class VBConfig {
     protected static void loadConfig(VBConfig config) {
         try {
             Gson gson = new Gson();
-            FileReader reader = new FileReader(config.optionsFile);
+            String reader = Files.readString(config.configFile);
             JsonObject data = gson.fromJson(reader, JsonObject.class);
             if (data.has("hideParticles")) {
                 config.hideParticles = data.get("hideParticles").getAsBoolean();
@@ -248,7 +248,7 @@ public class VBConfig {
                     JsonObject object = element.getAsJsonObject();
                     String blockName = object.get("block").getAsString();
                     int color = object.get("color").getAsInt();
-                    Block block = Registry.BLOCK.get(new Identifier(blockName));
+                    Block block = Registries.BLOCK.get(new Identifier(blockName));
                     if (block != Blocks.AIR) {
                         if (object.has("key")) {
                             int key = object.get("key").getAsInt();
@@ -268,7 +268,7 @@ public class VBConfig {
                     JsonObject object = element.getAsJsonObject();
                     String itemName = object.get("item").getAsString();
                     int color = object.get("color").getAsInt();
-                    Item item = Registry.ITEM.get(new Identifier(itemName));
+                    Item item = Registries.ITEM.get(new Identifier(itemName));
                     if (item != Items.AIR) {
                         if (object.has("key")) {
                             int key = object.get("key").getAsInt();
