@@ -23,6 +23,7 @@ import net.minecraft.client.util.InputUtil;
 import net.minecraft.command.argument.BlockStateArgument;
 import net.minecraft.command.argument.BlockStateArgumentType;
 import net.minecraft.command.argument.ItemStackArgumentType;
+import net.minecraft.command.argument.TimeArgumentType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -30,6 +31,7 @@ import net.minecraft.item.Items;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.MathHelper;
 import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +40,7 @@ import xyz.amymialee.visiblebarriers.util.ArrayPairList;
 @Environment(EnvType.CLIENT)
 public class VisibleBarriers implements ClientModInitializer {
     public final static String MOD_ID = "visiblebarriers";
-    public final static Logger logger = LoggerFactory.getLogger(MOD_ID);
+    public final static Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
     private static final KeyBinding keyBindingVisibility = KeyBindingHelper.registerKeyBinding(new KeyBinding(
             "key.visiblebarriers.bind",
             GLFW.GLFW_KEY_B,
@@ -46,6 +48,11 @@ public class VisibleBarriers implements ClientModInitializer {
     ));
     private static final KeyBinding keyBindingFullBright = KeyBindingHelper.registerKeyBinding(new KeyBinding(
             "key.visiblebarriers.fullbright",
+            InputUtil.UNKNOWN_KEY.getCode(),
+            "category.visiblebarriers"
+    ));
+    private static final KeyBinding keyBindingZoom = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+            "key.visiblebarriers.zoom",
             InputUtil.UNKNOWN_KEY.getCode(),
             "category.visiblebarriers"
     ));
@@ -76,6 +83,9 @@ public class VisibleBarriers implements ClientModInitializer {
     protected static boolean visibleLights = false;
     protected static boolean visibleStructureVoids = false;
     protected static boolean visibleHighlights = false;
+    protected static boolean isZooming = false;
+    protected static boolean isTimeForced = false;
+    protected static float zoomScroll = 1.0F;
 
     @Override
     public void onInitializeClient() {
@@ -202,6 +212,27 @@ public class VisibleBarriers implements ClientModInitializer {
                             return 1;
                         })))
 
+                        .then(ClientCommandManager.literal("highlights").executes(context -> {
+                            visibleHighlights = !visibleHighlights;
+                            this.reloadWorldRenderer();
+                            if (visibleHighlights) {
+                                context.getSource().sendFeedback(Text.translatable("command.visiblebarriers.highlights.true").formatted(Formatting.GRAY));
+                            } else {
+                                context.getSource().sendFeedback(Text.translatable("command.visiblebarriers.highlights.false").formatted(Formatting.GRAY));
+                            }
+                            return 1;
+                        }).then(ClientCommandManager.argument("visible", BoolArgumentType.bool()).executes(context -> {
+                            boolean shouldBeVisible = BoolArgumentType.getBool(context, "visible");
+                            visibleHighlights = shouldBeVisible;
+                            this.reloadWorldRenderer();
+                            if (shouldBeVisible) {
+                                context.getSource().sendFeedback(Text.translatable("command.visiblebarriers.highlights.true").formatted(Formatting.GRAY));
+                            } else {
+                                context.getSource().sendFeedback(Text.translatable("command.visiblebarriers.highlights.false").formatted(Formatting.GRAY));
+                            }
+                            return 1;
+                        })))
+
                         .then(ClientCommandManager.literal("fullbright").executes(context -> {
                             boolean shouldBeEnabled = !config.isFullBright();
                             config.setFullBright(shouldBeEnabled);
@@ -221,6 +252,50 @@ public class VisibleBarriers implements ClientModInitializer {
                             }
                             return 1;
                         })))
+
+                        .then(ClientCommandManager.literal("time")
+                                .then(ClientCommandManager.literal("enable").executes(context -> {
+                                    if (MinecraftClient.getInstance().world != null) {
+                                        MinecraftClient.getInstance().world.setTimeOfDay(VisibleBarriers.config.getForcedTime());
+                                    }
+                                    isTimeForced = true;
+                                    context.getSource().sendFeedback(Text.translatable("command.visiblebarriers.time.enable").formatted(Formatting.GRAY));
+                                    return 0;
+                                }))
+                                .then(ClientCommandManager.literal("disable").executes(context -> {
+                                    isTimeForced = false;
+                                    context.getSource().sendFeedback(Text.translatable("command.visiblebarriers.time.disable").formatted(Formatting.GRAY));
+                                    return 0;
+                                }))
+                                .then(ClientCommandManager.literal("set")
+                                        .then(ClientCommandManager.literal("day").executes(context -> {
+                                            config.setForcedTime(1000);
+                                            context.getSource().sendFeedback(Text.translatable("command.visiblebarriers.time.day").formatted(Formatting.GRAY));
+                                            return 0;
+                                        }))
+                                        .then(ClientCommandManager.literal("noon").executes(context -> {
+                                            config.setForcedTime(6000);
+                                            context.getSource().sendFeedback(Text.translatable("command.visiblebarriers.time.noon").formatted(Formatting.GRAY));
+                                            return 0;
+                                        }))
+                                        .then(ClientCommandManager.literal("night").executes(context -> {
+                                            config.setForcedTime(13000);
+                                            context.getSource().sendFeedback(Text.translatable("command.visiblebarriers.time.night").formatted(Formatting.GRAY));
+                                            return 0;
+                                        }))
+                                        .then(ClientCommandManager.literal("midnight").executes(context -> {
+                                            config.setForcedTime(18000);
+                                            context.getSource().sendFeedback(Text.translatable("command.visiblebarriers.time.midnight").formatted(Formatting.GRAY));
+                                            return 0;
+                                        }))
+                                        .then(ClientCommandManager.argument("time", TimeArgumentType.time()).executes(context -> {
+                                            int time = IntegerArgumentType.getInteger(context, "time");
+                                            config.setForcedTime(time);
+                                            context.getSource().sendFeedback(Text.translatable("command.visiblebarriers.time.custom", time).formatted(Formatting.GRAY));
+                                            return 0;
+                                        }))
+                                )
+                        )
 
                         .then(ClientCommandManager.literal("addblock").then(ClientCommandManager.argument("block", BlockStateArgumentType.blockState(commandRegistryAccess)).then(ClientCommandManager.argument("color", IntegerArgumentType.integer()).executes(context -> {
                             Block block = getBlockState(context, "block").getBlockState().getBlock();
@@ -293,6 +368,21 @@ public class VisibleBarriers implements ClientModInitializer {
                     }
                 }
             }
+            if (keyBindingZoom.isPressed()) {
+                isZooming = true;
+                if (client.player != null) {
+                    client.player.sendMessage(Text.translatable("visiblebarriers.zoom.amount", "%.0f".formatted(100 / zoomScroll)).formatted(Formatting.GRAY), true);
+                }
+            } else {
+                if (isZooming) {
+                    isZooming = false;
+                    if (client.player != null) {
+                        client.player.sendMessage(Text.translatable("visiblebarriers.zoom.amount", "100").formatted(Formatting.GRAY), true);
+                    }
+                }
+                zoomScroll = VisibleBarriers.config.getBaseZoom();
+            }
+
             if (keyBindingBarriers.wasPressed()) {
                 visibleBarriers = !visibleBarriers;
                 this.reloadWorldRenderer();
@@ -352,6 +442,23 @@ public class VisibleBarriers implements ClientModInitializer {
         return visible;
     }
 
+    public static boolean isZooming() {
+        return isZooming;
+    }
+
+    public static float getZoomModifier() {
+        return zoomScroll;
+    }
+
+    public static void modifyZoomModifier(float amount) {
+        zoomScroll += (amount * 0.05f);
+        zoomScroll = MathHelper.clamp(zoomScroll, 0.05f, 1.15f);
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (client.player != null) {
+            client.player.sendMessage(Text.translatable("visiblebarriers.zoom.amount", "%.0f".formatted(100 / zoomScroll)).formatted(Formatting.GRAY), true);
+        }
+    }
+
     public static boolean areBarriersVisible() {
         return visibleBarriers || isVisible();
     }
@@ -370,6 +477,10 @@ public class VisibleBarriers implements ClientModInitializer {
 
     public static boolean areEntitiesVisible() {
         return isVisible();
+    }
+
+    public static boolean isTimeForced() {
+        return isTimeForced;
     }
 
     public static Identifier id(String... path) {

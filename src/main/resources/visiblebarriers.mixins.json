@@ -21,10 +21,14 @@
     "client.AbstractQuadRendererMixin",
     "client.BakedQuadMixin",
     "client.BlockColorsMixin",
+    "client.ClientPlayNetworkHandlerMixin",
     "client.ClientWorldMixin",
+    "client.ClientWorldMixin$ClientWorldPropertiesMixin",
     "client.EmptyEntityRendererMixin",
+    "client.GameRendererMixin",
     "client.ItemColorsMixin",
-    "client.LightmapTextureManagerMixin"
+    "client.LightmapTextureManagerMixin",
+    "client.MouseMixin"
   ],
   "injectors": {
     "defaultRequire": 1

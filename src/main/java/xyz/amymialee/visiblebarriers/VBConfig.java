@@ -32,6 +32,8 @@ public class VBConfig {
     private int customKeys = 0;
     private final HashPairMap<Block, Integer, Integer> blockColors = new HashPairMap<>();
     private final HashPairMap<Item, Integer, Integer> itemColors = new HashPairMap<>();
+    private float baseZoom = 0.6f;
+    private long forcedTime = 6000;
 
     public void setHideParticles(boolean hideParticles) {
         this.hideParticles = hideParticles;
@@ -46,6 +48,19 @@ public class VBConfig {
     public void setFullBright(boolean fullBright) {
         this.fullBright = fullBright;
         this.saveConfig();
+    }
+
+    public void setBaseZoom(float baseZoom) {
+        this.baseZoom = baseZoom;
+        this.saveConfig();
+    }
+
+    public void setForcedTime(long forcedTime) {
+        this.forcedTime = forcedTime;
+        VisibleBarriers.isTimeForced = true;
+        if (MinecraftClient.getInstance().world != null) {
+            MinecraftClient.getInstance().world.setTimeOfDay(VisibleBarriers.config.getForcedTime());
+        }
     }
 
     public void addBlock(Block block, int color) {
@@ -88,6 +103,14 @@ public class VBConfig {
 
     public boolean isFullBright() {
         return this.fullBright;
+    }
+
+    public float getBaseZoom() {
+        return this.baseZoom;
+    }
+
+    public long getForcedTime() {
+        return this.forcedTime;
     }
 
     public boolean areLightsSolid() {
@@ -155,6 +178,7 @@ public class VBConfig {
             json.addProperty("hideParticles", config.hideParticles);
             json.addProperty("visibleAir", config.visibleAir);
             json.addProperty("fullBright", config.fullBright);
+            json.addProperty("baseZoom", config.baseZoom);
             if (config.solidLights) json.addProperty("solidLights", true);
             if (config.customKeys > 0) json.addProperty("customKeys", config.customKeys);
 
@@ -186,7 +210,7 @@ public class VBConfig {
             String jsonData = gson.toJson(json);
             Files.writeString(config.configFile, jsonData);
         } catch (Exception e) {
-            VisibleBarriers.logger.info(e.toString());
+            VisibleBarriers.LOGGER.info(e.toString());
         }
     }
 
@@ -207,6 +231,9 @@ public class VBConfig {
             }
             if (data.has("fullBright")) {
                 config.fullBright = data.get("fullBright").getAsBoolean();
+            }
+            if (data.has("baseZoom")) {
+                config.baseZoom = data.get("baseZoom").getAsFloat();
             }
             if (data.has("solidLights")) {
                 config.solidLights = data.get("solidLights").getAsBoolean();
@@ -255,12 +282,12 @@ public class VBConfig {
                 addDefaultItems(config);
             }
         } catch (FileNotFoundException e) {
-            VisibleBarriers.logger.info("Config data not found.");
+            VisibleBarriers.LOGGER.info("Config data not found.");
             addDefaultBlocks(config);
             addDefaultItems(config);
         } catch (Exception e) {
-            VisibleBarriers.logger.info("Error loading config data.");
-            VisibleBarriers.logger.info(e.toString());
+            VisibleBarriers.LOGGER.info("Error loading config data.");
+            VisibleBarriers.LOGGER.info(e.toString());
         }
     }
 
