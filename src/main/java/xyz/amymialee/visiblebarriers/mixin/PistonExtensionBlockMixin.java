@@ -23,21 +23,22 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class PistonExtensionBlockMixin extends BlockMixin {
     @Override
     public void visibleBarriers$isSideInvisible(BlockState state, BlockState stateFrom, Direction direction, CallbackInfoReturnable<Boolean> cir) {
-        if (stateFrom.isOf((Block) (Object) this)) {
+        Block block = (Block) (Object) this;
+        if (stateFrom.isOf(block)) {
             cir.setReturnValue(true);
         }
     }
 
     @Inject(method = "getOutlineShape", at = @At("HEAD"), cancellable = true)
     public void visibleBarriers$makeOutlineVisible(BlockState state, BlockView world, BlockPos pos, ShapeContext context, CallbackInfoReturnable<VoxelShape> cir) {
-        if (VisibleBarriers.isVisible()) {
+        if (VisibleBarriers.isVisibilityEnabled()) {
             cir.setReturnValue(VoxelShapes.fullCube());
         }
     }
 
     @Inject(method = "getPickStack", at = @At("HEAD"), cancellable = true)
     public void visibleBarriers$pickStack(BlockView world, BlockPos pos, BlockState state, CallbackInfoReturnable<ItemStack> cir) {
-        if (VisibleBarriers.isVisible()) {
+        if (VisibleBarriers.isVisibilityEnabled()) {
             if (state.contains(PistonExtensionBlock.TYPE) && state.get(PistonExtensionBlock.TYPE) == PistonType.DEFAULT) {
                 cir.setReturnValue(new ItemStack(Blocks.PISTON));
             } else {

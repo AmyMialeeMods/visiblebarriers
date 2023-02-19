@@ -16,7 +16,7 @@
   "environment": "*",
   "entrypoints": {
     "preLaunch": [
-      "xyz.amymialee.visiblebarriers.VisibleBarriersPreLaunch"
+      "xyz.amymialee.visiblebarriers.VisiblePreLaunch"
     ],
     "client": [
       "xyz.amymialee.visiblebarriers.VisibleBarriers"

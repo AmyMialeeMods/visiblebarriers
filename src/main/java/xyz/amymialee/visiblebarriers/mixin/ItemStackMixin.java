@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class ItemStackMixin {
     @Inject(method = "isSectionVisible", at = @At(value = "HEAD"), cancellable = true)
     private static void visibleBarriers$showDetails(int flags, ItemStack.TooltipSection tooltipSection, CallbackInfoReturnable<Boolean> cir) {
-        if (VisibleBarriers.isVisible()) {
+        if (VisibleBarriers.isVisibilityEnabled()) {
             cir.setReturnValue(true);
         }
     }

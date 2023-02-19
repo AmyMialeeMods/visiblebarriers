@@ -1,7 +1,8 @@
 # Visible Barriers
 Visible Barriers is a useful mod for mapmakers and map playtesters.  
 It adds multiple tools for mapmaking and testing, namely the ability to render barrier blocks as solid blocks using a keybind (default: b).  
-Also includes various tools such as a creative tab of unlisted blocks, commands to mass infect and lock blocks, and the ability to see marker entities.
+It also allows you to see marker entities (when installed on the server).
+It also has several other features, such as a zoom keybind, fullbright, and the ability to set the time of day client side!
 
 <img src="https://github.com/AmyMialeeMods/visible-barriers/raw/main/assets/barriers.png" alt="">
 

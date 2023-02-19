@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import xyz.amymialee.visiblebarriers.VisibleConfig;
 import xyz.amymialee.visiblebarriers.VisibleBarriers;
 
 @Mixin(AbstractBlock.AbstractBlockState.class)
@@ -18,16 +19,16 @@ public abstract class AbstractBlockStateMixin {
 
     @Inject(method = "getRenderType", at = @At("RETURN"), cancellable = true)
     private void visibleBarriers$invisibleModels(CallbackInfoReturnable<BlockRenderType> cir) {
-        if (VisibleBarriers.isVisible()) {
-            if (cir.getReturnValue() == BlockRenderType.INVISIBLE && (VisibleBarriers.config.isAirVisible() || !this.isAir())) {
+        if (VisibleBarriers.isVisibilityEnabled()) {
+            if (cir.getReturnValue() == BlockRenderType.INVISIBLE && (VisibleConfig.isAirVisible() || !this.isAir())) {
                 cir.setReturnValue(BlockRenderType.MODEL);
             }
         } else {
-            if (this.getBlock() == Blocks.BARRIER && VisibleBarriers.areBarriersVisible()) {
+            if (this.getBlock() == Blocks.BARRIER && VisibleBarriers.areBarriersEnabled()) {
                 cir.setReturnValue(BlockRenderType.MODEL);
-            } else if (this.getBlock() == Blocks.LIGHT && VisibleBarriers.areLightsVisible()) {
+            } else if (this.getBlock() == Blocks.LIGHT && VisibleBarriers.areLightsEnabled()) {
                 cir.setReturnValue(BlockRenderType.MODEL);
-            } else if (this.getBlock() == Blocks.STRUCTURE_VOID && VisibleBarriers.areStructureVoidsVisible()) {
+            } else if (this.getBlock() == Blocks.STRUCTURE_VOID && VisibleBarriers.areStructureVoidsEnabled()) {
                 cir.setReturnValue(BlockRenderType.MODEL);
             }
         }

@@ -11,7 +11,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class EntityMixin {
     @Inject(method = "shouldRender(D)Z", at = @At("HEAD"), cancellable = true)
     public void visibleBarriers$forceRender(double distance, CallbackInfoReturnable<Boolean> cir) {
-        if (((Entity)(Object)this) instanceof MarkerEntity) {
+        Entity this2 = (Entity) (Object) this;
+        if (this2 instanceof MarkerEntity) {
             cir.setReturnValue(true);
         }
     }

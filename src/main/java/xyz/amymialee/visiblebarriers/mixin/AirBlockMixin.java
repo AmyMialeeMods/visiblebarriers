@@ -1,6 +1,5 @@
-package xyz.amymialee.visiblebarriers.mixin.server;
+package xyz.amymialee.visiblebarriers.mixin;
 
-import xyz.amymialee.visiblebarriers.mixin.boxing.BlockMixin;
 import net.minecraft.block.AirBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -9,6 +8,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import xyz.amymialee.visiblebarriers.mixin.boxing.BlockMixin;
 
 @Mixin(AirBlock.class)
 public abstract class AirBlockMixin extends BlockMixin {

@@ -4,29 +4,23 @@
   "package": "xyz.amymialee.visiblebarriers.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "server.AirBlockMixin",
-    "server.EntityTypeMixin",
-    "server.LightBlockMixin",
-    "server.MarkerEntityMixin"
-  ],
-  "client": [
     "AbstractBlockStateMixin",
+    "AirBlockMixin",
     "EntityMixin",
+    "EntityTypeMixin",
     "ItemStackMixin",
     "LightBlockMixin",
+    "MarkerEntityMixin",
     "PistonExtensionBlockMixin",
     "boxing.AbstractBlockMixin",
-    "boxing.BlockMixin",
+    "boxing.BlockMixin"
+  ],
+  "client": [
     "boxing.EntityRendererMixin",
-    "client.AbstractQuadRendererMixin",
-    "client.BakedQuadMixin",
-    "client.BlockColorsMixin",
-    "client.ClientPlayNetworkHandlerMixin",
     "client.ClientWorldMixin",
     "client.ClientWorldMixin$ClientWorldPropertiesMixin",
     "client.EmptyEntityRendererMixin",
     "client.GameRendererMixin",
-    "client.ItemColorsMixin",
     "client.LightmapTextureManagerMixin",
     "client.MouseMixin"
   ],

@@ -11,7 +11,7 @@ import xyz.amymialee.visiblebarriers.VisibleBarriers;
 public class LightmapTextureManagerMixin {
     @WrapOperation(method = "update", at = @At(value = "INVOKE", target = "Ljava/lang/Double;floatValue()F", ordinal = 1))
     private float visibleBarriers$fullBright(Double number, Operation<Float> original) {
-        if (VisibleBarriers.config.isFullBright()) {
+        if (VisibleBarriers.isFullBrightEnabled()) {
             return 255f;
         }
         return original.call(number);

@@ -14,7 +14,7 @@ public class GameRendererMixin {
 
     @Inject(method = "updateFovMultiplier", at = @At(value = "TAIL"))
     private void visibleBarriers$zoom(CallbackInfo ci) {
-        if (VisibleBarriers.isZooming()) {
+        if (VisibleBarriers.isHoldingZoom()) {
             this.fovMultiplier *= VisibleBarriers.getZoomModifier();
         }
     }

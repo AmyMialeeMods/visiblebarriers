@@ -21,7 +21,7 @@ public class MouseMixin {
     @Inject(method = "onMouseScroll", at = @At("HEAD"), cancellable = true)
     private void visibleBarriers$scroll(long window, double horizontal, double vertical, CallbackInfo ci) {
         if (window == MinecraftClient.getInstance().getWindow().getHandle()) {
-            if (VisibleBarriers.isZooming()) {
+            if (VisibleBarriers.isHoldingZoom()) {
                 double d = (this.client.options.getDiscreteMouseScroll().getValue() ? Math.signum(vertical) : vertical) * this.client.options.getMouseWheelSensitivity().getValue();
                 if (this.eventDeltaWheel != 0.0 && Math.signum(d) != Math.signum(this.eventDeltaWheel)) {
                     this.eventDeltaWheel = 0.0;
@@ -41,7 +41,7 @@ public class MouseMixin {
     @WrapOperation(method = "updateMouse", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/option/SimpleOption;getValue()Ljava/lang/Object;", ordinal = 0))
     private Object visibleBarriers$zoomSlow(SimpleOption<Double> option, Operation<Object> original) {
         double value = option.getValue();
-        if (VisibleBarriers.isZooming()) {
+        if (VisibleBarriers.isHoldingZoom()) {
             return value * VisibleBarriers.getZoomModifier();
         }
         return value;

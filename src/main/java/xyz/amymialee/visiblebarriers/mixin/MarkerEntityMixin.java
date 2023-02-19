@@ -1,4 +1,4 @@
-package xyz.amymialee.visiblebarriers.mixin.server;
+package xyz.amymialee.visiblebarriers.mixin;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
