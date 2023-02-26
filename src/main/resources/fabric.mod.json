@@ -2,6 +2,7 @@
   "schemaVersion": 1,
   "id": "visiblebarriers",
   "version": "${version}",
+  "accessWidener" : "visiblebarriers.accesswidener",
   "name": "Visible Barriers",
   "description": "Various tools for Minecraft Mapmaking.",
   "authors": [
@@ -17,6 +18,9 @@
   "entrypoints": {
     "preLaunch": [
       "xyz.amymialee.visiblebarriers.VisiblePreLaunch"
+    ],
+    "main": [
+      "xyz.amymialee.visiblebarriers.common.VisibleBarriersCommon"
     ],
     "client": [
       "xyz.amymialee.visiblebarriers.VisibleBarriers"

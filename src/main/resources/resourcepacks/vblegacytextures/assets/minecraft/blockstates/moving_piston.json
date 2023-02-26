@@ -1,0 +1,12 @@
+{
+  "variants": {
+    "type=normal": {
+      "model": "visiblebarriers:block/moving_piston",
+      "x": 90
+    },
+    "type=sticky": {
+      "model": "visiblebarriers:block/moving_piston_sticky",
+      "x": 90
+    }
+  }
+}

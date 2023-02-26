@@ -1,0 +1,11 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "visiblebarriers:block/moving_piston_bottom",
+    "side": "visiblebarriers:block/moving_piston_side",
+    "top": "visiblebarriers:block/moving_piston_top"
+  },
+  "overrides": [
+    { "predicate": { "sticky": 1 }, "model": "visiblebarriers:item/moving_piston_sticky" }
+  ]
+}

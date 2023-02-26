@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
+import xyz.amymialee.visiblebarriers.common.VisibleBarriersCommon;
 
 import java.io.FileNotFoundException;
 import java.nio.file.Files;
@@ -16,7 +17,7 @@ public class VisibleConfig {
     private static boolean hideParticles = true;
     private static boolean sendFeedback = true;
     private static boolean solidLights = false;
-    private static float baseZoom = 0.6f;
+    private static float baseZoom = 2.8f;
     private static long forcedTime = 6000;
 
     public static void setVisibleAir(boolean visibleAir) {
@@ -78,7 +79,7 @@ public class VisibleConfig {
             String jsonData = gson.toJson(json);
             Files.writeString(configFile, jsonData);
         } catch (Exception e) {
-            VisibleBarriers.LOGGER.info(e.toString());
+            VisibleBarriersCommon.LOGGER.info(e.toString());
         }
     }
 
@@ -103,10 +104,10 @@ public class VisibleConfig {
                 solidLights = data.get("solidLights").getAsBoolean();
             }
         } catch (FileNotFoundException e) {
-            VisibleBarriers.LOGGER.info("Config data not found.");
+            VisibleBarriersCommon.LOGGER.info("Config data not found.");
         } catch (Exception e) {
-            VisibleBarriers.LOGGER.info("Error loading config data.");
-            VisibleBarriers.LOGGER.info(e.toString());
+            VisibleBarriersCommon.LOGGER.info("Error loading config data.");
+            VisibleBarriersCommon.LOGGER.info(e.toString());
         }
     }
 }

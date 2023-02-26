@@ -1,4 +1,4 @@
-package xyz.amymialee.visiblebarriers.mixin;
+package xyz.amymialee.visiblebarriers.mixin.client;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;

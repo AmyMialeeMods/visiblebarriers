@@ -1,23 +1,27 @@
 package xyz.amymialee.visiblebarriers.mixin;
 
-import xyz.amymialee.visiblebarriers.VisibleBarriers;
-import xyz.amymialee.visiblebarriers.mixin.boxing.BlockMixin;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.PistonExtensionBlock;
-import net.minecraft.block.ShapeContext;
 import net.minecraft.block.enums.PistonType;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import xyz.amymialee.visiblebarriers.common.VisibleBarriersCommon;
+import xyz.amymialee.visiblebarriers.mixin.boxing.BlockMixin;
 
 @Mixin(PistonExtensionBlock.class)
 public abstract class PistonExtensionBlockMixin extends BlockMixin {
@@ -29,21 +33,26 @@ public abstract class PistonExtensionBlockMixin extends BlockMixin {
         }
     }
 
-    @Inject(method = "getOutlineShape", at = @At("HEAD"), cancellable = true)
-    public void visibleBarriers$makeOutlineVisible(BlockState state, BlockView world, BlockPos pos, ShapeContext context, CallbackInfoReturnable<VoxelShape> cir) {
-        if (VisibleBarriers.isVisibilityEnabled()) {
-            cir.setReturnValue(VoxelShapes.fullCube());
+    @Override
+    public void visibleBarriers$getPlacementState(ItemPlacementContext ctx, CallbackInfoReturnable<BlockState> cir) {
+        cir.setReturnValue(this.getDefaultState().with(PistonExtensionBlock.FACING, ctx.getPlayerLookDirection().getOpposite()));
+    }
+
+    @Inject(method = "onUse", at = @At("HEAD"), cancellable = true)
+    public void visibleBarriers$onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit, CallbackInfoReturnable<ActionResult> cir) {
+        Item item = player.getStackInHand(hand).getItem();
+        if (item == VisibleBarriersCommon.MOVING_PISTON_BLOCK_ITEM && state.contains(PistonExtensionBlock.TYPE)) {
+            world.setBlockState(pos, state.with(PistonExtensionBlock.TYPE, state.get(PistonExtensionBlock.TYPE) == PistonType.DEFAULT ? PistonType.STICKY : PistonType.DEFAULT), Block.NOTIFY_LISTENERS);
+            cir.setReturnValue(net.minecraft.util.ActionResult.SUCCESS);
         }
     }
 
     @Inject(method = "getPickStack", at = @At("HEAD"), cancellable = true)
     public void visibleBarriers$pickStack(BlockView world, BlockPos pos, BlockState state, CallbackInfoReturnable<ItemStack> cir) {
-        if (VisibleBarriers.isVisibilityEnabled()) {
-            if (state.contains(PistonExtensionBlock.TYPE) && state.get(PistonExtensionBlock.TYPE) == PistonType.DEFAULT) {
-                cir.setReturnValue(new ItemStack(Blocks.PISTON));
-            } else {
-                cir.setReturnValue(new ItemStack(Blocks.STICKY_PISTON));
-            }
-        }
+        ItemStack stack = new ItemStack(VisibleBarriersCommon.MOVING_PISTON_BLOCK_ITEM);
+        NbtCompound nbtCompound = new NbtCompound();
+        nbtCompound.putString(PistonExtensionBlock.TYPE.getName(), String.valueOf(state.get(PistonExtensionBlock.TYPE)));
+        stack.setSubNbt("BlockStateTag", nbtCompound);
+        cir.setReturnValue(stack);
     }
 }

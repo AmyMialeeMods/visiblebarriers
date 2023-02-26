@@ -5,20 +5,23 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.PistonExtensionBlock;
+import net.minecraft.block.enums.PistonType;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import xyz.amymialee.visiblebarriers.common.VisibleBarriersCommon;
+
+import java.util.Objects;
 
 @Environment(EnvType.CLIENT)
 public class VisibleBarriers implements ClientModInitializer {
-    public final static String MOD_ID = "visiblebarriers";
-    public final static Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-
     protected static boolean toggleVisible = false;
     protected static boolean toggleBarriers = false;
     protected static boolean toggleLights = false;
@@ -26,6 +29,7 @@ public class VisibleBarriers implements ClientModInitializer {
     protected static boolean toggleFullBright = false;
     protected static boolean toggleTime = false;
     protected static boolean holdingZoom = false;
+    protected static Weather setWeather = Weather.DEFAULT;
     protected static float zoomScroll = 1.0F;
 
     @Override
@@ -41,13 +45,17 @@ public class VisibleBarriers implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(Blocks.MOVING_PISTON, RenderLayer.getTranslucent());
     }
 
-    public static void sendFeedback(String translatable, boolean chat, Object... args) {
+    public static void sendFeedback(String translatable, Object... args) {
         if (VisibleConfig.shouldSendFeedback()) {
             PlayerEntity player = MinecraftClient.getInstance().player;
             if (player != null) {
-                player.sendMessage(Text.translatable(translatable, args).formatted(Formatting.GRAY), !chat);
+                player.sendMessage(Text.translatable(translatable, args).formatted(Formatting.GRAY), true);
             }
         }
+    }
+
+    public static void booleanFeedback(String key, boolean value) {
+        sendFeedback("[Visible Barriers] %s %s", Text.translatable(key), Text.translatable(value ? "visiblebarriers.enabled" : "visiblebarriers.disabled"));
     }
 
     public static void reloadWorldRenderer() {
@@ -62,9 +70,9 @@ public class VisibleBarriers implements ClientModInitializer {
         setVisible(!toggleVisible);
     }
 
-    public static void setVisible ( boolean visible){
+    public static void setVisible (boolean visible) {
         toggleVisible = visible;
-        sendFeedback("visiblebarriers.visible." + (toggleVisible ? "enabled" : "disabled"), true);
+        booleanFeedback("visiblebarriers.feedback.visible", toggleVisible);
         reloadWorldRenderer();
     }
 
@@ -78,7 +86,7 @@ public class VisibleBarriers implements ClientModInitializer {
 
     public static void setFullBright(boolean fullBright) {
         toggleFullBright = fullBright;
-        sendFeedback("visiblebarriers.fullbright." + (toggleFullBright ? "enabled" : "disabled"), true);
+        booleanFeedback("visiblebarriers.feedback.fullbright", toggleFullBright);
     }
 
     public static boolean isTimeEnabled() {
@@ -91,7 +99,7 @@ public class VisibleBarriers implements ClientModInitializer {
 
     public static void setTime(boolean time) {
         toggleTime = time;
-        sendFeedback("visiblebarriers.time." + (toggleTime ? "enabled" : "disabled"), true);
+        booleanFeedback("visiblebarriers.feedback.time", toggleTime);
     }
 
     public static boolean areBarriersEnabled() {
@@ -104,7 +112,7 @@ public class VisibleBarriers implements ClientModInitializer {
 
     public static void setBarriers(boolean barriers) {
         toggleBarriers = barriers;
-        sendFeedback("visiblebarriers.barriers." + (toggleBarriers ? "enabled" : "disabled"), true);
+        booleanFeedback("visiblebarriers.feedback.barriers", toggleBarriers);
         reloadWorldRenderer();
     }
 
@@ -118,7 +126,7 @@ public class VisibleBarriers implements ClientModInitializer {
 
     public static void setLights(boolean lights) {
         toggleLights = lights;
-        sendFeedback("visiblebarriers.lights." + (toggleLights ? "enabled" : "disabled"), true);
+        booleanFeedback("visiblebarriers.feedback.lights", toggleLights);
         reloadWorldRenderer();
     }
 
@@ -132,8 +140,17 @@ public class VisibleBarriers implements ClientModInitializer {
 
     public static void setStructureVoids(boolean structureVoids) {
         toggleStructureVoids = structureVoids;
-        sendFeedback("visiblebarriers.structurevoids." + (toggleStructureVoids ? "enabled" : "disabled"), true);
+        booleanFeedback("visiblebarriers.feedback.structurevoids", toggleStructureVoids);
         reloadWorldRenderer();
+    }
+
+    public static Weather getWeather() {
+        return setWeather;
+    }
+
+    public static void setWeather(Weather weather) {
+        setWeather = weather;
+        sendFeedback("visiblebarriers.command.weather", Text.translatable(setWeather.getTranslationKey()));
     }
 
     public static boolean isHoldingZoom() {
@@ -141,15 +158,51 @@ public class VisibleBarriers implements ClientModInitializer {
     }
 
     public static float getZoomModifier() {
-        return zoomScroll;
+        return (float) MathHelper.clamp(4f / Math.pow(zoomScroll, 2), 0.001f, 1);
     }
 
     public static void modifyZoomModifier(float amount) {
-        zoomScroll += (amount * 0.08f);
-        zoomScroll = MathHelper.clamp(zoomScroll, 0.05f, 1.25f);
-        MinecraftClient client = MinecraftClient.getInstance();
-        if (client.player != null) {
-            client.player.sendMessage(Text.translatable("visiblebarriers.zoom.amount", "%.0f".formatted(100 / zoomScroll)).formatted(Formatting.GRAY), true);
+        zoomScroll -= amount;
+        zoomScroll = MathHelper.clamp(zoomScroll, 0.01f, 1000);
+        sendFeedback("visiblebarriers.feedback.zoom", "%.0f".formatted(10000f / (getZoomModifier() * 100)));
+    }
+
+    static {
+        ModelPredicateProviderRegistry.register(VisibleBarriersCommon.MOVING_PISTON_BLOCK_ITEM, new Identifier("sticky"), (stack, world, entity, seed) -> {
+            NbtCompound compound = stack.getSubNbt("BlockStateTag");
+            if (compound != null && Objects.equals(compound.getString(PistonExtensionBlock.TYPE.getName()), String.valueOf(PistonType.STICKY))) {
+                return 1.0F;
+            }
+            return 0.0F;
+        });
+    }
+
+    public enum Weather {
+        DEFAULT(-1, -1, "visiblebarriers.weather.default"),
+        CLEAR(0, 0, "visiblebarriers.weather.clear"),
+        RAIN(1, 0, "visiblebarriers.weather.rain"),
+        THUNDER(1, 1, "visiblebarriers.weather.thunder");
+
+        private final int rain;
+        private final int thunder;
+        private final String translationKey;
+
+        Weather(int rain, int thunder, String translationKey) {
+            this.rain = rain;
+            this.thunder = thunder;
+            this.translationKey = translationKey;
+        }
+
+        public int getRain() {
+            return this.rain;
+        }
+
+        public int getThunder() {
+            return this.thunder;
+        }
+
+        public String getTranslationKey() {
+            return this.translationKey;
         }
     }
 }

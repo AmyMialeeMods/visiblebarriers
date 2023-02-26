@@ -15,7 +15,7 @@ public class EntityTypeMixin {
     @Inject(method = "maxTrackingRange", at = @At("RETURN"))
     public void visibleBarriers$minTrackingRange(int maxTrackingRange, CallbackInfoReturnable<EntityType.Builder<Entity>> cir) {
         if (this.maxTrackingRange == 0) {
-            this.maxTrackingRange = 4;
+            this.maxTrackingRange = 2;
         }
     }
 }

@@ -1,12 +1,50 @@
 {
   "variants": {
-    "type=normal": {
+    "facing=down,type=normal": {
       "model": "visiblebarriers:block/moving_piston",
       "x": 90
     },
-    "type=sticky": {
+    "facing=down,type=sticky": {
       "model": "visiblebarriers:block/moving_piston_sticky",
       "x": 90
+    },
+    "facing=east,type=normal": {
+      "model": "visiblebarriers:block/moving_piston",
+      "y": 90
+    },
+    "facing=east,type=sticky": {
+      "model": "visiblebarriers:block/moving_piston_sticky",
+      "y": 90
+    },
+    "facing=north,type=normal": {
+      "model": "visiblebarriers:block/moving_piston"
+    },
+    "facing=north,type=sticky": {
+      "model": "visiblebarriers:block/moving_piston_sticky"
+    },
+    "facing=south,type=normal": {
+      "model": "visiblebarriers:block/moving_piston",
+      "y": 180
+    },
+    "facing=south,type=sticky": {
+      "model": "visiblebarriers:block/moving_piston_sticky",
+      "y": 180
+    },
+    "facing=up,type=normal": {
+      "model": "visiblebarriers:block/moving_piston",
+      "x": 270
+    },
+    "facing=up,type=sticky": {
+      "model": "visiblebarriers:block/moving_piston_sticky",
+      "x": 270
+    },
+    "facing=west,type=normal": {
+      "model": "visiblebarriers:block/moving_piston",
+      "y": 270
+    },
+    "facing=west,type=sticky": {
+      "model": "visiblebarriers:block/moving_piston_sticky",
+      "y": 270
     }
   }
 }

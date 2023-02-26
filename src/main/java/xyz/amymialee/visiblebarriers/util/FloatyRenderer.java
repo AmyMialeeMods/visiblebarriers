@@ -12,7 +12,7 @@ import net.minecraft.util.math.RotationAxis;
 
 public class FloatyRenderer<T extends Entity> {
     private final ItemRenderer renderer;
-    private final ItemStack stack;
+    private ItemStack stack;
 
     public FloatyRenderer(ItemRenderer renderer, ItemStack stack) {
         this.renderer = renderer;
@@ -27,8 +27,16 @@ public class FloatyRenderer<T extends Entity> {
         matrixStack.push();
         BakedModel bakedModel = this.renderer.getModel(stack, entity.world, null, entity.getId());
         matrixStack.translate(0.0D, entity.getHeight() / 2, 0.0D);
-        matrixStack.multiply(RotationAxis.POSITIVE_Y.rotation(-(entity.age * 8 + g) / 20.0f));
+        matrixStack.multiply(RotationAxis.POSITIVE_Y.rotation(-((entity.age + g) * 8) / 20.0f));
         this.renderer.renderItem(stack, ModelTransformation.Mode.GROUND, false, matrixStack, vertexConsumerProvider, i, OverlayTexture.DEFAULT_UV, bakedModel);
         matrixStack.pop();
+    }
+
+    public ItemStack getItem() {
+        return this.stack;
+    }
+
+    public void setItem(ItemStack stack) {
+        this.stack = stack;
     }
 }

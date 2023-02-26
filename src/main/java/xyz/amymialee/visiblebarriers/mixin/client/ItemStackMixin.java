@@ -1,11 +1,11 @@
-package xyz.amymialee.visiblebarriers.mixin;
+package xyz.amymialee.visiblebarriers.mixin.client;
 
-import xyz.amymialee.visiblebarriers.VisibleBarriers;
 import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import xyz.amymialee.visiblebarriers.VisibleBarriers;
 
 @Mixin(ItemStack.class)
 public abstract class ItemStackMixin {
