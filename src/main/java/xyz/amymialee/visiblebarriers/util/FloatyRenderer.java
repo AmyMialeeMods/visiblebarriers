@@ -4,7 +4,7 @@ import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.render.model.BakedModel;
-import net.minecraft.client.render.model.json.ModelTransformation;
+import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
@@ -28,7 +28,7 @@ public class FloatyRenderer<T extends Entity> {
         BakedModel bakedModel = this.renderer.getModel(stack, entity.world, null, entity.getId());
         matrixStack.translate(0.0D, entity.getHeight() / 2, 0.0D);
         matrixStack.multiply(RotationAxis.POSITIVE_Y.rotation(-((entity.age + g) * 8) / 20.0f));
-        this.renderer.renderItem(stack, ModelTransformation.Mode.GROUND, false, matrixStack, vertexConsumerProvider, i, OverlayTexture.DEFAULT_UV, bakedModel);
+        this.renderer.renderItem(stack, ModelTransformationMode.GROUND, false, matrixStack, vertexConsumerProvider, i, OverlayTexture.DEFAULT_UV, bakedModel);
         matrixStack.pop();
     }
 

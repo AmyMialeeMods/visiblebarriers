@@ -25,7 +25,8 @@
     "client.ItemStackMixin",
     "client.LightBlockMixin",
     "client.LightmapTextureManagerMixin",
-    "client.MouseMixin"
+    "client.MouseMixin",
+    "client.DisplayContextMixin"
   ],
   "injectors": {
     "defaultRequire": 1
