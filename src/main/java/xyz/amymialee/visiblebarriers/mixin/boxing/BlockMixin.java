@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class BlockMixin extends AbstractBlockMixin {
     @Shadow public abstract BlockState getDefaultState();
 
-    @Inject(method = "isTranslucent", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "isTransparent", at = @At("HEAD"), cancellable = true)
     public void visibleBarriers$isTranslucent(BlockState state, BlockView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {}
 
     @Inject(method = "getPlacementState", at = @At("HEAD"), cancellable = true)
