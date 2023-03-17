@@ -36,6 +36,7 @@ public class VisibleBarriers implements ClientModInitializer {
     public void onInitializeClient() {
         VisibleInput.initKeys();
         VisibleInput.initCommands();
+        VisibleConfig.loadConfig();
         BlockRenderLayerMap.INSTANCE.putBlock(Blocks.BARRIER, RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(Blocks.STRUCTURE_VOID, RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(Blocks.LIGHT, RenderLayer.getTranslucent());
