@@ -16,9 +16,6 @@
   "icon": "assets/visiblebarriers/icon.png",
   "environment": "*",
   "entrypoints": {
-    "preLaunch": [
-      "xyz.amymialee.visiblebarriers.VisiblePreLaunch"
-    ],
     "main": [
       "xyz.amymialee.visiblebarriers.common.VisibleBarriersCommon"
     ],

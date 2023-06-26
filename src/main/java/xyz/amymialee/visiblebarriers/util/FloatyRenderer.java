@@ -25,7 +25,7 @@ public class FloatyRenderer<T extends Entity> {
 
     public void renderItem(ItemStack stack, T entity, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
         matrixStack.push();
-        BakedModel bakedModel = this.renderer.getModel(stack, entity.world, null, entity.getId());
+        BakedModel bakedModel = this.renderer.getModel(stack, entity.getWorld(), null, entity.getId());
         matrixStack.translate(0.0D, entity.getHeight() / 2, 0.0D);
         matrixStack.multiply(RotationAxis.POSITIVE_Y.rotation(-((entity.age + g) * 8) / 20.0f));
         this.renderer.renderItem(stack, ModelTransformationMode.GROUND, false, matrixStack, vertexConsumerProvider, i, OverlayTexture.DEFAULT_UV, bakedModel);

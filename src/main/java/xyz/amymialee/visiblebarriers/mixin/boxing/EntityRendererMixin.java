@@ -29,7 +29,7 @@ public class EntityRendererMixin<T extends Entity> {
         if (VisibleBarriers.isVisibilityEnabled() && entity.isInvisible()) {
             if (entity.getPickBlockStack() != null) {
                 ItemStack stack = entity.getPickBlockStack();
-                if (!this.floater.getItem().isItemEqual(stack)) {
+                if (!this.floater.getItem().isOf(stack.getItem())) {
                     this.floater.setItem(stack);
                 }
                 this.floater.render(entity, tickDelta, matrices, vertexConsumers, light);
