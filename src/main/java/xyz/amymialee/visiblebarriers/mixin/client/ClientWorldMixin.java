@@ -6,18 +6,16 @@ import net.minecraft.block.Blocks;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
-import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
-import xyz.amymialee.visiblebarriers.VisibleConfig;
 import xyz.amymialee.visiblebarriers.VisibleBarriers;
+import xyz.amymialee.visiblebarriers.VisibleConfig;
 import xyz.amymialee.visiblebarriers.mixin.boxing.WorldMixin;
 
-@Debug(export = true)
 @Mixin(ClientWorld.class)
 public class ClientWorldMixin extends WorldMixin {
     @Inject(method = "tickTime", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/GameRules;getBoolean(Lnet/minecraft/world/GameRules$Key;)Z"), cancellable = true)
