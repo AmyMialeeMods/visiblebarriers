@@ -1,17 +1,14 @@
 package xyz.amymialee.visiblebarriers.mixin.client;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.particle.ParticleEffect;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import xyz.amymialee.visiblebarriers.VisibleBarriers;
 import xyz.amymialee.visiblebarriers.VisibleConfig;
 import xyz.amymialee.visiblebarriers.mixin.boxing.WorldMixin;
@@ -25,10 +22,10 @@ public class ClientWorldMixin extends WorldMixin {
         }
     }
 
-    @Inject(method = "randomBlockDisplayTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/Block;randomDisplayTick(Lnet/minecraft/block/BlockState;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/random/Random;)V", ordinal = 0), locals = LocalCapture.CAPTURE_FAILHARD, cancellable = true)
-    public void visibleBarriers$disableSpecificParticles(int centerX, int centerY, int centerZ, int radius, Random random, Block arg5, BlockPos.Mutable pos, CallbackInfo ci, int i, int j, int k, BlockState blockState) {
-        if (VisibleConfig.shouldHideParticles() && (blockState.isOf(Blocks.BARRIER) || blockState.isOf(Blocks.LIGHT))) {
-            ci.cancel();
+    @WrapOperation(method = "randomBlockDisplayTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/world/ClientWorld;addParticle(Lnet/minecraft/particle/ParticleEffect;DDDDDD)V", ordinal = 0))
+    public void visibleBarriers$removeParticles(ClientWorld world, ParticleEffect parameters, double x, double y, double z, double velocityX, double velocityY, double velocityZ, Operation<Void> operation) {
+        if (!VisibleConfig.shouldHideParticles()) {
+            operation.call(world, parameters, x, y, z, velocityX, velocityY, velocityZ);
         }
     }
 
