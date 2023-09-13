@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "drag=true": {
+      "model": "visiblebarriers:block/bubble_column_down"
+    },
+    "drag=false": {
+      "model": "visiblebarriers:block/bubble_column_up"
+    }
+  }
+}
