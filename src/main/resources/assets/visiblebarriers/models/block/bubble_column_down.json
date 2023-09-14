@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "visiblebarriers:block/bubble_column_top",
+    "side": "visiblebarriers:block/bubble_column_down",
+    "top": "visiblebarriers:block/bubble_column_bottom"
+  }
+}

@@ -26,6 +26,7 @@ public class VisibleBarriers implements ClientModInitializer {
     protected static boolean toggleBarriers = false;
     protected static boolean toggleLights = false;
     protected static boolean toggleStructureVoids = false;
+    protected static boolean toggleBubbleColumns = false;
     protected static boolean toggleFullBright = false;
     protected static boolean toggleTime = false;
     protected static boolean holdingZoom = false;
@@ -44,6 +45,7 @@ public class VisibleBarriers implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(Blocks.CAVE_AIR, RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(Blocks.VOID_AIR, RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(Blocks.MOVING_PISTON, RenderLayer.getTranslucent());
+        BlockRenderLayerMap.INSTANCE.putBlock(Blocks.BUBBLE_COLUMN, RenderLayer.getTranslucent());
     }
 
     public static void sendFeedback(String translatable, Object... args) {
@@ -145,6 +147,20 @@ public class VisibleBarriers implements ClientModInitializer {
         reloadWorldRenderer();
     }
 
+    public static boolean areBubbleColumnsEnabled() {
+        return toggleBubbleColumns;
+    }
+
+    public static void toggleBubbleColumns() {
+        setBubbleColumns(!toggleBubbleColumns);
+    }
+
+    public static void setBubbleColumns(boolean bubbleColumns) {
+        toggleBubbleColumns = bubbleColumns;
+        booleanFeedback("visiblebarriers.feedback.bubblecolumns", toggleBubbleColumns);
+        reloadWorldRenderer();
+    }
+
     public static Weather getWeather() {
         return setWeather;
     }
@@ -172,6 +188,13 @@ public class VisibleBarriers implements ClientModInitializer {
         ModelPredicateProviderRegistry.register(VisibleBarriersCommon.MOVING_PISTON_BLOCK_ITEM, new Identifier("sticky"), (stack, world, entity, seed) -> {
             NbtCompound compound = stack.getSubNbt("BlockStateTag");
             if (compound != null && Objects.equals(compound.getString(PistonExtensionBlock.TYPE.getName()), String.valueOf(PistonType.STICKY))) {
+                return 1.0F;
+            }
+            return 0.0F;
+        });
+        ModelPredicateProviderRegistry.register(VisibleBarriersCommon.BUBBLE_COLUMN_BLOCK_ITEM, new Identifier("drag"), (stack, world, entity, seed) -> {
+            NbtCompound compound = stack.getSubNbt("BlockStateTag");
+            if (compound != null && Objects.equals(compound.getString("drag"), "true")) {
                 return 1.0F;
             }
             return 0.0F;

@@ -17,6 +17,7 @@ public class VisibleInput {
     private static KeyBinding keyBindingBarriers;
     private static KeyBinding keyBindingLights;
     private static KeyBinding keyBindingStructureVoids;
+    private static KeyBinding keyBindingBubbleColumns;
     private static KeyBinding keyBindingFullBright;
     private static KeyBinding keyBindingTime;
     private static KeyBinding keyBindingZoom;
@@ -41,6 +42,11 @@ public class VisibleInput {
                 "key.visiblebarriers.structurevoids",
                 InputUtil.UNKNOWN_KEY.getCode(),
                 "category.visiblebarriers"
+        ));
+        keyBindingBubbleColumns = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "key.visiblebarriers.bubblecolumns",
+                InputUtil.UNKNOWN_KEY.getCode(),
+                "category.bubblecolumns"
         ));
         keyBindingFullBright = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.visiblebarriers.fullbright",
@@ -70,6 +76,9 @@ public class VisibleInput {
             }
             if (keyBindingStructureVoids.wasPressed()) {
                 VisibleBarriers.toggleStructureVoids();
+            }
+            if (keyBindingBubbleColumns.wasPressed()) {
+                VisibleBarriers.toggleBubbleColumns();
             }
             if (keyBindingFullBright.wasPressed()) {
                 VisibleBarriers.toggleFullBright();
@@ -141,6 +150,16 @@ public class VisibleInput {
                                     VisibleBarriers.toggleStructureVoids = BoolArgumentType.getBool(context, "visible");
                                     VisibleBarriers.reloadWorldRenderer();
                                     VisibleBarriers.booleanFeedback("visiblebarriers.feedback.structurevoids", VisibleBarriers.toggleStructureVoids);
+                                    return 1;
+                                })))
+                                //Bubble columns
+                                .then(ClientCommandManager.literal("bubblecolumns").executes(context -> {
+                                    VisibleBarriers.toggleStructureVoids();
+                                    return 1;
+                                }).then(ClientCommandManager.argument("visible", BoolArgumentType.bool()).executes(context -> {
+                                    VisibleBarriers.toggleBubbleColumns = BoolArgumentType.getBool(context, "visible");
+                                    VisibleBarriers.reloadWorldRenderer();
+                                    VisibleBarriers.booleanFeedback("visiblebarriers.feedback.bubblecolumns", VisibleBarriers.toggleBubbleColumns);
                                     return 1;
                                 })))
                         )

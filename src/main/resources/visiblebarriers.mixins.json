@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "AirBlockMixin",
+    "BubbleColumnBlockMixin",
     "EntityTypeMixin",
     "MarkerEntityMixin",
     "PistonExtensionBlockMixin",
@@ -15,10 +16,12 @@
   "client": [
     "boxing.EntityRendererMixin",
     "client.AbstractBlockStateMixin",
+    "client.ClientBubbleColumnBlockMixin",
     "client.ClientPistonExtensionBlockMixin",
     "client.ClientPlayerInteractionManagerMixin",
     "client.ClientWorldMixin",
     "client.ClientWorldMixin$ClientWorldPropertiesMixin",
+    "client.DisplayContextMixin",
     "client.EmptyEntityRendererMixin",
     "client.EntityMixin",
     "client.GameRendererMixin",
@@ -26,7 +29,7 @@
     "client.LightBlockMixin",
     "client.LightmapTextureManagerMixin",
     "client.MouseMixin",
-    "client.DisplayContextMixin"
+    "client.ParticleManagerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

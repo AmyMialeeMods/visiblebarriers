@@ -8,6 +8,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.PistonExtensionBlock;
 import net.minecraft.block.enums.PistonType;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -30,6 +31,7 @@ public class VisibleBarriersCommon implements ModInitializer {
     public static final BlockItem VOID_AIR_BLOCK_ITEM = Registry.register(Registries.ITEM, id("void_air"), new BlockItem(Blocks.VOID_AIR, new FabricItemSettings().rarity(Rarity.EPIC)));
     public static final BlockItem END_PORTAL_BLOCK_ITEM = Registry.register(Registries.ITEM, id("end_portal"), new BlockItem(Blocks.END_PORTAL, new FabricItemSettings().rarity(Rarity.EPIC)));
     public static final BlockItem END_GATEWAY_BLOCK_ITEM = Registry.register(Registries.ITEM, id("end_gateway"), new BlockItem(Blocks.END_GATEWAY, new FabricItemSettings().rarity(Rarity.EPIC)));
+    public static final BlockItem BUBBLE_COLUMN_BLOCK_ITEM = Registry.register(Registries.ITEM, id("bubble_column"), new BlockItem(Blocks.BUBBLE_COLUMN, new FabricItemSettings().rarity(Rarity.EPIC)));
     //Packet Identifiers
     public static final Identifier MOD_INSTALLED_PACKET = id("mod_installed");
 
@@ -37,20 +39,26 @@ public class VisibleBarriersCommon implements ModInitializer {
     public void onInitialize() {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.OPERATOR).register(content -> {
             for (PistonType type : PistonType.values()) {
-                ItemStack stack = new ItemStack(VisibleBarriersCommon.MOVING_PISTON_BLOCK_ITEM);
-                NbtCompound nbtCompound = new NbtCompound();
-                nbtCompound.putString(PistonExtensionBlock.TYPE.getName(), String.valueOf(type));
-                stack.setSubNbt("BlockStateTag", nbtCompound);
-                content.add(stack);
+                content.add(makeVariant(VisibleBarriersCommon.MOVING_PISTON_BLOCK_ITEM, PistonExtensionBlock.TYPE.getName(), String.valueOf(type)));
             }
             for (BlockItem item : List.of(AIR_BLOCK_ITEM, CAVE_AIR_BLOCK_ITEM, VOID_AIR_BLOCK_ITEM, END_PORTAL_BLOCK_ITEM, END_GATEWAY_BLOCK_ITEM)) {
                 content.add(new ItemStack(item));
             }
+            content.add(makeVariant(VisibleBarriersCommon.BUBBLE_COLUMN_BLOCK_ITEM, "drag", "true"));
+            content.add(makeVariant(VisibleBarriersCommon.BUBBLE_COLUMN_BLOCK_ITEM, "drag", "false"));
         });
         ServerPlayNetworking.registerGlobalReceiver(MOD_INSTALLED_PACKET, (server, player, handler, buf, responseSender) -> {
             LOGGER.info("{} has mod Visible Barriers installed.", player.getEntityName());
             ServerPlayNetworking.send(player, MOD_INSTALLED_PACKET, buf);
         });
+    }
+
+    private static ItemStack makeVariant(Item item, String nbtKey, String nbtValue) {
+        NbtCompound comp = new NbtCompound();
+        comp.putString(nbtKey, nbtValue);
+        ItemStack stack = new ItemStack(item);
+        stack.setSubNbt("BlockStateTag", comp);
+        return stack;
     }
 
     public static Identifier id(String ... path) {

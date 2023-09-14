@@ -1,0 +1,6 @@
+{
+  "parent": "visiblebarriers:block/bubble_column_up",
+  "overrides": [
+    { "predicate": { "drag": 1 }, "model": "visiblebarriers:item/bubble_column_down" }
+  ]
+}
