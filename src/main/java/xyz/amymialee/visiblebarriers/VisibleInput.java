@@ -46,7 +46,7 @@ public class VisibleInput {
         keyBindingBubbleColumns = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.visiblebarriers.bubblecolumns",
                 InputUtil.UNKNOWN_KEY.getCode(),
-                "category.bubblecolumns"
+                "category.visiblebarriers"
         ));
         keyBindingFullBright = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.visiblebarriers.fullbright",
