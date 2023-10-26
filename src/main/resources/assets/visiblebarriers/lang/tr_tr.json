@@ -1,0 +1,41 @@
+{
+  "category.visiblebarriers" : "Görünür Bariyerler",
+  "key.visiblebarriers.visible" : "Tüm Görünürlüğü Aç/Kapat",
+  "key.visiblebarriers.barriers" : "Bariyerleri Göster",
+  "key.visiblebarriers.lights" : "Işıkları Göster",
+  "key.visiblebarriers.structurevoids" : "Yapı Boşluklarını Göster",
+  "key.visiblebarriers.bubblecolumns" : "Baloncuk Sütunlarını Göster",
+  "key.visiblebarriers.fullbright" : "Tam parlaklığı Aç/Kapat",
+  "key.visiblebarriers.time" : "Sabit Zamanı Aç/Kapat",
+  "key.visiblebarriers.zoom" : "Yakınlaştır",
+
+  "visiblebarriers.enabled" : "Aktif",
+  "visiblebarriers.disabled" : "Devre dışı",
+
+  "visiblebarriers.weather.default" : "Varsayılan",
+  "visiblebarriers.weather.clear" : "Açık",
+  "visiblebarriers.weather.rain" : "Yağmur",
+  "visiblebarriers.weather.thunder" : "Sağanak",
+
+  "visiblebarriers.feedback.visible" : "Bütün Görünürlük",
+  "visiblebarriers.feedback.fullbright" : "Tam parlaklık",
+  "visiblebarriers.feedback.time" : "Sabit Zaman",
+  "visiblebarriers.feedback.barriers" : "Bariyerler",
+  "visiblebarriers.feedback.lights" : "Işıklar",
+  "visiblebarriers.feedback.structurevoids" : "Yapı Boşlukları",
+  "visiblebarriers.feedback.bubblecolumns" : "Baloncuk Sütunları",
+  "visiblebarriers.feedback.zoom" : "Yakınlaştırma: %s %%",
+
+  "visiblebarriers.command.reload" : "[Visible Barriers] Ayarlar yeniden yüklendi",
+  "visiblebarriers.command.time.day" : "[Visible Barriers] Zaman gün olarak ayarlandı",
+  "visiblebarriers.command.time.noon" : "[Visible Barriers] Zaman öğlen olarak ayarlandı",
+  "visiblebarriers.command.time.night" : "[Visible Barriers] Zaman akşam olarak ayarlandı",
+  "visiblebarriers.command.time.midnight" : "[Visible Barriers] Zaman gece yarısı olarak ayarlandı",
+  "visiblebarriers.command.time.custom" : "[Visible Barriers] Zaman %s olarak ayarlandı",
+  "visiblebarriers.command.weather" : "[Visible Barriers] Hava durumu %s olarak ayarlandı",
+
+  "visiblebarriers.settings.visibleair" : "Görünür Hava",
+  "visiblebarriers.settings.hiddenparticles" : "Gizli Parçacıklar",
+  "visiblebarriers.settings.sendfeedback" : "Geribildirim Gönder"
+
+}
