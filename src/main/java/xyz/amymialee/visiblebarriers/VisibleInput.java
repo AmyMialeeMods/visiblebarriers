@@ -67,6 +67,19 @@ public class VisibleInput {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (keyBindingVisibility.wasPressed()) {
                 VisibleBarriers.toggleVisible();
+                //if vis is determined to be false/off and barriers are still true/on, turn the barriers off again
+                if (!VisibleBarriers.isVisibilityEnabled() && VisibleBarriers.areBarriersEnabled()){
+                    VisibleBarriers.toggleBarriers(); //toggle barriers back off again
+                }
+
+                //if vis is true make sure to double check that config has barriers as true
+                if (VisibleBarriers.isVisibilityEnabled()){
+                    VisibleConfig.setVisibleBarrier(true);
+                }
+                //if vis is false make sure to double check that config has barriers as false
+                if (!VisibleBarriers.isVisibilityEnabled()){
+                    VisibleConfig.setVisibleBarrier(false);
+                }
             }
             if (keyBindingBarriers.wasPressed()) {
                 VisibleBarriers.toggleBarriers();
@@ -124,9 +137,11 @@ public class VisibleInput {
                                 })))
                                 //Barriers
                                 .then(ClientCommandManager.literal("barriers").executes(context -> {
+                                    VisibleConfig.setVisibleBarrier(!VisibleConfig.isBarrierVisible());
                                     VisibleBarriers.toggleBarriers();
                                     return 1;
                                 }).then(ClientCommandManager.argument("visible", BoolArgumentType.bool()).executes(context -> {
+                                    VisibleConfig.setVisibleBarrier(BoolArgumentType.getBool(context, "visible"));
                                     VisibleBarriers.toggleBarriers = BoolArgumentType.getBool(context, "visible");
                                     VisibleBarriers.reloadWorldRenderer();
                                     VisibleBarriers.booleanFeedback("visiblebarriers.feedback.barriers", VisibleBarriers.toggleBarriers);
@@ -238,6 +253,19 @@ public class VisibleInput {
                         )
                         //Settings
                         .then(ClientCommandManager.literal("settings")
+                                //Persist Visible Barriers
+                                .then(ClientCommandManager.literal("visiblebarrier").executes(context -> {
+                                    VisibleConfig.setVisibleBarrier(!VisibleConfig.isBarrierVisible());
+                                    VisibleBarriers.toggleBarriers();
+                                    VisibleBarriers.booleanFeedback("visiblebarriers.feedback.barriers", VisibleBarriers.toggleBarriers);
+                                    return 1;
+                                }).then(ClientCommandManager.argument("visible", BoolArgumentType.bool()).executes(context -> {
+                                    VisibleConfig.setVisibleBarrier(BoolArgumentType.getBool(context, "visible"));
+                                    VisibleBarriers.toggleBarriers = BoolArgumentType.getBool(context, "visible");
+                                    VisibleBarriers.reloadWorldRenderer();
+                                    VisibleBarriers.booleanFeedback("visiblebarriers.feedback.barriers", VisibleBarriers.toggleBarriers);
+                                    return 1;
+                                })))
                                 //Visible Air
                                 .then(ClientCommandManager.literal("visibleair").executes(context -> {
                                     VisibleConfig.setVisibleAir(!VisibleConfig.isAirVisible());

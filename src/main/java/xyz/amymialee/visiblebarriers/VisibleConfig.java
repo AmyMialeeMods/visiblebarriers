@@ -13,12 +13,18 @@ import java.nio.file.Path;
 
 public class VisibleConfig {
     private static final Path configFile = FabricLoader.getInstance().getConfigDir().resolve("visiblebarriers.json");
+    private static boolean visibleBarrier = false;
     private static boolean visibleAir = false;
     private static boolean hideParticles = true;
     private static boolean sendFeedback = true;
     private static boolean solidLights = false;
     private static float baseZoom = 2.8f;
     private static long forcedTime = 6000;
+
+    public static void setVisibleBarrier(boolean visibleBarrier) {
+        VisibleConfig.visibleBarrier = visibleBarrier;
+        saveConfig();
+    }
 
     public static void setVisibleAir(boolean visibleAir) {
         VisibleConfig.visibleAir = visibleAir;
@@ -41,6 +47,10 @@ public class VisibleConfig {
         if (MinecraftClient.getInstance().world != null) {
             MinecraftClient.getInstance().world.setTimeOfDay(VisibleConfig.getForcedTime());
         }
+    }
+
+    public static boolean isBarrierVisible() {
+        return visibleBarrier;
     }
 
     public static boolean isAirVisible() {
@@ -71,6 +81,7 @@ public class VisibleConfig {
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             JsonObject json = new JsonObject();
+            json.addProperty("visibleBarrier", visibleBarrier);
             json.addProperty("visibleAir", visibleAir);
             json.addProperty("hideParticles", hideParticles);
             json.addProperty("sendFeedback", sendFeedback);
@@ -88,6 +99,12 @@ public class VisibleConfig {
             Gson gson = new Gson();
             String reader = Files.readString(configFile);
             JsonObject data = gson.fromJson(reader, JsonObject.class);
+            if (data.has("visibleBarrier")) {
+                visibleBarrier = data.get("visibleBarrier").getAsBoolean();
+                if(visibleBarrier){
+                    VisibleBarriers.toggleBarriers();
+                }
+            }
             if (data.has("visibleAir")) {
                 visibleAir = data.get("visibleAir").getAsBoolean();
             }
