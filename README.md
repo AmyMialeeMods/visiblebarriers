@@ -20,12 +20,12 @@ It also has several other features, such as a zoom keybind, fullbright, and the 
             </a>
         </th>
         <th>
-            <a href="https://www.curseforge.com/minecraft/mc-mods/visible-barriers">
+            <a href="https://www.curseforge.com/minecraft/mc-mods/visiblebarriers">
                 <img src="https://cdn.discordapp.com/attachments/793182374410059887/923990008543711282/anvil.svg" width="150" height="150" alt="">
             </a>
         </th>
         <th>
-            <a href="https://modrinth.com/mod/visible-barriers">
+            <a href="https://modrinth.com/mod/visiblebarriers">
                 <img src="https://docs.modrinth.com/img/logo.svg" width="150" height="150" alt="">
             </a>
         </th>
