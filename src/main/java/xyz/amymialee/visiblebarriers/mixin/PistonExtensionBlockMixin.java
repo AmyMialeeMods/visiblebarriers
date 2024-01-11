@@ -14,7 +14,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.world.BlockView;
+import net.minecraft.world.WorldView;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -48,7 +48,7 @@ public abstract class PistonExtensionBlockMixin extends BlockMixin {
     }
 
     @Inject(method = "getPickStack", at = @At("HEAD"), cancellable = true)
-    public void visibleBarriers$pickStack(BlockView world, BlockPos pos, BlockState state, CallbackInfoReturnable<ItemStack> cir) {
+    public void visibleBarriers$pickStack(WorldView world, BlockPos pos, BlockState state, CallbackInfoReturnable<ItemStack> cir) {
         ItemStack stack = new ItemStack(VisibleBarriersCommon.MOVING_PISTON_BLOCK_ITEM);
         NbtCompound nbtCompound = new NbtCompound();
         nbtCompound.putString(PistonExtensionBlock.TYPE.getName(), String.valueOf(state.get(PistonExtensionBlock.TYPE)));

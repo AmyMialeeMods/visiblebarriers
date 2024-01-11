@@ -48,7 +48,7 @@ public class VisibleBarriersCommon implements ModInitializer {
             content.add(makeVariant(VisibleBarriersCommon.BUBBLE_COLUMN_BLOCK_ITEM, "drag", "false"));
         });
         ServerPlayNetworking.registerGlobalReceiver(MOD_INSTALLED_PACKET, (server, player, handler, buf, responseSender) -> {
-            LOGGER.info("{} has mod Visible Barriers installed.", player.getEntityName());
+            LOGGER.info("{} has mod Visible Barriers installed.", player.getNameForScoreboard());
             ServerPlayNetworking.send(player, MOD_INSTALLED_PACKET, buf);
         });
     }
