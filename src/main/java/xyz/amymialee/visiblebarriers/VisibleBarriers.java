@@ -5,20 +5,19 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.PistonExtensionBlock;
 import net.minecraft.block.enums.PistonType;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.BlockStateComponent;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.NbtCompound;
+import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import xyz.amymialee.visiblebarriers.common.VisibleBarriersCommon;
-
-import java.util.Objects;
 
 @Environment(EnvType.CLIENT)
 public class VisibleBarriers implements ClientModInitializer {
@@ -65,15 +64,15 @@ public class VisibleBarriers implements ClientModInitializer {
         MinecraftClient.getInstance().worldRenderer.reload();
     }
 
-    public static boolean isVisibilityEnabled () {
+    public static boolean isVisibilityEnabled() {
         return toggleVisible;
     }
 
-    public static void toggleVisible () {
+    public static void toggleVisible() {
         setVisible(!toggleVisible);
     }
 
-    public static void setVisible (boolean visible) {
+    public static void setVisible(boolean visible) {
         toggleVisible = visible;
         booleanFeedback("visiblebarriers.feedback.visible", toggleVisible);
         reloadWorldRenderer();
@@ -186,15 +185,15 @@ public class VisibleBarriers implements ClientModInitializer {
 
     static {
         ModelPredicateProviderRegistry.register(VisibleBarriersCommon.MOVING_PISTON_BLOCK_ITEM, new Identifier("sticky"), (stack, world, entity, seed) -> {
-            NbtCompound compound = stack.getSubNbt("BlockStateTag");
-            if (compound != null && Objects.equals(compound.getString(PistonExtensionBlock.TYPE.getName()), String.valueOf(PistonType.STICKY))) {
+            BlockStateComponent blockState = stack.getComponents().get(DataComponentTypes.BLOCK_STATE);
+            if (blockState != null && blockState.getValue(Properties.PISTON_TYPE) == PistonType.STICKY) {
                 return 1.0F;
             }
             return 0.0F;
         });
         ModelPredicateProviderRegistry.register(VisibleBarriersCommon.BUBBLE_COLUMN_BLOCK_ITEM, new Identifier("drag"), (stack, world, entity, seed) -> {
-            NbtCompound compound = stack.getSubNbt("BlockStateTag");
-            if (compound != null && Objects.equals(compound.getString("drag"), "true")) {
+            BlockStateComponent blockState = stack.getComponents().get(DataComponentTypes.BLOCK_STATE);
+            if (blockState != null && blockState.getValue(Properties.DRAG) == Boolean.TRUE) {
                 return 1.0F;
             }
             return 0.0F;
