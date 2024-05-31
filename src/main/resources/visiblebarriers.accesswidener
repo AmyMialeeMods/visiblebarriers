@@ -1,2 +1,3 @@
-accessWidener v1 named
+accessWidener v2 named
 extendable class net/minecraft/item/ItemStack
+accessible field net/minecraft/entity/AreaEffectCloudEntity potionContentsComponent Lnet/minecraft/component/type/PotionContentsComponent;

@@ -4,18 +4,20 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.PistonExtensionBlock;
 import net.minecraft.block.enums.PistonType;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.BlockStateComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.world.WorldView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldView;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -39,8 +41,8 @@ public abstract class PistonExtensionBlockMixin extends BlockMixin {
     }
 
     @Inject(method = "onUse", at = @At("HEAD"), cancellable = true)
-    public void visibleBarriers$onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit, CallbackInfoReturnable<ActionResult> cir) {
-        Item item = player.getStackInHand(hand).getItem();
+    public void visibleBarriers$onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit, CallbackInfoReturnable<ActionResult> cir) {
+        Item item = player.getStackInHand(Hand.MAIN_HAND).getItem();
         if (item == VisibleBarriersCommon.MOVING_PISTON_BLOCK_ITEM && state.contains(PistonExtensionBlock.TYPE)) {
             world.setBlockState(pos, state.with(PistonExtensionBlock.TYPE, state.get(PistonExtensionBlock.TYPE) == PistonType.DEFAULT ? PistonType.STICKY : PistonType.DEFAULT), Block.NOTIFY_LISTENERS);
             cir.setReturnValue(net.minecraft.util.ActionResult.SUCCESS);
@@ -50,9 +52,7 @@ public abstract class PistonExtensionBlockMixin extends BlockMixin {
     @Inject(method = "getPickStack", at = @At("HEAD"), cancellable = true)
     public void visibleBarriers$pickStack(WorldView world, BlockPos pos, BlockState state, CallbackInfoReturnable<ItemStack> cir) {
         ItemStack stack = new ItemStack(VisibleBarriersCommon.MOVING_PISTON_BLOCK_ITEM);
-        NbtCompound nbtCompound = new NbtCompound();
-        nbtCompound.putString(PistonExtensionBlock.TYPE.getName(), String.valueOf(state.get(PistonExtensionBlock.TYPE)));
-        stack.setSubNbt("BlockStateTag", nbtCompound);
+        stack.apply(DataComponentTypes.BLOCK_STATE, BlockStateComponent.DEFAULT, c -> c.with(Properties.PISTON_TYPE, state.get(PistonExtensionBlock.TYPE)));
         cir.setReturnValue(stack);
     }
 }
