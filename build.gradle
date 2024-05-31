@@ -6,12 +6,14 @@ plugins {
 version = project.mod_version
 group = project.maven_group
 
-loom {
-    accessWidenerPath = file("src/main/resources/visiblebarriers.accesswidener")
+base {
+    archivesName = project.archives_base_name + "-" + project.minecraft_version
 }
 
-repositories {
-    maven { url = "https://jitpack.io/" }
+repositories {}
+
+fabricApi {
+    configureDataGeneration()
 }
 
 dependencies {
@@ -19,14 +21,32 @@ dependencies {
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    include( implementation( annotationProcessor("io.github.llamalad7:mixinextras-fabric:${project.mixin_extras_version}")))
+}
+
+loom {
+    accessWidenerPath = file("src/main/resources/visiblebarriers.accesswidener")
 }
 
 processResources {
     inputs.property "version", project.version
-    filteringCharset "UTF-8"
     filesMatching("fabric.mod.json") {
         expand "version": project.version
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 17
+}
+
+java {
+    withSourcesJar()
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+jar {
+    from("LICENSE.md") {
+        rename { "${it}_${project.base.archivesName.get()}"}
     }
 }
 

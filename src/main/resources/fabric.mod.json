@@ -9,8 +9,9 @@
     "AmyMialee"
   ],
   "contact": {
-    "homepage": "https://github.com/AmyMialeeMods/visible-barriers",
-    "issues": "https://github.com/AmyMialeeMods/visible-barriers/issues"
+    "homepage": "https://amymialee.xyz",
+    "sources": "https://github.com/AmyMialeeMods/visiblebarriers",
+    "issues": "https://github.com/AmyMialeeMods/visiblebarriers/issues"
   },
   "license": "All-Rights-Reserved",
   "icon": "assets/visiblebarriers/icon.png",
@@ -32,7 +33,7 @@
   "custom": {
     "modmenu": {
       "links": {
-        "modmenu.discord": "http://discord.amymialee.xyz"
+        "modmenu.discord": "https://discord.amymialee.xyz"
       }
     }
   }
