@@ -16,14 +16,18 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(AbstractBlock.class)
 public abstract class AbstractBlockMixin {
-    @Shadow public abstract Item asItem();
+    @Shadow
+    public abstract Item asItem();
 
     @Inject(method = "isTransparent", at = @At("HEAD"), cancellable = true)
-    public void visibleBarriers$isTranslucent(BlockState state, BlockView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {}
+    public void visibleBarriers$isTranslucent(BlockState state, BlockView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
+    }
 
     @Inject(method = "isSideInvisible", at = @At("HEAD"), cancellable = true)
-    public void visibleBarriers$isSideInvisible(BlockState state, BlockState stateFrom, Direction direction, CallbackInfoReturnable<Boolean> cir) {}
+    public void visibleBarriers$isSideInvisible(BlockState state, BlockState stateFrom, Direction direction, CallbackInfoReturnable<Boolean> cir) {
+    }
 
     @Inject(method = "getCollisionShape", at = @At("HEAD"), cancellable = true)
-    public void visibleBarriers$getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context, CallbackInfoReturnable<VoxelShape> cir) {}
+    public void visibleBarriers$getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context, CallbackInfoReturnable<VoxelShape> cir) {
+    }
 }

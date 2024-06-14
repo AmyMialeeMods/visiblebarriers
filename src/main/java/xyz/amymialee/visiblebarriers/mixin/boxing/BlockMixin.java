@@ -15,5 +15,6 @@ public abstract class BlockMixin extends AbstractBlockMixin {
     public abstract BlockState getDefaultState();
 
     @Inject(method = "getPlacementState", at = @At("HEAD"), cancellable = true)
-    public void visibleBarriers$getPlacementState(ItemPlacementContext ctx, CallbackInfoReturnable<BlockState> cir) {}
+    public void visibleBarriers$getPlacementState(ItemPlacementContext ctx, CallbackInfoReturnable<BlockState> cir) {
+    }
 }

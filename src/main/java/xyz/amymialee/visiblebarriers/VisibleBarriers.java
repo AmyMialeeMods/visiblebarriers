@@ -184,14 +184,14 @@ public class VisibleBarriers implements ClientModInitializer {
     }
 
     static {
-        ModelPredicateProviderRegistry.register(VisibleBarriersCommon.MOVING_PISTON_BLOCK_ITEM, new Identifier("sticky"), (stack, world, entity, seed) -> {
+        ModelPredicateProviderRegistry.register(VisibleBarriersCommon.MOVING_PISTON_BLOCK_ITEM, Identifier.of("sticky"), (stack, world, entity, seed) -> {
             BlockStateComponent blockState = stack.getComponents().get(DataComponentTypes.BLOCK_STATE);
             if (blockState != null && blockState.getValue(Properties.PISTON_TYPE) == PistonType.STICKY) {
                 return 1.0F;
             }
             return 0.0F;
         });
-        ModelPredicateProviderRegistry.register(VisibleBarriersCommon.BUBBLE_COLUMN_BLOCK_ITEM, new Identifier("drag"), (stack, world, entity, seed) -> {
+        ModelPredicateProviderRegistry.register(VisibleBarriersCommon.BUBBLE_COLUMN_BLOCK_ITEM, Identifier.of("drag"), (stack, world, entity, seed) -> {
             BlockStateComponent blockState = stack.getComponents().get(DataComponentTypes.BLOCK_STATE);
             if (blockState != null && blockState.getValue(Properties.DRAG) == Boolean.TRUE) {
                 return 1.0F;

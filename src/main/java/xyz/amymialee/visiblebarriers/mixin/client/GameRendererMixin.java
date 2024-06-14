@@ -10,7 +10,8 @@ import xyz.amymialee.visiblebarriers.VisibleBarriers;
 
 @Mixin(GameRenderer.class)
 public class GameRendererMixin {
-    @Shadow private float fovMultiplier;
+    @Shadow
+    private float fovMultiplier;
 
     @Inject(method = "updateFovMultiplier", at = @At(value = "TAIL"))
     private void visibleBarriers$zoom(CallbackInfo ci) {

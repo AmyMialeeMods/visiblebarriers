@@ -68,16 +68,16 @@ public class VisibleInput {
             if (keyBindingVisibility.wasPressed()) {
                 VisibleBarriers.toggleVisible();
                 //if vis is determined to be false/off and barriers are still true/on, turn the barriers off again
-                if (!VisibleBarriers.isVisibilityEnabled() && VisibleBarriers.areBarriersEnabled()){
+                if (!VisibleBarriers.isVisibilityEnabled() && VisibleBarriers.areBarriersEnabled()) {
                     VisibleBarriers.toggleBarriers(); //toggle barriers back off again
                 }
 
                 //if vis is true make sure to double check that config has barriers as true
-                if (VisibleBarriers.isVisibilityEnabled()){
+                if (VisibleBarriers.isVisibilityEnabled()) {
                     VisibleConfig.setVisibleBarrier(true);
                 }
                 //if vis is false make sure to double check that config has barriers as false
-                if (!VisibleBarriers.isVisibilityEnabled()){
+                if (!VisibleBarriers.isVisibilityEnabled()) {
                     VisibleConfig.setVisibleBarrier(false);
                 }
             }

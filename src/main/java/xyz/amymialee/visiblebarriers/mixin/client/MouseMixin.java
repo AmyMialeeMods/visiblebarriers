@@ -15,8 +15,11 @@ import xyz.amymialee.visiblebarriers.VisibleBarriers;
 
 @Mixin(Mouse.class)
 public class MouseMixin {
-    @Shadow @Final private MinecraftClient client;
-    @Shadow private double eventDeltaVerticalWheel;
+    @Shadow
+    @Final
+    private MinecraftClient client;
+    @Shadow
+    private double eventDeltaVerticalWheel;
 
     @Inject(method = "onMouseScroll", at = @At("HEAD"), cancellable = true)
     private void visibleBarriers$scroll(long window, double horizontal, double vertical, CallbackInfo ci) {
@@ -27,7 +30,7 @@ public class MouseMixin {
                     this.eventDeltaVerticalWheel = 0.0;
                 }
                 this.eventDeltaVerticalWheel += d;
-                int i = (int)this.eventDeltaVerticalWheel;
+                int i = (int) this.eventDeltaVerticalWheel;
                 if (i == 0) {
                     return;
                 }

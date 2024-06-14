@@ -5,6 +5,8 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MarkerEntity;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
+import net.minecraft.server.network.EntityTrackerEntry;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -19,6 +21,8 @@ public abstract class MarkerEntityMixin extends Entity {
 
     @Inject(method = "createSpawnPacket", at = @At("HEAD"), cancellable = true)
     public void visibleBarriers$forcePacket(CallbackInfoReturnable<Packet<?>> cir) {
-        cir.setReturnValue(new EntitySpawnS2CPacket((MarkerEntity)((Object)this)));
+        EntityTrackerEntry entityTrackerEntry = new EntityTrackerEntry((ServerWorld) this.getWorld(), (MarkerEntity) ((Object) this), 0, false, null);
+        cir.setReturnValue(new EntitySpawnS2CPacket(this, entityTrackerEntry, 0));
     }
+
 }

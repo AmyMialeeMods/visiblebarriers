@@ -1,6 +1,5 @@
 package xyz.amymialee.visiblebarriers.common;
 
-import java.util.List;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
@@ -25,9 +24,11 @@ import net.minecraft.util.Rarity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 public class VisibleBarriersCommon implements ModInitializer {
-    public final static String MOD_ID = "visiblebarriers";
-    public final static Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+    public static final String MOD_ID = "visiblebarriers";
+    public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
     // Custom Items
     public static final BlockItem MOVING_PISTON_BLOCK_ITEM = Registry.register(Registries.ITEM, id("moving_piston"), new BlockItem(Blocks.MOVING_PISTON, new Item.Settings().rarity(Rarity.EPIC)));
     public static final BlockItem AIR_BLOCK_ITEM = Registry.register(Registries.ITEM, id("air"), new BlockItem(Blocks.AIR, new Item.Settings().rarity(Rarity.EPIC)));
@@ -39,7 +40,7 @@ public class VisibleBarriersCommon implements ModInitializer {
     // Packet Identifiers
     public static final Identifier MOD_INSTALLED_PACKET = id("mod_installed");
 
-    public static record ModData(byte[] data) implements CustomPayload {
+    public record ModData(byte[] data) implements CustomPayload {
         public static final CustomPayload.Id<ModData> PACKET_ID = new CustomPayload.Id<>(MOD_INSTALLED_PACKET);
         public static final PacketCodec<PacketByteBuf, ModData> PACKET_CODEC = PacketCodec.of(ModData::write, ModData::new);
 
@@ -88,6 +89,7 @@ public class VisibleBarriersCommon implements ModInitializer {
     }
 
     public static Identifier id(String... path) {
-        return new Identifier(MOD_ID, String.join(".", path));
+        return Identifier.of(MOD_ID, String.join(".", path));
     }
+
 }
