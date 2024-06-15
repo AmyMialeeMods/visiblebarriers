@@ -101,7 +101,7 @@ public class VisibleConfig {
             JsonObject data = gson.fromJson(reader, JsonObject.class);
             if (data.has("visibleBarrier")) {
                 visibleBarrier = data.get("visibleBarrier").getAsBoolean();
-                if(visibleBarrier){
+                if (visibleBarrier) {
                     VisibleBarriers.toggleBarriers();
                 }
             }

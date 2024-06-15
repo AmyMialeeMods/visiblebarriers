@@ -14,8 +14,11 @@ import xyz.amymialee.visiblebarriers.VisibleConfig;
 
 @Mixin(AbstractBlock.AbstractBlockState.class)
 public abstract class AbstractBlockStateMixin {
-    @Shadow public abstract Block getBlock();
-    @Shadow public abstract boolean isAir();
+    @Shadow
+    public abstract Block getBlock();
+
+    @Shadow
+    public abstract boolean isAir();
 
     @Inject(method = "getRenderType", at = @At("RETURN"), cancellable = true)
     private void visibleBarriers$invisibleModels(CallbackInfoReturnable<BlockRenderType> cir) {

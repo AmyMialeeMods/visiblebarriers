@@ -17,7 +17,8 @@ import xyz.amymialee.visiblebarriers.util.FloatyRenderer;
 
 @Mixin(EntityRenderer.class)
 public class EntityRendererMixin<T extends Entity> {
-    @Unique protected FloatyRenderer<T> floater;
+    @Unique
+    protected FloatyRenderer<T> floater;
 
     @Inject(method = "<init>", at = @At("TAIL"))
     public void visibleBarriers$giveRenderer(EntityRendererFactory.Context context, CallbackInfo ci) {
