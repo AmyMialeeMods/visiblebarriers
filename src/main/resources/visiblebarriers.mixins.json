@@ -16,7 +16,7 @@
   "client": [
     "boxing.EntityRendererMixin",
     "client.AbstractBlockStateMixin",
-    "client.BarrierBlockMixin",
+    "client.ClientBarrierBlockMixin",
     "client.ClientBubbleColumnBlockMixin",
     "client.ClientPistonExtensionBlockMixin",
     "client.ClientPlayerInteractionManagerMixin",

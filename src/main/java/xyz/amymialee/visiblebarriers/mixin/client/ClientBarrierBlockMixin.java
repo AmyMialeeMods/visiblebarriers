@@ -9,12 +9,12 @@ import xyz.amymialee.visiblebarriers.VisibleBarriers;
 import xyz.amymialee.visiblebarriers.mixin.boxing.BlockMixin;
 
 @Mixin(BarrierBlock.class)
-public abstract class BarrierBlockMixin extends BlockMixin {
+public abstract class ClientBarrierBlockMixin extends BlockMixin {
 
     @Override
     public void visibleBarriers$isSideInvisible(BlockState state, BlockState stateFrom, Direction direction, CallbackInfoReturnable<Boolean> cir) {
         if (VisibleBarriers.isVisibilityEnabled() || VisibleBarriers.areBarriersEnabled()) {
-            cir.setReturnValue(!stateFrom.isAir());
+            cir.setReturnValue(stateFrom.isOpaque() || stateFrom.getBlock() == state.getBlock());
         }
     }
 
