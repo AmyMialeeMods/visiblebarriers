@@ -8,6 +8,7 @@ import net.minecraft.block.LightBlock;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.item.Item;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
@@ -37,4 +38,12 @@ public abstract class LightBlockMixin extends BlockMixin {
         }
         super.visibleBarriers$getCollisionShape(state, world, pos, context, cir);
     }
+
+    @Override
+    public void visibleBarriers$isSideInvisible(BlockState state, BlockState stateFrom, Direction direction, CallbackInfoReturnable<Boolean> cir) {
+        if (VisibleBarriers.isVisibilityEnabled() || VisibleBarriers.areLightsEnabled()) {
+            cir.setReturnValue(!stateFrom.isAir());
+        }
+    }
+
 }

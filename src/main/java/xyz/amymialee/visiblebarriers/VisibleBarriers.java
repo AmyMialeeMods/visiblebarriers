@@ -61,7 +61,7 @@ public class VisibleBarriers implements ClientModInitializer {
     }
 
     public static void reloadWorldRenderer() {
-        MinecraftClient.getInstance().worldRenderer.reload();
+        if (MinecraftClient.getInstance().worldRenderer != null) MinecraftClient.getInstance().worldRenderer.reload();
     }
 
     public static boolean isVisibilityEnabled() {
