@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "visiblebarriers",
   "version": "${version}",
-  "accessWidener" : "visiblebarriers.accesswidener",
+  "accessWidener": "visiblebarriers.accesswidener",
   "name": "Visible Barriers",
   "description": "Various tools for Minecraft Mapmaking.",
   "authors": [
