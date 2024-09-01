@@ -42,7 +42,7 @@ public abstract class LightBlockMixin extends BlockMixin {
     @Override
     public void visibleBarriers$isSideInvisible(BlockState state, BlockState stateFrom, Direction direction, CallbackInfoReturnable<Boolean> cir) {
         if (VisibleBarriers.isVisibilityEnabled() || VisibleBarriers.areLightsEnabled()) {
-            cir.setReturnValue(stateFrom.isOpaque() || stateFrom.getBlock() == state.getBlock());
+            cir.setReturnValue(stateFrom.isOpaqueFullCube(null, null) || stateFrom.getBlock() == state.getBlock());
         }
     }
 
