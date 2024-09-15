@@ -4,6 +4,9 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.serialization.Codec;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.component.ComponentType;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.AttributeModifiersComponent;
+import net.minecraft.item.BlockPredicatesChecker;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipAppender;
 import net.minecraft.item.tooltip.TooltipType;
@@ -31,7 +34,7 @@ public abstract class ItemStackMixin {
     // }
 
     @Unique
-    private static final WeakHashMap<TooltipAppender, TooltipAppender> visibleBarriers$tooltipCache = new WeakHashMap<>();
+    private static final WeakHashMap<Object, Object> visibleBarriers$tooltipCache = new WeakHashMap<>();
 
     @ModifyVariable(method = "getTooltip", index = 3, at = @At("HEAD"), argsOnly = true)
     private TooltipType visibleBarriers$showTooltip(TooltipType value) {
@@ -46,10 +49,32 @@ public abstract class ItemStackMixin {
 
     @ModifyVariable(method = "appendTooltip", index = 5, at = @At(value = "LOAD", ordinal = 1))
     private <T extends TooltipAppender> TooltipAppender visibleBarriers$forceAppend(T value, @Local(argsOnly = true) ComponentType<T> componentType) {
+        return convertComponent(componentType, value);
+    }
+
+    // don't implement these on inject showInTooltip method because that can cause consequences on other mods trying to read components.
+    @ModifyVariable(method = "getTooltip", index = 7, at = @At(value = "LOAD", ordinal = 1))
+    private BlockPredicatesChecker visibleBarriers$appendCanBreak(BlockPredicatesChecker component) {
+        return component.showInTooltip() ? component : convertComponent(DataComponentTypes.CAN_BREAK, component);
+    }
+
+    @ModifyVariable(method = "getTooltip", index = 8, at = @At(value = "LOAD", ordinal = 1))
+    private BlockPredicatesChecker visibleBarriers$appendCanPlaceOn(BlockPredicatesChecker component) {
+        return component.showInTooltip() ? component : convertComponent(DataComponentTypes.CAN_PLACE_ON, component);
+    }
+
+    @ModifyVariable(method = "appendAttributeModifiersTooltip", index = 3, at = @At(value = "LOAD", ordinal = 0))
+    private AttributeModifiersComponent visibleBarriers$appendAttributes(AttributeModifiersComponent component) {
+        return component.showInTooltip() ? component : convertComponent(DataComponentTypes.ATTRIBUTE_MODIFIERS, component);
+    }
+
+    @Unique
+    private static <T> T convertComponent(ComponentType<T> type, T value) {
         if (!VisibleBarriers.isVisibilityEnabled()) return value;
 
-        TooltipAppender computed = visibleBarriers$tooltipCache.computeIfAbsent(value, ins -> {
-            Codec<T> codec = componentType.getCodec();
+        // try to modify show_in_tooltip nbt value to true
+        Object computed = visibleBarriers$tooltipCache.computeIfAbsent(value, ins -> {
+            Codec<T> codec = type.getCodec();
             if (codec == null) return ins;
             World world = MinecraftClient.getInstance().world;
             if (world == null) return null;
@@ -67,6 +92,7 @@ public abstract class ItemStackMixin {
             }).orElse(ins);
         });
 
-        return Objects.requireNonNullElse(computed, value);
+        //noinspection unchecked
+        return (T) Objects.requireNonNullElse(computed, value);
     }
 }
