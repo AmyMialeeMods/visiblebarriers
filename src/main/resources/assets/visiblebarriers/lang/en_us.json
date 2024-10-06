@@ -8,6 +8,7 @@
   "key.visiblebarriers.fullbright" : "Toggle Fullbright",
   "key.visiblebarriers.time" : "Toggle Forced Time",
   "key.visiblebarriers.zoom" : "Zoom",
+  "title.visiblebarriers.config": "Visible Barriers Config",
 
   "visiblebarriers.enabled" : "Enabled",
   "visiblebarriers.disabled" : "Disabled",
@@ -36,6 +37,21 @@
 
   "visiblebarriers.settings.visibleair" : "Visible Air",
   "visiblebarriers.settings.hiddenparticles" : "Hidden Particles",
-  "visiblebarriers.settings.sendfeedback" : "Send Feedback"
+  "visiblebarriers.settings.sendfeedback" : "Send Feedback",
+  "category.visiblebarriers.general": "General",
+  "option.visiblebarriers.visible_barrier": "Visible Barriers",
+  "option.visiblebarriers.visible_barrier.tooltip": "Are Barrier blocks visible?",
+  "option.visiblebarriers.visible_air": "Visible Air",
+  "option.visiblebarriers.visible_air.tooltip": "Are Air blocks visible?",
+  "option.visiblebarriers.hide_particles": "Hide Particles",
+  "option.visiblebarriers.hide_particles.tooltip": "Are particles hidden?",
+  "option.visiblebarriers.send_feedback": "Send Feedback",
+  "option.visiblebarriers.send_feedback.tooltip": "Print feedback to screen when visibility changes?",
+  "option.visiblebarriers.solid_lights": "Solid Lights",
+  "option.visiblebarriers.solid_lights.tooltip": "Are lights solid?",
+  "option.visiblebarriers.base_zoom": "Base Zoom",
+  "option.visiblebarriers.base_zoom.tooltip": "Set base zoom value",
+  "option.visiblebarriers.forced_time": "Forced Time",
+  "option.visiblebarriers.forced_time.tooltip": "Sets current time to be forced to this value"
 
 }
