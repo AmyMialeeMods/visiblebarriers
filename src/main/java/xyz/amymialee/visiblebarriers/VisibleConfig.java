@@ -49,6 +49,16 @@ public class VisibleConfig {
         }
     }
 
+    public static void setSolidLights(boolean solidLights) {
+        VisibleConfig.solidLights = solidLights;
+        saveConfig();
+    }
+
+    public static void setBaseZoom(Float baseZoom) {
+        VisibleConfig.baseZoom = baseZoom;
+        saveConfig();
+    }
+
     public static boolean isBarrierVisible() {
         return visibleBarrier;
     }
