@@ -29,8 +29,10 @@ public class VisibleBarriersModMenu implements ModMenuApi {
                     .setDefaultValue(false)
                     .setTooltip(Text.translatable("option.visiblebarriers.visible_barrier.tooltip"))
                     .setSaveConsumer(newValue -> {
-                        VisibleConfig.setVisibleBarrier(newValue);
-                        VisibleBarriers.setBarriers(newValue);
+                        if(newValue!=VisibleConfig.isBarrierVisible()) {
+                            VisibleConfig.setVisibleBarrier(newValue);
+                            VisibleBarriers.setBarriers(newValue);
+                        }
                     })
                     .build()
             );
@@ -40,9 +42,10 @@ public class VisibleBarriersModMenu implements ModMenuApi {
                     .setDefaultValue(false)
                     .setTooltip(Text.translatable("option.visiblebarriers.visible_air.tooltip"))
                     .setSaveConsumer(newValue -> {
-                        VisibleConfig.setVisibleAir(newValue);
-                        VisibleBarriers.reloadWorldRenderer();
-
+                        if(newValue!=VisibleConfig.isAirVisible()) {
+                            VisibleConfig.setVisibleAir(newValue);
+                            VisibleBarriers.reloadWorldRenderer();
+                        }
                     })
                     .build()
             );
@@ -51,7 +54,11 @@ public class VisibleBarriersModMenu implements ModMenuApi {
             generalCategory.addEntry(configEntryBuilder.startBooleanToggle(Text.translatable("option.visiblebarriers.hide_particles"), VisibleConfig.shouldHideParticles())
                     .setDefaultValue(true)
                     .setTooltip(Text.translatable("option.visiblebarriers.hide_particles.tooltip"))
-                    .setSaveConsumer(VisibleConfig::setHideParticles)
+                    .setSaveConsumer(newValue -> {
+                        if(newValue!=VisibleConfig.shouldHideParticles()) {
+                            VisibleConfig.setHideParticles(newValue);
+                        }
+                    })
                     .build()
             );
 
@@ -59,7 +66,11 @@ public class VisibleBarriersModMenu implements ModMenuApi {
             generalCategory.addEntry(configEntryBuilder.startBooleanToggle(Text.translatable("option.visiblebarriers.send_feedback"), VisibleConfig.shouldSendFeedback())
                     .setDefaultValue(true)
                     .setTooltip(Text.translatable("option.visiblebarriers.send_feedback.tooltip"))
-                    .setSaveConsumer(VisibleConfig::setSendFeedback)
+                    .setSaveConsumer(newValue -> {
+                        if(newValue!=VisibleConfig.shouldSendFeedback()) {
+                            VisibleConfig.setSendFeedback(newValue);
+                        }
+                    })
                     .build()
             );
 
@@ -67,7 +78,11 @@ public class VisibleBarriersModMenu implements ModMenuApi {
             generalCategory.addEntry(configEntryBuilder.startBooleanToggle(Text.translatable("option.visiblebarriers.solid_lights"), VisibleConfig.areLightsSolid())
                     .setDefaultValue(false)
                     .setTooltip(Text.translatable("option.visiblebarriers.solid_lights.tooltip"))
-                    .setSaveConsumer(VisibleConfig::setSolidLights)
+                    .setSaveConsumer(newValue -> {
+                        if(newValue!=VisibleConfig.areLightsSolid()) {
+                            VisibleConfig.setSolidLights(newValue);
+                        }
+                    })
                     .build()
             );
 
@@ -75,7 +90,11 @@ public class VisibleBarriersModMenu implements ModMenuApi {
             generalCategory.addEntry(configEntryBuilder.startFloatField(Text.translatable("option.visiblebarriers.base_zoom"),VisibleConfig.getBaseZoom())
                     .setDefaultValue(2.8f)
                     .setTooltip(Text.translatable("option.visiblebarriers.base_zoom.tooltip"))
-                    .setSaveConsumer(VisibleConfig::setBaseZoom)
+                    .setSaveConsumer(newValue -> {
+                        if(newValue!=VisibleConfig.getBaseZoom()) {
+                            VisibleConfig.setBaseZoom(newValue);
+                        }
+                    })
                     .build()
             );
 
@@ -83,7 +102,11 @@ public class VisibleBarriersModMenu implements ModMenuApi {
             generalCategory.addEntry(configEntryBuilder.startLongField(Text.translatable("option.visiblebarriers.forced_time"),VisibleConfig.getForcedTime())
                     .setDefaultValue(6000)
                     .setTooltip(Text.translatable("option.visiblebarriers.forced_time.tooltip"))
-                    .setSaveConsumer(VisibleConfig::setForcedTime)
+                    .setSaveConsumer(newValue -> {
+                        if(newValue!=VisibleConfig.getForcedTime()) {
+                            VisibleConfig.setForcedTime(newValue);
+                        }
+                    })
                     .build()
             );
 
