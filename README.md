@@ -16,12 +16,12 @@ It also has several other features, such as a zoom keybind, fullbright, and the 
     <tr>
         <th>
             <a href="http://discord.amymialee.xyz">
-                <img src="https://cdn.discordapp.com/attachments/793182374410059887/924000460292104282/3437c10597c1526c3dbd98c737c2bcae.svg" width="150" height="150" alt="">
+                <img src="https://edent.github.io/SuperTinyIcons/images/svg/discord.svg" width="150" height="150" alt="">
             </a>
         </th>
         <th>
             <a href="https://www.curseforge.com/minecraft/mc-mods/visiblebarriers">
-                <img src="https://cdn.discordapp.com/attachments/793182374410059887/923990008543711282/anvil.svg" width="150" height="150" alt="">
+                <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/curseforge_vector.svg" width="150" height="150" alt="">
             </a>
         </th>
         <th>
