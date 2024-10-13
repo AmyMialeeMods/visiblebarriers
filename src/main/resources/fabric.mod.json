@@ -22,6 +22,9 @@
     ],
     "client": [
       "xyz.amymialee.visiblebarriers.VisibleBarriers"
+    ],
+    "modmenu": [
+      "xyz.amymialee.visiblebarriers.integration.modmenu.VisibleBarriersModMenu"
     ]
   },
   "mixins": [
