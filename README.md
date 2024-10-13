@@ -16,17 +16,17 @@ It also has several other features, such as a zoom keybind, fullbright, and the 
     <tr>
         <th>
             <a href="http://discord.amymialee.xyz">
-                <img src="https://edent.github.io/SuperTinyIcons/images/svg/discord.svg" width="150" height="150" alt="">
+                <img src="https://github.com/user-attachments/assets/9009250b-20e1-4985-a081-9760ffff93aa" width="150" height="150" alt="">
             </a>
         </th>
         <th>
             <a href="https://www.curseforge.com/minecraft/mc-mods/visiblebarriers">
-                <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/curseforge_vector.svg" width="150" height="150" alt="">
+                <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/curseforge_vector.svg" width="200" height="200" alt="">
             </a>
         </th>
         <th>
             <a href="https://modrinth.com/mod/visiblebarriers">
-                <img src="https://docs.modrinth.com/img/logo.svg" width="150" height="150" alt="">
+                <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/modrinth_vector.svg" width="200" height="200" alt="">
             </a>
         </th>
         <th>
