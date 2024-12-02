@@ -20,7 +20,7 @@ public abstract class AbstractBlockMixin {
     public abstract Item asItem();
 
     @Inject(method = "isTransparent", at = @At("HEAD"), cancellable = true)
-    public void visibleBarriers$isTranslucent(BlockState state, BlockView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
+    public void visibleBarriers$isTranslucent(BlockState state, CallbackInfoReturnable<Boolean> cir) {
     }
 
     @Inject(method = "isSideInvisible", at = @At("HEAD"), cancellable = true)

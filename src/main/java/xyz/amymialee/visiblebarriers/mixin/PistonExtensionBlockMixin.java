@@ -45,7 +45,7 @@ public abstract class PistonExtensionBlockMixin extends BlockMixin {
         Item item = player.getStackInHand(Hand.MAIN_HAND).getItem();
         if (item == VisibleBarriersCommon.MOVING_PISTON_BLOCK_ITEM && state.contains(PistonExtensionBlock.TYPE)) {
             world.setBlockState(pos, state.with(PistonExtensionBlock.TYPE, state.get(PistonExtensionBlock.TYPE) == PistonType.DEFAULT ? PistonType.STICKY : PistonType.DEFAULT), Block.NOTIFY_LISTENERS);
-            cir.setReturnValue(net.minecraft.util.ActionResult.SUCCESS);
+            cir.setReturnValue(ActionResult.SUCCESS);
         }
     }
 

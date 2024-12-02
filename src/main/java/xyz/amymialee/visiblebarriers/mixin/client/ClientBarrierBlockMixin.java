@@ -14,7 +14,7 @@ public abstract class ClientBarrierBlockMixin extends BlockMixin {
     @Override
     public void visibleBarriers$isSideInvisible(BlockState state, BlockState stateFrom, Direction direction, CallbackInfoReturnable<Boolean> cir) {
         if (VisibleBarriers.isVisibilityEnabled() || VisibleBarriers.areBarriersEnabled()) {
-            cir.setReturnValue(stateFrom.isOpaqueFullCube(null, null) || stateFrom.getBlock() == state.getBlock());
+            cir.setReturnValue(stateFrom.isOpaqueFullCube() || stateFrom.getBlock() == state.getBlock());
         }
     }
 

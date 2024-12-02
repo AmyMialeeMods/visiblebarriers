@@ -17,7 +17,9 @@ import net.minecraft.registry.RegistryOps;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import xyz.amymialee.visiblebarriers.VisibleBarriers;
 
 import java.util.Objects;
@@ -42,7 +44,7 @@ public abstract class ItemStackMixin {
     }
 
     // this needs to be injected at the HIDE_ADDITIONAL_TOOLTIP one
-    @Redirect(method = "getTooltip", at = @At(value = "INVOKE", ordinal = 3, target = "Lnet/minecraft/item/ItemStack;contains(Lnet/minecraft/component/ComponentType;)Z"))
+    @Redirect(method = "getTooltip", at = @At(value = "INVOKE", ordinal = 2, target = "Lnet/minecraft/item/ItemStack;contains(Lnet/minecraft/component/ComponentType;)Z"))
     private boolean visibleBarriers$showAdditionalTooltip(ItemStack instance, ComponentType<?> componentType) {
         return instance.contains(componentType) && !VisibleBarriers.isVisibilityEnabled();
     }
@@ -53,12 +55,12 @@ public abstract class ItemStackMixin {
     }
 
     // don't implement these on inject showInTooltip method because that can cause consequences on other mods trying to read components.
-    @ModifyVariable(method = "getTooltip", index = 7, at = @At(value = "LOAD", ordinal = 1))
+    @ModifyVariable(method = "getTooltip", index = 6, at = @At(value = "LOAD", ordinal = 1))
     private BlockPredicatesChecker visibleBarriers$appendCanBreak(BlockPredicatesChecker component) {
         return component.showInTooltip() ? component : convertComponent(DataComponentTypes.CAN_BREAK, component);
     }
 
-    @ModifyVariable(method = "getTooltip", index = 8, at = @At(value = "LOAD", ordinal = 1))
+    @ModifyVariable(method = "getTooltip", index = 7, at = @At(value = "LOAD", ordinal = 1))
     private BlockPredicatesChecker visibleBarriers$appendCanPlaceOn(BlockPredicatesChecker component) {
         return component.showInTooltip() ? component : convertComponent(DataComponentTypes.CAN_PLACE_ON, component);
     }
