@@ -15,7 +15,7 @@ import xyz.amymialee.visiblebarriers.mixin.boxing.WorldMixin;
 
 @Mixin(ClientWorld.class)
 public class ClientWorldMixin extends WorldMixin {
-    @Inject(method = "tickTime", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/GameRules;getBoolean(Lnet/minecraft/world/GameRules$Key;)Z"), cancellable = true)
+    @Inject(method = "tickTime", at = @At(value = "FIELD", target = "Lnet/minecraft/client/world/ClientWorld;shouldTickTimeOfDay:Z"), cancellable = true)
     private void visibleBarriers$stopTime(CallbackInfo ci) {
         if (VisibleBarriers.isTimeEnabled()) {
             ci.cancel();

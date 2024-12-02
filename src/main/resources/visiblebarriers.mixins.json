@@ -25,6 +25,7 @@
     "client.DisplayContextMixin",
     "client.EmptyEntityRendererMixin",
     "client.EntityMixin",
+    "client.EntityRenderStateMixin",
     "client.GameRendererMixin",
     "client.ItemStackMixin",
     "client.LightBlockMixin",

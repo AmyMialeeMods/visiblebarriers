@@ -192,7 +192,7 @@ public class VisibleInput {
                         .then(ClientCommandManager.literal("time")
                                 .then(ClientCommandManager.literal("enable").executes(context -> {
                                     if (MinecraftClient.getInstance().world != null) {
-                                        MinecraftClient.getInstance().world.setTimeOfDay(VisibleConfig.getForcedTime());
+                                        MinecraftClient.getInstance().world.setTime(VisibleConfig.getForcedTime(), VisibleConfig.getForcedTime(), false);
                                     }
                                     VisibleBarriers.toggleTime = true;
                                     VisibleBarriers.booleanFeedback("visiblebarriers.feedback.time", true);

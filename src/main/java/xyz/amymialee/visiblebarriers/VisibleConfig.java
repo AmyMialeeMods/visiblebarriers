@@ -45,7 +45,7 @@ public class VisibleConfig {
         VisibleConfig.forcedTime = forcedTime;
         VisibleBarriers.setTime(true);
         if (MinecraftClient.getInstance().world != null) {
-            MinecraftClient.getInstance().world.setTimeOfDay(VisibleConfig.getForcedTime());
+            MinecraftClient.getInstance().world.setTime(getForcedTime(), getForcedTime(), false);
         }
     }
 

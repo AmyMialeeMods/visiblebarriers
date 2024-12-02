@@ -23,7 +23,7 @@ public abstract class AirBlockMixin extends BlockMixin {
     }
 
     @Override
-    public void visibleBarriers$isTranslucent(BlockState state, BlockView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
+    public void visibleBarriers$isTranslucent(BlockState state, CallbackInfoReturnable<Boolean> cir) {
         cir.setReturnValue(true);
     }
 
