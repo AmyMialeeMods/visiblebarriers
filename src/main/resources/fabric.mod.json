@@ -25,6 +25,9 @@
     ],
     "client": [
       "xyz.amymialee.visiblebarriers.VisibleBarriers"
+    ],
+    "cardinal-components-entity": [
+      "xyz.amymialee.visiblebarriers.common.VisibleBarriersCommon"
     ]
   },
   "mixins": [
@@ -34,6 +37,9 @@
     "fabric": "*"
   },
   "custom": {
+    "cardinal-components": [
+      "visiblebarriers:installed"
+    ],
     "modmenu": {
       "links": {
         "modmenu.discord": "https://discord.amymialee.xyz"

@@ -1,19 +1,19 @@
 plugins {
     id 'fabric-loom' version '1.8-SNAPSHOT'
     id 'maven-publish'
+    id "me.modmuss50.mod-publish-plugin" version "0.7.4"
 }
-
-version = project.mod_version
-group = project.maven_group
 
 base {
     archivesName = project.archives_base_name + "-" + project.minecraft_version
 }
 
-repositories {}
+version = project.mod_version
+group = project.maven_group
 
-fabricApi {
-    configureDataGeneration()
+repositories {
+    maven { url "https://maven.nucleoid.xyz" }
+    maven { url "https://maven.ladysnake.org/releases" }
 }
 
 dependencies {
@@ -21,10 +21,65 @@ dependencies {
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    modImplementation include("eu.pb4:polymer-core:${project.polymer_version}")
+    modImplementation include("org.ladysnake.cardinal-components-api:cardinal-components-base:${project.cca_version}")
+    modImplementation include("org.ladysnake.cardinal-components-api:cardinal-components-entity:${project.cca_version}")
+}
+
+publishMods {
+    file = remapJar.archiveFile
+    additionalFiles.files.add(remapSourcesJar.archiveFile.get().getAsFile())
+    displayName = "${project.version.toString().split("\\+")[0]} for Fabric $minecraft_version"
+    changelog = ""
+    type = STABLE
+    modLoaders.addAll("fabric", "quilt")
+    dryRun = !providers.gradleProperty("curseforge_api_key").isPresent() || !providers.gradleProperty("modrinth_api_key").isPresent() || !providers.gradleProperty("discord_webhook").isPresent()
+    curseforge {
+        accessToken = providers.gradleProperty('curseforge_api_key')
+        projectId = curseforge_id
+        minecraftVersionRange {
+            start = minecraft_version_range_start
+            end = minecraft_version_range_end
+        }
+        announcementTitle = "Download from CurseForge"
+        javaVersions.addAll(JavaVersion.VERSION_21, JavaVersion.VERSION_22)
+        clientRequired = true;
+        serverRequired = false;
+        projectSlug = curseforge_slug
+        requires("fabric-api")
+        embeds("polymer")
+        embeds("cardinal-components-api")
+    }
+    modrinth {
+        accessToken = providers.gradleProperty("modrinth_api_key")
+        projectId = modrinth_id
+        minecraftVersionRange {
+            start = minecraft_version_range_start
+            end = minecraft_version_range_end
+            includeSnapshots = true
+        }
+        announcementTitle = "Download from Modrinth"
+        requires("fabric-api")
+        embeds("polymer")
+        embeds("cardinal-components-api")
+    }
+    discord {
+        webhookUrl = providers.gradleProperty("discord_webhook")
+        dryRunWebhookUrl = providers.gradleProperty("discord_webhook")
+        username = "Abee"
+        avatarUrl = "https://cdn.discordapp.com/emojis/1006355140657299528.gif?quality=lossless"
+        setPlatforms(publishMods.platforms.modrinth, publishMods.platforms.curseforge)
+    }
 }
 
 loom {
     accessWidenerPath = file("src/main/resources/visiblebarriers.accesswidener")
+}
+
+fabricApi {
+    configureDataGeneration() {
+        modId = "visiblebarriers"
+    }
 }
 
 processResources {
@@ -35,13 +90,15 @@ processResources {
 }
 
 tasks.withType(JavaCompile).configureEach {
-    it.options.release = 21
+    it.options.encoding = "UTF-8"
+    it.options.release.set(21)
 }
 
 java {
-    withSourcesJar()
     sourceCompatibility = JavaVersion.VERSION_21
     targetCompatibility = JavaVersion.VERSION_21
+    toolchain.languageVersion = JavaLanguageVersion.of(21)
+    withSourcesJar()
 }
 
 jar {

@@ -4,6 +4,8 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.enums.PistonType;
 import net.minecraft.client.MinecraftClient;
@@ -45,6 +47,9 @@ public class VisibleBarriers implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(Blocks.VOID_AIR, RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(Blocks.MOVING_PISTON, RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(Blocks.BUBBLE_COLUMN, RenderLayer.getTranslucent());
+        ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
+            ClientPlayNetworking.send(new VisibleBarriersCommon.ModData(new byte[0]));
+        });
     }
 
     public static void sendFeedback(String translatable, Object... args) {
@@ -185,14 +190,14 @@ public class VisibleBarriers implements ClientModInitializer {
 
     static {
         ModelPredicateProviderRegistry.register(VisibleBarriersCommon.MOVING_PISTON_BLOCK_ITEM, Identifier.of("sticky"), (stack, world, entity, seed) -> {
-            BlockStateComponent blockState = stack.getComponents().get(DataComponentTypes.BLOCK_STATE);
+            var blockState = stack.getComponents().get(DataComponentTypes.BLOCK_STATE);
             if (blockState != null && blockState.getValue(Properties.PISTON_TYPE) == PistonType.STICKY) {
                 return 1.0F;
             }
             return 0.0F;
         });
         ModelPredicateProviderRegistry.register(VisibleBarriersCommon.BUBBLE_COLUMN_BLOCK_ITEM, Identifier.of("drag"), (stack, world, entity, seed) -> {
-            BlockStateComponent blockState = stack.getComponents().get(DataComponentTypes.BLOCK_STATE);
+            var blockState = stack.getComponents().get(DataComponentTypes.BLOCK_STATE);
             if (blockState != null && blockState.getValue(Properties.DRAG) == Boolean.TRUE) {
                 return 1.0F;
             }
