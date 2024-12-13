@@ -1,0 +1,1 @@
+- Fixed the Vanilla Server joining crash

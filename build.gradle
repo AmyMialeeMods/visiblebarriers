@@ -30,7 +30,7 @@ publishMods {
     file = remapJar.archiveFile
     additionalFiles.files.add(remapSourcesJar.archiveFile.get().getAsFile())
     displayName = "${project.version.toString().split("\\+")[0]} for Fabric $minecraft_version"
-    changelog = ""
+    changelog = new File("CHANGELOG.md").text
     type = STABLE
     modLoaders.addAll("fabric", "quilt")
     dryRun = !providers.gradleProperty("curseforge_api_key").isPresent() || !providers.gradleProperty("modrinth_api_key").isPresent() || !providers.gradleProperty("discord_webhook").isPresent()
@@ -64,10 +64,17 @@ publishMods {
         embeds("cardinal-components-api")
     }
     discord {
+        style {
+            look = "MODERN"
+            thumbnailUrl = "https://cdn.modrinth.com/data/ajdfGxGU/icon.png"
+            color = "#FF0033"
+            link = "BUTTON"
+        }
         webhookUrl = providers.gradleProperty("discord_webhook")
         dryRunWebhookUrl = providers.gradleProperty("discord_webhook")
         username = "Abee"
         avatarUrl = "https://cdn.discordapp.com/emojis/1006355140657299528.gif?quality=lossless"
+        content = changelog.map { "# New Version of Visible Barriers has been released!\n" + it}
         setPlatforms(publishMods.platforms.modrinth, publishMods.platforms.curseforge)
     }
 }
