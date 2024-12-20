@@ -4,34 +4,20 @@
   "package": "xyz.amymialee.visiblebarriers.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "AirBlockMixin",
-    "BubbleColumnBlockMixin",
-    "EntityTypeMixin",
+    "BlockMixin",
     "MarkerEntityMixin",
     "PistonExtensionBlockMixin",
-    "boxing.AbstractBlockMixin",
-    "boxing.BlockMixin",
-    "boxing.WorldMixin"
+    "RaycastContextMixin",
+    "client.AbstractBlockStateMixin"
   ],
   "client": [
-    "boxing.EntityRendererMixin",
-    "client.AbstractBlockStateMixin",
-    "client.ClientBarrierBlockMixin",
-    "client.ClientBubbleColumnBlockMixin",
-    "client.ClientPistonExtensionBlockMixin",
-    "client.ClientPlayerInteractionManagerMixin",
+    "client.BackgroundRendererMixin",
     "client.ClientWorldMixin",
-    "client.ClientWorldMixin$ClientWorldPropertiesMixin",
-    "client.DisplayContextMixin",
-    "client.EmptyEntityRendererMixin",
-    "client.EntityMixin",
-    "client.EntityRenderStateMixin",
-    "client.GameRendererMixin",
-    "client.ItemStackMixin",
-    "client.LightBlockMixin",
+    "client.ClientWorldPropertiesMixin",
+    "client.ItemRendererMixin",
     "client.LightmapTextureManagerMixin",
-    "client.MouseMixin",
-    "client.ParticleManagerMixin"
+    "client.SpecialModelTypesMixin",
+    "client.WorldMixin"
   ],
   "injectors": {
     "defaultRequire": 1

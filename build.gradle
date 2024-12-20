@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.8-SNAPSHOT'
+    id 'fabric-loom' version '1.9-SNAPSHOT'
     id 'maven-publish'
     id "me.modmuss50.mod-publish-plugin" version "0.7.4"
 }
@@ -13,6 +13,8 @@ group = project.maven_group
 
 repositories {
     maven { url "https://maven.nucleoid.xyz" }
+    maven { url "https://maven.willbl.dev/releases" }
+    maven { url "https://maven.terraformersmc.com/" }
     maven { url "https://maven.ladysnake.org/releases" }
 }
 
@@ -21,9 +23,11 @@ dependencies {
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
     modImplementation include("eu.pb4:polymer-core:${project.polymer_version}")
     modImplementation include("org.ladysnake.cardinal-components-api:cardinal-components-base:${project.cca_version}")
     modImplementation include("org.ladysnake.cardinal-components-api:cardinal-components-entity:${project.cca_version}")
+    modImplementation include("xyz.amymialee:mialib:${project.mialib_version}")
 }
 
 publishMods {
@@ -86,6 +90,7 @@ loom {
 fabricApi {
     configureDataGeneration() {
         modId = "visiblebarriers"
+        client = true
     }
 }
 

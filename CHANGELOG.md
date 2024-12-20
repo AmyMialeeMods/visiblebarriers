@@ -1,1 +1,1 @@
-- Fixed the Vanilla Server joining crash
+- Updated to 1.21.4

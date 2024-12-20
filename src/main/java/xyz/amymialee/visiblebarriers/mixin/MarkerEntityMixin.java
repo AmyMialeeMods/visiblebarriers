@@ -1,17 +1,15 @@
 package xyz.amymialee.visiblebarriers.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MarkerEntity;
+import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.server.network.EntityTrackerEntry;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(MarkerEntity.class)
 public abstract class MarkerEntityMixin extends Entity {
@@ -19,10 +17,8 @@ public abstract class MarkerEntityMixin extends Entity {
         super(type, world);
     }
 
-    @Inject(method = "createSpawnPacket", at = @At("HEAD"), cancellable = true)
-    public void visibleBarriers$forcePacket(CallbackInfoReturnable<Packet<?>> cir) {
-        EntityTrackerEntry entityTrackerEntry = new EntityTrackerEntry((ServerWorld) this.getWorld(), (MarkerEntity) ((Object) this), 0, false, null);
-        cir.setReturnValue(new EntitySpawnS2CPacket(this, entityTrackerEntry, 0));
+    @WrapMethod(method = "createSpawnPacket")
+    public Packet<ClientPlayPacketListener> visiblebarriers$packet(EntityTrackerEntry entityTrackerEntry, Operation<Packet<ClientPlayPacketListener>> original) {
+        return super.createSpawnPacket(entityTrackerEntry);
     }
-
 }

@@ -6,10 +6,10 @@ import org.jetbrains.annotations.NotNull;
 import org.ladysnake.cca.api.v3.component.Component;
 import org.ladysnake.cca.api.v3.component.ComponentKey;
 import org.ladysnake.cca.api.v3.component.ComponentRegistry;
-import xyz.amymialee.visiblebarriers.common.VisibleBarriersCommon;
+import xyz.amymialee.visiblebarriers.VisibleBarriers;
 
 public class ModInstalledComponent implements Component {
-    public static final ComponentKey<ModInstalledComponent> KEY = ComponentRegistry.getOrCreate(VisibleBarriersCommon.id("installed"), ModInstalledComponent.class);
+    public static final ComponentKey<ModInstalledComponent> KEY = ComponentRegistry.getOrCreate(VisibleBarriers.id("installed"), ModInstalledComponent.class);
     private boolean installed = false;
 
     public boolean isInstalled() {

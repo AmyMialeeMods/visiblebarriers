@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "visiblebarriers:block/block_holder_item"
+  },
+  "gui_light": "front"
+}

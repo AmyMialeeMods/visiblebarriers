@@ -1,4 +1,4 @@
-package xyz.amymialee.visiblebarriers.mixin.boxing;
+package xyz.amymialee.visiblebarriers.mixin;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Block.class)
-public abstract class BlockMixin extends AbstractBlockMixin {
+public abstract class BlockMixin {
     @Shadow
     public abstract BlockState getDefaultState();
 

@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "visiblebarriers",
   "version": "${version}",
-  "accessWidener": "visiblebarriers.accesswidener",
+
   "name": "Visible Barriers",
   "description": "Various tools for Minecraft Mapmaking.",
   "authors": [
@@ -12,27 +12,34 @@
     "BuggyAl"
   ],
   "contact": {
+    "email": "visiblebarriers@amymialee.xyz",
     "homepage": "https://amymialee.xyz",
     "sources": "https://github.com/AmyMialeeMods/visiblebarriers",
     "issues": "https://github.com/AmyMialeeMods/visiblebarriers/issues"
   },
   "license": "All-Rights-Reserved",
   "icon": "assets/visiblebarriers/icon.png",
+
+  "accessWidener": "visiblebarriers.accesswidener",
   "environment": "*",
   "entrypoints": {
-    "main": [
-      "xyz.amymialee.visiblebarriers.common.VisibleBarriersCommon"
-    ],
     "client": [
+      "xyz.amymialee.visiblebarriers.VisibleClient"
+    ],
+    "main": [
       "xyz.amymialee.visiblebarriers.VisibleBarriers"
     ],
     "cardinal-components-entity": [
-      "xyz.amymialee.visiblebarriers.common.VisibleBarriersCommon"
+      "xyz.amymialee.visiblebarriers.VisibleBarriers"
+    ],
+    "fabric-datagen": [
+      "xyz.amymialee.visiblebarriers.VisibleDataGen"
     ]
   },
   "mixins": [
     "visiblebarriers.mixins.json"
   ],
+
   "depends": {
     "fabric": "*"
   },

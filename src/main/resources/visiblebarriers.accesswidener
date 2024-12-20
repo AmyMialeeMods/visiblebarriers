@@ -1,3 +1,11 @@
 accessWidener v2 named
 extendable class net/minecraft/item/ItemStack
 accessible field net/minecraft/entity/AreaEffectCloudEntity potionContentsComponent Lnet/minecraft/component/type/PotionContentsComponent;
+accessible field net/minecraft/client/render/block/BlockRenderManager blockColors Lnet/minecraft/client/color/block/BlockColors;
+accessible field net/minecraft/client/render/block/BlockRenderManager blockModelRenderer Lnet/minecraft/client/render/block/BlockModelRenderer;
+accessible field net/minecraft/client/render/block/BlockRenderManager blockEntityModelsGetter Ljava/util/function/Supplier;
+accessible field net/minecraft/client/render/block/BlockRenderManager fluidRenderer Lnet/minecraft/client/render/block/FluidRenderer;
+accessible method net/minecraft/client/render/block/FluidRenderer vertex (Lnet/minecraft/client/render/VertexConsumer;FFFFFFFFI)V
+accessible field net/minecraft/client/render/block/FluidRenderer waterOverlaySprite Lnet/minecraft/client/texture/Sprite;
+accessible field net/minecraft/client/render/block/FluidRenderer lavaSprites [Lnet/minecraft/client/texture/Sprite;
+accessible field net/minecraft/client/render/block/FluidRenderer waterSprites [Lnet/minecraft/client/texture/Sprite;
