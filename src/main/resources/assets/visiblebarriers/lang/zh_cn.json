@@ -1,0 +1,41 @@
+{
+  "category.visiblebarriers": "Visible Barriers 可见屏障",
+  "key.visiblebarriers.visible": "切换所有可见度",
+  "key.visiblebarriers.barriers": "显示屏障方块",
+  "key.visiblebarriers.lights": "显示光源方块",
+  "key.visiblebarriers.structurevoids": "显示结构空位",
+  "key.visiblebarriers.bubblecolumns": "显示气泡柱",
+  "key.visiblebarriers.fullbright": "切换全亮",
+  "key.visiblebarriers.time": "强制切换时间",
+  "key.visiblebarriers.zoom": "缩放",
+  
+  "visiblebarriers.enabled": "已启用",
+  "visiblebarriers.disabled": "已停用",
+  
+  "visiblebarriers.weather.default": "预设",
+  "visiblebarriers.weather.clear": "晴天",
+  "visiblebarriers.weather.rain": "雨天",
+  "visiblebarriers.weather.thunder": "雷雨",
+  
+  "visiblebarriers.feedback.visible": "所有可见度",
+  "visiblebarriers.feedback.fullbright": "全亮",
+  "visiblebarriers.feedback.time": "强制时间",
+  "visiblebarriers.feedback.barriers": "屏障方块",
+  "visiblebarriers.feedback.lights": "光源方块",
+  "visiblebarriers.feedback.structurevoids": "结构空位",
+  "visiblebarriers.feedback.bubblecolumns": "气泡柱",
+  "visiblebarriers.feedback.zoom": "缩放：%s %%",
+  
+  "visiblebarriers.command.reload": "[可见屏障] 已重新载入设定",
+  "visiblebarriers.command.time.day": "[可见屏障] 已将时间设定为白天",
+  "visiblebarriers.command.time.noon": "[可见屏障] 已将时间设定为中午",
+  "visiblebarriers.command.time.night": "[可见屏障] 已将时间设定为夜晚",
+  "visiblebarriers.command.time.midnight": "[可见屏障] 已将时间设定为午夜",
+  "visiblebarriers.command.time.custom": "[可见屏障] 已将时间设定为 %s",
+  "visiblebarriers.command.weather": "[可见屏障] 已将天气设定为 %s",
+  
+  "visiblebarriers.settings.visibleair": "可见空气",
+  "visiblebarriers.settings.hiddenparticles": "隐藏粒子",
+  "visiblebarriers.settings.sendfeedback": "发送反馈"
+  
+}
