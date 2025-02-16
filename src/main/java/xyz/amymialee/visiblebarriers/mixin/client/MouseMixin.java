@@ -25,13 +25,13 @@ public class MouseMixin {
     @Inject(method = "onMouseScroll", at = @At("HEAD"), cancellable = true)
     private void visibleBarriers$scroll(long window, double horizontal, double vertical, CallbackInfo ci) {
         if (window == MinecraftClient.getInstance().getWindow().getHandle() && VisibleBarriers.isHoldingZoom()) {
-            double d = (Boolean.TRUE.equals(this.client.options.getDiscreteMouseScroll().getValue()) ? Math.signum(vertical) : vertical) * this.client.options.getMouseWheelSensitivity().getValue();
+            var d = (Boolean.TRUE.equals(this.client.options.getDiscreteMouseScroll().getValue()) ? Math.signum(vertical) : vertical) * this.client.options.getMouseWheelSensitivity().getValue();
 
             if (this.eventDeltaVerticalWheel != 0.0 && Math.signum(d) != Math.signum(this.eventDeltaVerticalWheel)) {
                 this.eventDeltaVerticalWheel = 0.0;
             }
             this.eventDeltaVerticalWheel += d;
-            int i = (int) this.eventDeltaVerticalWheel;
+            var i = (int) this.eventDeltaVerticalWheel;
             if (i == 0) {
                 return;
             }

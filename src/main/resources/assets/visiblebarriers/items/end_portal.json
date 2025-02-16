@@ -1,0 +1,6 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "visiblebarriers:item/end_portal"
+  }
+}

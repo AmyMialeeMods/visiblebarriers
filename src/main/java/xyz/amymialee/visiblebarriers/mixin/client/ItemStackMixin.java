@@ -1,7 +1,6 @@
 package xyz.amymialee.visiblebarriers.mixin.client;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import com.mojang.serialization.Codec;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.component.ComponentType;
 import net.minecraft.component.DataComponentTypes;
@@ -13,7 +12,6 @@ import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtOps;
-import net.minecraft.registry.RegistryOps;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -55,10 +53,10 @@ public abstract class ItemStackMixin {
     }
 
     // don't implement these on inject showInTooltip method because that can cause consequences on other mods trying to read components.
-    @ModifyVariable(method = "getTooltip", index = 6, at = @At(value = "LOAD", ordinal = 1))
-    private BlockPredicatesChecker visibleBarriers$appendCanBreak(BlockPredicatesChecker component) {
-        return component.showInTooltip() ? component : convertComponent(DataComponentTypes.CAN_BREAK, component);
-    }
+//    @ModifyVariable(method = "getTooltip", index = 6, at = @At(value = "LOAD", ordinal = 1))
+//    private BlockPredicatesChecker visibleBarriers$appendCanBreak(BlockPredicatesChecker component) {
+//        return component.showInTooltip() ? component : convertComponent(DataComponentTypes.CAN_BREAK, component);
+//    }
 
     @ModifyVariable(method = "getTooltip", index = 7, at = @At(value = "LOAD", ordinal = 1))
     private BlockPredicatesChecker visibleBarriers$appendCanPlaceOn(BlockPredicatesChecker component) {
@@ -75,16 +73,16 @@ public abstract class ItemStackMixin {
         if (!VisibleBarriers.isVisibilityEnabled()) return value;
 
         // try to modify show_in_tooltip nbt value to true
-        Object computed = visibleBarriers$tooltipCache.computeIfAbsent(value, ins -> {
-            Codec<T> codec = type.getCodec();
+        var computed = visibleBarriers$tooltipCache.computeIfAbsent(value, ins -> {
+            var codec = type.getCodec();
             if (codec == null) return ins;
             World world = MinecraftClient.getInstance().world;
             if (world == null) return null;
-            RegistryOps<NbtElement> ops = world.getRegistryManager().getOps(NbtOps.INSTANCE);
+            var ops = world.getRegistryManager().getOps(NbtOps.INSTANCE);
             return codec.encodeStart(ops, value).result().map(nbt -> {
                 if (nbt.getType() == NbtElement.COMPOUND_TYPE) {
-                    NbtCompound comp = (NbtCompound) nbt;
-                    final String key = "show_in_tooltip";
+                    var comp = (NbtCompound) nbt;
+                    final var key = "show_in_tooltip";
                     if (comp.contains(key, NbtElement.BYTE_TYPE) && comp.getByte(key) != (byte) 1) {
                         comp.putByte(key, (byte) 1);
                         return codec.parse(ops, comp).result().orElse(value);

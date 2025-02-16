@@ -31,8 +31,8 @@ public abstract class LightBlockMixin extends BlockMixin {
 
     @Override
     public void visibleBarriers$getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context, CallbackInfoReturnable<VoxelShape> cir) {
-        boolean isPlayer = context instanceof EntityShapeContext entityContext && entityContext.getEntity() != null && entityContext.getEntity().isPlayer();
-        boolean solidLights = VisibleConfig.areLightsSolid();
+        var isPlayer = context instanceof EntityShapeContext entityContext && entityContext.getEntity() != null && entityContext.getEntity().isPlayer();
+        var solidLights = VisibleConfig.areLightsSolid();
         if (!isPlayer || !solidLights) {
             cir.setReturnValue(VoxelShapes.empty());
         }

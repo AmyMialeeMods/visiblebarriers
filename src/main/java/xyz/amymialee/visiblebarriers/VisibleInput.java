@@ -225,7 +225,7 @@ public class VisibleInput {
                                             return 0;
                                         }))
                                         .then(ClientCommandManager.argument("time", TimeArgumentType.time()).executes(context -> {
-                                            int time = IntegerArgumentType.getInteger(context, "time");
+                                            var time = IntegerArgumentType.getInteger(context, "time");
                                             VisibleConfig.setForcedTime(time);
                                             VisibleBarriers.sendFeedback("visiblebarriers.command.time.custom", time);
                                             return 0;

@@ -24,10 +24,10 @@ public abstract class EmptyEntityRendererMixin<T extends Entity, S extends Entit
     @Override
     protected void visibleBarriers$renderHead(EntityRenderState state, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci) {
         if (VisibleBarriers.isVisibilityEnabled()) {
-            Entity entity = ((EntityRenderStateAccess) state).visiblebarriers$getEntity();
+            var entity = ((EntityRenderStateAccess) state).visiblebarriers$getEntity();
             if (entity instanceof AreaEffectCloudEntity cloud) {
                 if (!this.floater.getItem().isOf(Items.LINGERING_POTION)) {
-                    ItemStack potion = new ItemStack(Items.LINGERING_POTION);
+                    var potion = new ItemStack(Items.LINGERING_POTION);
                     potion.apply(DataComponentTypes.POTION_CONTENTS, PotionContentsComponent.DEFAULT, c -> new PotionContentsComponent(c.potion(), cloud.potionContentsComponent.customColor(), c.customEffects(), Optional.empty()));
                     this.floater.setItem(potion);
                 }

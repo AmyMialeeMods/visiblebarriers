@@ -12,7 +12,7 @@ import xyz.amymialee.visiblebarriers.VisibleBarriers;
 public class EntityMixin {
     @Inject(method = "shouldRender(D)Z", at = @At("HEAD"), cancellable = true)
     public void visibleBarriers$forceRender(double distance, CallbackInfoReturnable<Boolean> cir) {
-        Entity this2 = (Entity) (Object) this;
+        var this2 = (Entity) (Object) this;
         if (VisibleBarriers.isVisibilityEnabled() && this2 instanceof MarkerEntity) {
             cir.setReturnValue(true);
         }

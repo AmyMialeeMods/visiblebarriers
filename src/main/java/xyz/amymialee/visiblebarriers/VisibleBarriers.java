@@ -7,17 +7,11 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.enums.PistonType;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.BlockStateComponent;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import xyz.amymialee.visiblebarriers.common.VisibleBarriersCommon;
 
@@ -189,20 +183,20 @@ public class VisibleBarriers implements ClientModInitializer {
     }
 
     static {
-        ModelPredicateProviderRegistry.register(VisibleBarriersCommon.MOVING_PISTON_BLOCK_ITEM, Identifier.of("sticky"), (stack, world, entity, seed) -> {
-            var blockState = stack.getComponents().get(DataComponentTypes.BLOCK_STATE);
-            if (blockState != null && blockState.getValue(Properties.PISTON_TYPE) == PistonType.STICKY) {
-                return 1.0F;
-            }
-            return 0.0F;
-        });
-        ModelPredicateProviderRegistry.register(VisibleBarriersCommon.BUBBLE_COLUMN_BLOCK_ITEM, Identifier.of("drag"), (stack, world, entity, seed) -> {
-            var blockState = stack.getComponents().get(DataComponentTypes.BLOCK_STATE);
-            if (blockState != null && blockState.getValue(Properties.DRAG) == Boolean.TRUE) {
-                return 1.0F;
-            }
-            return 0.0F;
-        });
+//        ModelPredicateProviderRegistry.register(VisibleBarriersCommon.MOVING_PISTON_BLOCK_ITEM, Identifier.of("sticky"), (stack, world, entity, seed) -> {
+//            var blockState = stack.getComponents().get(DataComponentTypes.BLOCK_STATE);
+//            if (blockState != null && blockState.getValue(Properties.PISTON_TYPE) == PistonType.STICKY) {
+//                return 1.0F;
+//            }
+//            return 0.0F;
+//        });
+//        ModelPredicateProviderRegistry.register(VisibleBarriersCommon.BUBBLE_COLUMN_BLOCK_ITEM, Identifier.of("drag"), (stack, world, entity, seed) -> {
+//            var blockState = stack.getComponents().get(DataComponentTypes.BLOCK_STATE);
+//            if (blockState != null && blockState.getValue(Properties.DRAG) == Boolean.TRUE) {
+//                return 1.0F;
+//            }
+//            return 0.0F;
+//        });
     }
 
     public enum Weather {

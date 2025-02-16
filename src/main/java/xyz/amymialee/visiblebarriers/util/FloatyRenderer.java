@@ -1,20 +1,26 @@
 package xyz.amymialee.visiblebarriers.util;
 
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.item.ItemModelManager;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.item.ItemRenderer;
-import net.minecraft.client.render.model.BakedModel;
+import net.minecraft.client.render.entity.ItemEntityRenderer;
+import net.minecraft.client.render.entity.state.ItemEntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ModelTransformationMode;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RotationAxis;
+import net.minecraft.util.math.random.Random;
+import org.jetbrains.annotations.NotNull;
 
 public class FloatyRenderer {
-    private final ItemRenderer renderer;
+    private final ItemModelManager itemModelManager;
+    private final Random random = Random.create();
     private ItemStack stack;
 
-    public FloatyRenderer(ItemRenderer renderer, ItemStack stack) {
-        this.renderer = renderer;
+    public FloatyRenderer(ItemModelManager itemModelManager, ItemStack stack) {
+        this.itemModelManager = itemModelManager;
         this.stack = stack;
     }
 
@@ -22,13 +28,25 @@ public class FloatyRenderer {
         this.renderItem(this.stack, entity, matrixStack, vertexConsumerProvider, light);
     }
 
-    private void renderItem(ItemStack stack, Entity entity, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light) {
+    private void renderItem(ItemStack stack, @NotNull Entity entity, @NotNull MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light) {
+        if (MinecraftClient.getInstance().cameraEntity == null) return;
+        var state = new ItemEntityRenderState();
+        var tickDelta = MinecraftClient.getInstance().getRenderTickCounter().getTickDelta(true);
+        state.x = MathHelper.lerp(tickDelta, entity.lastRenderX, entity.getX());
+        state.y = MathHelper.lerp(tickDelta, entity.lastRenderY, entity.getY());
+        state.z = MathHelper.lerp(tickDelta, entity.lastRenderZ, entity.getZ());
+        state.age = (float)entity.age + tickDelta;
+        state.width = entity.getWidth();
+        state.height = entity.getHeight();
+        state.standingEyeHeight = entity.getStandingEyeHeight();
+        state.positionOffset = null;
+        state.squaredDistanceToCamera = MinecraftClient.getInstance().cameraEntity.squaredDistanceTo(entity);
+        this.itemModelManager.update(state.itemRenderState, stack, ModelTransformationMode.GROUND, false, entity.getWorld(), null, entity.getId());
+        state.renderedAmount = 1;
         matrixStack.push();
-        BakedModel bakedModel = this.renderer.getModel(stack, entity.getWorld(), null, entity.getId());
         matrixStack.translate(0.0D, entity.getHeight() / 2, 0.0D);
-        float tickDelta = (entity.age % 20) / 20.0f;
         matrixStack.multiply(RotationAxis.POSITIVE_Y.rotation(-((entity.age + tickDelta) * 8) / 20.0f));
-        this.renderer.renderItem(stack, ModelTransformationMode.GROUND, false, matrixStack, vertexConsumerProvider, light, 0, bakedModel);
+        ItemEntityRenderer.renderStack(matrixStack, vertexConsumerProvider, light, state, this.random);
         matrixStack.pop();
     }
 

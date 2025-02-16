@@ -6,8 +6,8 @@ import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.state.EntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -22,16 +22,13 @@ import xyz.amymialee.visiblebarriers.util.FloatyRenderer;
 
 @Mixin(EntityRenderer.class)
 public class EntityRendererMixin<T extends Entity, S extends EntityRenderState> {
+    @Shadow @Final private S state;
 
-    @Shadow
-    @Final
-    private S state;
-    @Unique
-    protected FloatyRenderer floater;
+    @Unique protected FloatyRenderer floater;
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    public void visibleBarriers$giveRenderer(EntityRendererFactory.Context context, CallbackInfo ci) {
-        this.floater = new FloatyRenderer(context.getItemRenderer(), Items.BARRIER.getDefaultStack());
+    public void visibleBarriers$giveRenderer(EntityRendererFactory.@NotNull Context context, CallbackInfo ci) {
+        this.floater = new FloatyRenderer(context.getItemModelManager(), Items.BARRIER.getDefaultStack());
     }
 
     @Inject(method = "getAndUpdateRenderState", at = @At("TAIL"))
@@ -47,9 +44,9 @@ public class EntityRendererMixin<T extends Entity, S extends EntityRenderState> 
     @Inject(method = "render", at = @At("HEAD"))
     protected void visibleBarriers$renderHead(EntityRenderState state, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci) {
         if (VisibleBarriers.isVisibilityEnabled() && state.invisible) {
-            Entity entity = ((EntityRenderStateAccess) state).visiblebarriers$getEntity();
+            var entity = ((EntityRenderStateAccess) state).visiblebarriers$getEntity();
             if (entity.getPickBlockStack() != null) {
-                ItemStack stack = entity.getPickBlockStack();
+                var stack = entity.getPickBlockStack();
                 if (!this.floater.getItem().isOf(stack.getItem())) {
                     this.floater.setItem(stack);
                 }

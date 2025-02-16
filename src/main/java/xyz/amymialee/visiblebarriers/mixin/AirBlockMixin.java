@@ -36,7 +36,7 @@ public abstract class AirBlockMixin extends BlockMixin {
 
     @Override
     public void visibleBarriers$getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context, CallbackInfoReturnable<VoxelShape> cir) {
-        boolean isPlayer = context instanceof EntityShapeContext entityContext && entityContext.getEntity() != null && entityContext.getEntity().isPlayer();
+        var isPlayer = context instanceof EntityShapeContext entityContext && entityContext.getEntity() != null && entityContext.getEntity().isPlayer();
         if (!isPlayer) {
             cir.setReturnValue(VoxelShapes.empty());
         }

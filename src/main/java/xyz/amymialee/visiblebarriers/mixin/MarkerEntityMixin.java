@@ -21,7 +21,7 @@ public abstract class MarkerEntityMixin extends Entity {
 
     @Inject(method = "createSpawnPacket", at = @At("HEAD"), cancellable = true)
     public void visibleBarriers$forcePacket(CallbackInfoReturnable<Packet<?>> cir) {
-        EntityTrackerEntry entityTrackerEntry = new EntityTrackerEntry((ServerWorld) this.getWorld(), (MarkerEntity) ((Object) this), 0, false, null);
+        var entityTrackerEntry = new EntityTrackerEntry((ServerWorld) this.getWorld(), (MarkerEntity) ((Object) this), 0, false, null);
         cir.setReturnValue(new EntitySpawnS2CPacket(this, entityTrackerEntry, 0));
     }
 

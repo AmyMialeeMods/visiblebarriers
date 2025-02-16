@@ -79,15 +79,15 @@ public class VisibleConfig {
 
     protected static void saveConfig() {
         try {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            JsonObject json = new JsonObject();
+            var gson = new GsonBuilder().setPrettyPrinting().create();
+            var json = new JsonObject();
             json.addProperty("visibleBarrier", visibleBarrier);
             json.addProperty("visibleAir", visibleAir);
             json.addProperty("hideParticles", hideParticles);
             json.addProperty("sendFeedback", sendFeedback);
             json.addProperty("baseZoom", baseZoom);
             if (solidLights) json.addProperty("solidLights", true);
-            String jsonData = gson.toJson(json);
+            var jsonData = gson.toJson(json);
             Files.writeString(configFile, jsonData);
         } catch (Exception e) {
             VisibleBarriersCommon.LOGGER.info(e.toString());
@@ -96,9 +96,9 @@ public class VisibleConfig {
 
     protected static void loadConfig() {
         try {
-            Gson gson = new Gson();
-            String reader = Files.readString(configFile);
-            JsonObject data = gson.fromJson(reader, JsonObject.class);
+            var gson = new Gson();
+            var reader = Files.readString(configFile);
+            var data = gson.fromJson(reader, JsonObject.class);
             if (data.has("visibleBarrier")) {
                 visibleBarrier = data.get("visibleBarrier").getAsBoolean();
                 if (visibleBarrier) {
