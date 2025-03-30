@@ -8,15 +8,12 @@
   "key.visiblebarriers.fullbright": "切換全亮",
   "key.visiblebarriers.time": "切換強制時間",
   "key.visiblebarriers.zoom": "縮放",
-
   "visiblebarriers.enabled": "已啟用",
   "visiblebarriers.disabled": "已停用",
-
   "visiblebarriers.weather.default": "預設",
   "visiblebarriers.weather.clear": "晴朗",
   "visiblebarriers.weather.rain": "下雨",
   "visiblebarriers.weather.thunder": "雷雨",
-
   "visiblebarriers.feedback.visible": "所有可見度",
   "visiblebarriers.feedback.fullbright": "全亮",
   "visiblebarriers.feedback.time": "強制時間",
@@ -25,7 +22,6 @@
   "visiblebarriers.feedback.structurevoids": "結構空位",
   "visiblebarriers.feedback.bubblecolumns": "氣泡柱",
   "visiblebarriers.feedback.zoom": "縮放：%s %%",
-
   "visiblebarriers.command.reload": "[可見屏障] 已重新載入設定",
   "visiblebarriers.command.time.day": "[可見屏障] 已將時間設定為白天",
   "visiblebarriers.command.time.noon": "[可見屏障] 已將時間設定為中午",
@@ -33,9 +29,7 @@
   "visiblebarriers.command.time.midnight": "[可見屏障] 已將時間設定為午夜",
   "visiblebarriers.command.time.custom": "[可見屏障] 已將時間設定為 %s",
   "visiblebarriers.command.weather": "[可見屏障] 已將天氣設定為 %s",
-
   "visiblebarriers.settings.visibleair": "可見空氣",
   "visiblebarriers.settings.hiddenparticles": "隱藏粒子",
   "visiblebarriers.settings.sendfeedback": "傳送回饋"
-
 }
