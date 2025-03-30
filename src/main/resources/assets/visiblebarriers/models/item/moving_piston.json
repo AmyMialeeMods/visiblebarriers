@@ -6,6 +6,11 @@
     "top": "visiblebarriers:block/moving_piston_top"
   },
   "overrides": [
-    { "predicate": { "sticky": 1 }, "model": "visiblebarriers:item/moving_piston_sticky" }
+    {
+      "predicate": {
+        "sticky": 1
+      },
+      "model": "visiblebarriers:item/moving_piston_sticky"
+    }
   ]
 }

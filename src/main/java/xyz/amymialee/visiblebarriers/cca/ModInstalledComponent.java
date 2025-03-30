@@ -22,7 +22,7 @@ public class ModInstalledComponent implements Component {
 
     @Override
     public void readFromNbt(@NotNull NbtCompound tag, RegistryWrapper.WrapperLookup lookup) {
-        this.installed = tag.getBoolean("installed");
+        this.installed = tag.getBoolean("installed").orElse(false);
     }
 
     @Override

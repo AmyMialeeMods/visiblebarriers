@@ -4,7 +4,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.component.ComponentType;
 import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.AttributeModifiersComponent;
+import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.item.BlockPredicatesChecker;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipAppender;
@@ -42,14 +42,14 @@ public abstract class ItemStackMixin {
     }
 
     // this needs to be injected at the HIDE_ADDITIONAL_TOOLTIP one
-    @Redirect(method = "getTooltip", at = @At(value = "INVOKE", ordinal = 2, target = "Lnet/minecraft/item/ItemStack;contains(Lnet/minecraft/component/ComponentType;)Z"))
-    private boolean visibleBarriers$showAdditionalTooltip(ItemStack instance, ComponentType<?> componentType) {
-        return instance.contains(componentType) && !VisibleBarriers.isVisibilityEnabled();
+    @Redirect(method = "appendComponentTooltip", at = @At(value = "INVOKE", target = "Lnet/minecraft/component/type/TooltipDisplayComponent;shouldDisplay(Lnet/minecraft/component/ComponentType;)Z"))
+    private boolean visibleBarriers$showAdditionalTooltip(TooltipDisplayComponent displayComponent, ComponentType<?> componentType) {
+        return displayComponent.shouldDisplay(componentType) && VisibleBarriers.isVisibilityEnabled();
     }
 
-    @ModifyVariable(method = "appendTooltip", index = 5, at = @At(value = "LOAD", ordinal = 1))
+    @ModifyVariable(method = "appendComponentTooltip", index = 6, at = @At(value = "LOAD", ordinal = 1))
     private <T extends TooltipAppender> TooltipAppender visibleBarriers$forceAppend(T value, @Local(argsOnly = true) ComponentType<T> componentType) {
-        return convertComponent(componentType, value);
+        return updateComponentVisibility(componentType, value);
     }
 
     // don't implement these on inject showInTooltip method because that can cause consequences on other mods trying to read components.
@@ -58,18 +58,18 @@ public abstract class ItemStackMixin {
 //        return component.showInTooltip() ? component : convertComponent(DataComponentTypes.CAN_BREAK, component);
 //    }
 
-    @ModifyVariable(method = "getTooltip", index = 7, at = @At(value = "LOAD", ordinal = 1))
+    @ModifyVariable(method = "appendTooltip", index = 7, at = @At(value = "LOAD", ordinal = 1))
     private BlockPredicatesChecker visibleBarriers$appendCanPlaceOn(BlockPredicatesChecker component) {
-        return component.showInTooltip() ? component : convertComponent(DataComponentTypes.CAN_PLACE_ON, component);
+        return updateComponentVisibility(DataComponentTypes.CAN_PLACE_ON, component);
     }
 
-    @ModifyVariable(method = "appendAttributeModifiersTooltip", index = 3, at = @At(value = "LOAD", ordinal = 0))
-    private AttributeModifiersComponent visibleBarriers$appendAttributes(AttributeModifiersComponent component) {
-        return component.showInTooltip() ? component : convertComponent(DataComponentTypes.ATTRIBUTE_MODIFIERS, component);
+    @Redirect(method = "appendAttributeModifiersTooltip", at = @At(value = "INVOKE", target = "Lnet/minecraft/component/type/TooltipDisplayComponent;shouldDisplay(Lnet/minecraft/component/ComponentType;)Z"))
+    private boolean visibleBarriers$showAttributes(TooltipDisplayComponent displayComponent, ComponentType<?> componentType) {
+        return displayComponent.shouldDisplay(DataComponentTypes.ATTRIBUTE_MODIFIERS) || VisibleBarriers.isVisibilityEnabled();
     }
 
     @Unique
-    private static <T> T convertComponent(ComponentType<T> type, T value) {
+    private static <T> T updateComponentVisibility(ComponentType<T> type, T value) {
         if (!VisibleBarriers.isVisibilityEnabled()) return value;
 
         // try to modify show_in_tooltip nbt value to true
@@ -83,7 +83,7 @@ public abstract class ItemStackMixin {
                 if (nbt.getType() == NbtElement.COMPOUND_TYPE) {
                     var comp = (NbtCompound) nbt;
                     final var key = "show_in_tooltip";
-                    if (comp.contains(key, NbtElement.BYTE_TYPE) && comp.getByte(key) != (byte) 1) {
+                    if (comp.contains(key) && comp.getByte(key).get() != (byte) 1) {
                         comp.putByte(key, (byte) 1);
                         return codec.parse(ops, comp).result().orElse(value);
                     }

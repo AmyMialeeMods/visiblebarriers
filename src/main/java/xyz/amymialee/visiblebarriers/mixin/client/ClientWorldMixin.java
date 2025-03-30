@@ -22,7 +22,7 @@ public class ClientWorldMixin extends WorldMixin {
         }
     }
 
-    @WrapOperation(method = "randomBlockDisplayTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/world/ClientWorld;addParticle(Lnet/minecraft/particle/ParticleEffect;DDDDDD)V", ordinal = 0))
+    @WrapOperation(method = "randomBlockDisplayTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/world/ClientWorld;addParticleClient(Lnet/minecraft/particle/ParticleEffect;DDDDDD)V", ordinal = 0))
     public void visibleBarriers$removeParticles(ClientWorld world, ParticleEffect parameters, double x, double y, double z, double velocityX, double velocityY, double velocityZ, Operation<Void> operation) {
         if (!VisibleConfig.shouldHideParticles()) {
             operation.call(world, parameters, x, y, z, velocityX, velocityY, velocityZ);

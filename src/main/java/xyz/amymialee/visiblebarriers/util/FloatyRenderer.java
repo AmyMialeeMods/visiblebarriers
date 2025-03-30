@@ -7,8 +7,10 @@ import net.minecraft.client.render.entity.ItemEntityRenderer;
 import net.minecraft.client.render.entity.state.ItemEntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemDisplayContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ModelTransformationMode;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.random.Random;
@@ -31,22 +33,24 @@ public class FloatyRenderer {
     private void renderItem(ItemStack stack, @NotNull Entity entity, @NotNull MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light) {
         if (MinecraftClient.getInstance().cameraEntity == null) return;
         var state = new ItemEntityRenderState();
-        var tickDelta = MinecraftClient.getInstance().getRenderTickCounter().getTickDelta(true);
+        var tickDelta = MinecraftClient.getInstance().getRenderTickCounter().getTickProgress(true);
         state.x = MathHelper.lerp(tickDelta, entity.lastRenderX, entity.getX());
         state.y = MathHelper.lerp(tickDelta, entity.lastRenderY, entity.getY());
         state.z = MathHelper.lerp(tickDelta, entity.lastRenderZ, entity.getZ());
-        state.age = (float)entity.age + tickDelta;
+        state.age = entity.age + tickDelta;
         state.width = entity.getWidth();
         state.height = entity.getHeight();
         state.standingEyeHeight = entity.getStandingEyeHeight();
         state.positionOffset = null;
         state.squaredDistanceToCamera = MinecraftClient.getInstance().cameraEntity.squaredDistanceTo(entity);
-        this.itemModelManager.update(state.itemRenderState, stack, ModelTransformationMode.GROUND, false, entity.getWorld(), null, entity.getId());
+        this.itemModelManager.clearAndUpdate(state.itemRenderState, stack, ItemDisplayContext.GROUND, entity.getWorld(), (LivingEntity) entity, entity.getId());
         state.renderedAmount = 1;
         matrixStack.push();
         matrixStack.translate(0.0D, entity.getHeight() / 2, 0.0D);
         matrixStack.multiply(RotationAxis.POSITIVE_Y.rotation(-((entity.age + tickDelta) * 8) / 20.0f));
-        ItemEntityRenderer.renderStack(matrixStack, vertexConsumerProvider, light, state, this.random);
+        // assuming this is a bounding box???
+        Box box = Box.of(entity.getPos(), 0.1, 0.1, 0.1);
+        ItemEntityRenderer.renderStack(matrixStack, vertexConsumerProvider, light, state, this.random, box);
         matrixStack.pop();
     }
 

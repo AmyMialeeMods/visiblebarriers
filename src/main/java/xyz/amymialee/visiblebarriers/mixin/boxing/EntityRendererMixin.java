@@ -22,9 +22,12 @@ import xyz.amymialee.visiblebarriers.util.FloatyRenderer;
 
 @Mixin(EntityRenderer.class)
 public class EntityRendererMixin<T extends Entity, S extends EntityRenderState> {
-    @Shadow @Final private S state;
+    @Shadow
+    @Final
+    private S state;
 
-    @Unique protected FloatyRenderer floater;
+    @Unique
+    protected FloatyRenderer floater;
 
     @Inject(method = "<init>", at = @At("TAIL"))
     public void visibleBarriers$giveRenderer(EntityRendererFactory.@NotNull Context context, CallbackInfo ci) {
