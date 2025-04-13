@@ -27,7 +27,6 @@
     "client.EntityMixin",
     "client.EntityRenderStateMixin",
     "client.GameRendererMixin",
-    "client.ItemStackMixin",
     "client.LightBlockMixin",
     "client.LightmapTextureManagerMixin",
     "client.MouseMixin",
