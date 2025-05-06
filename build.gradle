@@ -63,20 +63,6 @@ publishMods {
         embeds("polymer")
         embeds("cardinal-components-api")
     }
-    discord {
-        style {
-            look = "MODERN"
-            thumbnailUrl = "https://cdn.modrinth.com/data/ajdfGxGU/icon.png"
-            color = "#FF0033"
-            link = "BUTTON"
-        }
-        webhookUrl = providers.gradleProperty("discord_webhook")
-        dryRunWebhookUrl = providers.gradleProperty("discord_webhook")
-        username = "Abee"
-        avatarUrl = "https://cdn.discordapp.com/emojis/1006355140657299528.gif?quality=lossless"
-        content = changelog.map { "# New Version of Visible Barriers has been released!\n" + it}
-        setPlatforms(publishMods.platforms.modrinth, publishMods.platforms.curseforge)
-    }
 }
 
 loom {

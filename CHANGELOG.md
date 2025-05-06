@@ -1,1 +1,1 @@
-- Fixed the Vanilla Server joining crash
+- Merge PR to fix invisible entities
