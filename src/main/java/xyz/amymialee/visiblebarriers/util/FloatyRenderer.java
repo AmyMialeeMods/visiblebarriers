@@ -43,7 +43,7 @@ public class FloatyRenderer {
         state.standingEyeHeight = entity.getStandingEyeHeight();
         state.positionOffset = null;
         state.squaredDistanceToCamera = MinecraftClient.getInstance().cameraEntity.squaredDistanceTo(entity);
-        this.itemModelManager.clearAndUpdate(state.itemRenderState, stack, ItemDisplayContext.GROUND, entity.getWorld(), (LivingEntity) entity, entity.getId());
+        this.itemModelManager.clearAndUpdate(state.itemRenderState, stack, ItemDisplayContext.GROUND, entity.getWorld(), entity instanceof LivingEntity living ? living : null, entity.getId());
         state.renderedAmount = 1;
         matrixStack.push();
         matrixStack.translate(0.0D, entity.getHeight() / 2, 0.0D);
