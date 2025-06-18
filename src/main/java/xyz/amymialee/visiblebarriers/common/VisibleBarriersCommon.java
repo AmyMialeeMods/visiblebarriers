@@ -50,7 +50,7 @@ public class VisibleBarriersCommon implements ModInitializer, EntityComponentIni
     public static final Identifier MOD_INSTALLED_PACKET = id("mod_installed");
 
     public record ModData(byte[] data) implements CustomPayload {
-        public static final CustomPayload.Id<ModData> PACKET_ID = new CustomPayload.Id<>(MOD_INSTALLED_PACKET);
+        public static final Id<ModData> PACKET_ID = new Id<>(MOD_INSTALLED_PACKET);
         public static final PacketCodec<PacketByteBuf, ModData> PACKET_CODEC = PacketCodec.of(ModData::write, ModData::new);
 
         public ModData(@NotNull PacketByteBuf buf) {
