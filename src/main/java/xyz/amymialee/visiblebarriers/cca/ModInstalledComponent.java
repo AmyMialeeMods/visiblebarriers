@@ -2,6 +2,8 @@ package xyz.amymialee.visiblebarriers.cca;
 
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import org.jetbrains.annotations.NotNull;
 import org.ladysnake.cca.api.v3.component.Component;
 import org.ladysnake.cca.api.v3.component.ComponentKey;
@@ -21,12 +23,12 @@ public class ModInstalledComponent implements Component {
     }
 
     @Override
-    public void readFromNbt(@NotNull NbtCompound tag, RegistryWrapper.WrapperLookup lookup) {
-        this.installed = tag.getBoolean("installed").orElse(false);
+    public void readData(ReadView readView) {
+        this.installed = readView.getBoolean("installed", false);
     }
 
     @Override
-    public void writeToNbt(@NotNull NbtCompound tag, RegistryWrapper.WrapperLookup lookup) {
-        tag.putBoolean("installed", this.installed);
+    public void writeData(WriteView writeView) {
+        writeView.putBoolean("installed", this.installed);
     }
 }
