@@ -30,7 +30,6 @@
     "client.LightBlockMixin",
     "client.LightmapTextureManagerMixin",
     "client.MouseMixin",
-    "client.ParticleManagerMixin",
     "client.ClientWallBlockMixin"
   ],
   "injectors": {

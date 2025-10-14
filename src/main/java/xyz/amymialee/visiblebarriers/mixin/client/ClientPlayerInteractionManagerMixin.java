@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class ClientPlayerInteractionManagerMixin {
     @Inject(method = "interactBlock", at = @At("HEAD"), cancellable = true)
     private void visibleBarriers$dontInteractBlock(ClientPlayerEntity player, Hand hand, BlockHitResult hitResult, CallbackInfoReturnable<ActionResult> cir) {
-        var state = player.getWorld().getBlockState(hitResult.getBlockPos());
+        var state = player.getEntityWorld().getBlockState(hitResult.getBlockPos());
         if (state.isOf(Blocks.MOVING_PISTON) && !player.isCreative()) {
             cir.setReturnValue(ActionResult.FAIL);
         }

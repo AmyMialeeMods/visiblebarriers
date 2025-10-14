@@ -11,8 +11,12 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.command.argument.TimeArgumentType;
 import org.lwjgl.glfw.GLFW;
+import xyz.amymialee.visiblebarriers.common.VisibleBarriersCommon;
 
 public class VisibleInput {
+
+    private static final KeyBinding.Category CATEGORY = KeyBinding.Category.create(VisibleBarriersCommon.id(VisibleBarriersCommon.MOD_ID));
+
     private static KeyBinding keyBindingVisibility;
     private static KeyBinding keyBindingBarriers;
     private static KeyBinding keyBindingLights;
@@ -26,42 +30,42 @@ public class VisibleInput {
         keyBindingVisibility = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.visiblebarriers.visible",
                 GLFW.GLFW_KEY_B,
-                "category.visiblebarriers"
+                CATEGORY
         ));
         keyBindingBarriers = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.visiblebarriers.barriers",
                 InputUtil.UNKNOWN_KEY.getCode(),
-                "category.visiblebarriers"
+                CATEGORY
         ));
         keyBindingLights = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.visiblebarriers.lights",
                 InputUtil.UNKNOWN_KEY.getCode(),
-                "category.visiblebarriers"
+                CATEGORY
         ));
         keyBindingStructureVoids = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.visiblebarriers.structurevoids",
                 InputUtil.UNKNOWN_KEY.getCode(),
-                "category.visiblebarriers"
+                CATEGORY
         ));
         keyBindingBubbleColumns = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.visiblebarriers.bubblecolumns",
                 InputUtil.UNKNOWN_KEY.getCode(),
-                "category.visiblebarriers"
+                CATEGORY
         ));
         keyBindingFullBright = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.visiblebarriers.fullbright",
                 InputUtil.GLFW_KEY_M,
-                "category.visiblebarriers"
+                CATEGORY
         ));
         keyBindingTime = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.visiblebarriers.time",
                 InputUtil.UNKNOWN_KEY.getCode(),
-                "category.visiblebarriers"
+                CATEGORY
         ));
         keyBindingZoom = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.visiblebarriers.zoom",
                 InputUtil.GLFW_KEY_Z,
-                "category.visiblebarriers"
+                CATEGORY
         ));
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
