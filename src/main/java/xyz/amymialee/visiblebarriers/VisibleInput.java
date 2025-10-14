@@ -169,7 +169,7 @@ public class VisibleInput {
                                 })))
                                 //Bubble columns
                                 .then(ClientCommandManager.literal("bubblecolumns").executes(context -> {
-                                    VisibleBarriers.toggleStructureVoids();
+                                    VisibleBarriers.toggleBubbleColumns();
                                     return 1;
                                 }).then(ClientCommandManager.argument("visible", BoolArgumentType.bool()).executes(context -> {
                                     VisibleBarriers.toggleBubbleColumns = BoolArgumentType.getBool(context, "visible");

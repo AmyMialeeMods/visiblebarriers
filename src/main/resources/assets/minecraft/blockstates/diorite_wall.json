@@ -1,0 +1,10 @@
+{
+    "variants": {
+        "up=false,north=none,south=none,east=none,west=none": {
+            "fabric:type": "visiblebarriers:transparent",
+            "model": {
+                "model": "minecraft:block/diorite_wall_post"
+            }
+        }
+    }
+}

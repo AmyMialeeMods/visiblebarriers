@@ -3,6 +3,7 @@ package xyz.amymialee.visiblebarriers;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.model.loading.v1.CustomUnbakedBlockStateModel;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
@@ -14,6 +15,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.MathHelper;
 import xyz.amymialee.visiblebarriers.common.VisibleBarriersCommon;
+import xyz.amymialee.visiblebarriers.model.TransparentBlockStateModel;
 
 @Environment(EnvType.CLIENT)
 public class VisibleBarriers implements ClientModInitializer {
@@ -44,6 +46,7 @@ public class VisibleBarriers implements ClientModInitializer {
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
             ClientPlayNetworking.send(new VisibleBarriersCommon.ModData(new byte[0]));
         });
+        CustomUnbakedBlockStateModel.register(VisibleBarriersCommon.id("transparent"), TransparentBlockStateModel.Unbaked.CODEC);
     }
 
     public static void sendFeedback(String translatable, Object... args) {
