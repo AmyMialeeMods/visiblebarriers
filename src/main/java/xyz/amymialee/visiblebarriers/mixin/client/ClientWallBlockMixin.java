@@ -27,12 +27,13 @@ public abstract class ClientWallBlockMixin extends BlockMixin {
     @Inject(method = "getOutlineShape", at = @At("HEAD"), cancellable = true)
     public void visibleBarriers$makeOutlineVisible(BlockState state, BlockView world, BlockPos pos, ShapeContext context, CallbackInfoReturnable<VoxelShape> cir) {
         if (VisibleBarriers.isVisibilityEnabled()) {
-            var postState = state.withIfExists(WallBlock.UP, true)
-                            .withIfExists(WallBlock.EAST_WALL_SHAPE, WallShape.NONE)
-                            .withIfExists(WallBlock.WEST_WALL_SHAPE, WallShape.NONE)
-                            .withIfExists(WallBlock.NORTH_WALL_SHAPE, WallShape.NONE)
-                            .withIfExists(WallBlock.SOUTH_WALL_SHAPE, WallShape.NONE);
-            cir.setReturnValue(this.outlineShapeFunction.apply(postState));
+            var east = state.get(WallBlock.EAST_WALL_SHAPE, WallShape.LOW) == WallShape.NONE;
+            var west = state.get(WallBlock.WEST_WALL_SHAPE, WallShape.LOW) == WallShape.NONE;
+            var north = state.get(WallBlock.NORTH_WALL_SHAPE, WallShape.LOW) == WallShape.NONE;
+            var south = state.get(WallBlock.SOUTH_WALL_SHAPE, WallShape.LOW) == WallShape.NONE;
+            if (east && west && north && south && !state.get(WallBlock.UP, false)) {
+                cir.setReturnValue(this.outlineShapeFunction.apply(state.withIfExists(WallBlock.UP, true)));
+            }
         }
     }
 }

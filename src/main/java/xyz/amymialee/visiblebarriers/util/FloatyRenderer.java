@@ -2,7 +2,7 @@ package xyz.amymialee.visiblebarriers.util;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.ItemModelManager;
-import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.command.OrderedRenderCommandQueue;
 import net.minecraft.client.render.entity.ItemEntityRenderer;
 import net.minecraft.client.render.entity.state.ItemEntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
@@ -10,7 +10,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemDisplayContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.random.Random;
@@ -26,12 +25,12 @@ public class FloatyRenderer {
         this.stack = stack;
     }
 
-    public void render(Entity entity, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light) {
-        this.renderItem(this.stack, entity, matrixStack, vertexConsumerProvider, light);
+    public void render(Entity entity, MatrixStack matrixStack, OrderedRenderCommandQueue queue, int light) {
+        this.renderItem(this.stack, entity, matrixStack, queue, light);
     }
 
-    private void renderItem(ItemStack stack, @NotNull Entity entity, @NotNull MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light) {
-        if (MinecraftClient.getInstance().cameraEntity == null) return;
+    private void renderItem(ItemStack stack, @NotNull Entity entity, @NotNull MatrixStack matrixStack, OrderedRenderCommandQueue queue, int light) {
+        if (MinecraftClient.getInstance().getCameraEntity() == null) return;
         var state = new ItemEntityRenderState();
         var tickDelta = MinecraftClient.getInstance().getRenderTickCounter().getTickProgress(true);
         state.x = MathHelper.lerp(tickDelta, entity.lastRenderX, entity.getX());
@@ -42,15 +41,13 @@ public class FloatyRenderer {
         state.height = entity.getHeight();
         state.standingEyeHeight = entity.getStandingEyeHeight();
         state.positionOffset = null;
-        state.squaredDistanceToCamera = MinecraftClient.getInstance().cameraEntity.squaredDistanceTo(entity);
-        this.itemModelManager.clearAndUpdate(state.itemRenderState, stack, ItemDisplayContext.GROUND, entity.getWorld(), entity instanceof LivingEntity living ? living : null, entity.getId());
+        state.squaredDistanceToCamera = MinecraftClient.getInstance().getCameraEntity().squaredDistanceTo(entity);
+        this.itemModelManager.clearAndUpdate(state.itemRenderState, stack, ItemDisplayContext.GROUND, entity.getEntityWorld(), entity instanceof LivingEntity living ? living : null, entity.getId());
         state.renderedAmount = 1;
         matrixStack.push();
         matrixStack.translate(0.0D, entity.getHeight() / 2, 0.0D);
         matrixStack.multiply(RotationAxis.POSITIVE_Y.rotation(-((entity.age + tickDelta) * 8) / 20.0f));
-        // assuming this is a bounding box???
-        Box box = Box.of(entity.getPos(), 0.1, 0.1, 0.1);
-        ItemEntityRenderer.renderStack(matrixStack, vertexConsumerProvider, light, state, this.random, box);
+        ItemEntityRenderer.renderStack(matrixStack, queue, light, state, this.random);
         matrixStack.pop();
     }
 
