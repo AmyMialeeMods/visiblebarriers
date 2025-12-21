@@ -1,9 +1,6 @@
 package xyz.amymialee.visiblebarriers.model;
 
-import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
-import net.fabricmc.fabric.api.renderer.v1.mesh.QuadTransform;
-import net.fabricmc.fabric.api.renderer.v1.mesh.QuadView;
-import net.fabricmc.fabric.api.renderer.v1.mesh.ShadeMode;
+import net.fabricmc.fabric.api.renderer.v1.mesh.*;
 import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.client.render.BlockRenderLayer;
 import net.minecraft.client.render.item.ItemRenderState;
@@ -83,6 +80,11 @@ public record TransparentQuadEmitter(QuadEmitter emitter, float transparency) im
     }
 
     @Override
+    public QuadEmitter atlas(QuadAtlas quadAtlas) {
+        return this.emitter.atlas(quadAtlas);
+    }
+
+    @Override
     public QuadEmitter tintIndex(int tintIndex) {
         return this.emitter.tintIndex(tintIndex);
     }
@@ -95,11 +97,6 @@ public record TransparentQuadEmitter(QuadEmitter emitter, float transparency) im
     @Override
     public QuadEmitter copyFrom(QuadView quad) {
         return this.emitter.copyFrom(quad);
-    }
-
-    @Override
-    public QuadEmitter fromVanilla(int[] vertexData, int startIndex) {
-        return this.emitter.fromVanilla(vertexData, startIndex);
     }
 
     @Override
@@ -253,6 +250,11 @@ public record TransparentQuadEmitter(QuadEmitter emitter, float transparency) im
     }
 
     @Override
+    public QuadAtlas atlas() {
+        return this.emitter.atlas();
+    }
+
+    @Override
     public int tintIndex() {
         return this.emitter.tintIndex();
     }
@@ -260,10 +262,5 @@ public record TransparentQuadEmitter(QuadEmitter emitter, float transparency) im
     @Override
     public int tag() {
         return this.emitter.tag();
-    }
-
-    @Override
-    public void toVanilla(int[] target, int startIndex) {
-        this.emitter.toVanilla(target, startIndex);
     }
 }
