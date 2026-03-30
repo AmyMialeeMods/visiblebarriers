@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.MinecraftClient;
 import xyz.amymialee.visiblebarriers.common.VisibleBarriersCommon;
 
 import java.io.FileNotFoundException;
@@ -44,9 +43,6 @@ public class VisibleConfig {
     public static void setForcedTime(long forcedTime) {
         VisibleConfig.forcedTime = forcedTime;
         VisibleBarriers.setTime(true);
-        if (MinecraftClient.getInstance().world != null) {
-            MinecraftClient.getInstance().world.setTime(getForcedTime(), getForcedTime(), false);
-        }
     }
 
     public static boolean isBarrierVisible() {

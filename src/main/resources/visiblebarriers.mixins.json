@@ -1,38 +1,39 @@
 {
-  "required": true,
-  "minVersion": "0.8",
-  "package": "xyz.amymialee.visiblebarriers.mixin",
-  "compatibilityLevel": "JAVA_17",
-  "mixins": [
-    "AirBlockMixin",
-    "BubbleColumnBlockMixin",
-    "EntityTypeMixin",
-    "MarkerEntityMixin",
-    "PistonExtensionBlockMixin",
-    "boxing.AbstractBlockMixin",
-    "boxing.BlockMixin",
-    "boxing.WorldMixin"
-  ],
-  "client": [
-    "boxing.EntityRendererMixin",
-    "client.AbstractBlockStateMixin",
-    "client.ClientBarrierBlockMixin",
-    "client.ClientBubbleColumnBlockMixin",
-    "client.ClientPistonExtensionBlockMixin",
-    "client.ClientPlayerInteractionManagerMixin",
-    "client.ClientWorldMixin",
-    "client.ClientWorldMixin$ClientWorldPropertiesMixin",
-    "client.DisplayContextMixin",
-    "client.EmptyEntityRendererMixin",
-    "client.EntityMixin",
-    "client.EntityRenderStateMixin",
-    "client.GameRendererMixin",
-    "client.LightBlockMixin",
-    "client.LightmapTextureManagerMixin",
-    "client.MouseMixin",
-    "client.ClientWallBlockMixin"
-  ],
-  "injectors": {
-    "defaultRequire": 1
+    "required": true,
+    "minVersion": "0.8",
+    "package": "xyz.amymialee.visiblebarriers.mixin",
+    "compatibilityLevel": "JAVA_17",
+    "mixins": [
+        "AirBlockMixin",
+        "BubbleColumnBlockMixin",
+        "EntityTypeBuilderMixin",
+        "MarkerMixin",
+        "MovingPistonBlockMixin",
+        "boxing.BlockBehaviourMixin",
+        "boxing.BlockMixin",
+        "boxing.LevelMixin"
+    ],
+    "client": [
+        "boxing.EntityRendererMixin",
+        "client.AbstractBlockStateMixin",
+        "client.ClientBarrierBlockMixin",
+        "client.ClientBubbleColumnBlockMixin",
+        "client.ClientLevelMixin",
+        "client.ClientLevelMixin$ClientLevelDataMixin",
+        "client.ClientMovingPistonBlockMixin",
+        "client.ClientMultiPlayerGameModeMixin",
+        "client.ClientWallBlockMixin",
+        "client.CreativeModeTabItemDisplayParametersMixin",
+        "client.EntityMixin",
+        "client.EntityRenderStateMixin",
+        "client.CameraMixin",
+        "client.LightBlockMixin",
+        "client.LightmapRenderStateExtractorMixin",
+        "client.MinecraftMixin",
+        "client.MouseHandlerMixin",
+        "client.NoopRendererMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
   }
 }
