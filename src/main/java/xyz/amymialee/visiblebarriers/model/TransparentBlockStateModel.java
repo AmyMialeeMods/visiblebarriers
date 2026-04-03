@@ -38,10 +38,10 @@ public class TransparentBlockStateModel extends WrapperBlockStateModel {
             float transparency
     ) implements CustomUnbakedBlockStateModel {
 
-        public static final MapCodec<xyz.amymialee.visiblebarriers.model.TransparentBlockStateModel.Unbaked> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-                BlockStateModel.Unbaked.CODEC.fieldOf("model").forGetter(xyz.amymialee.visiblebarriers.model.TransparentBlockStateModel.Unbaked::unbaked),
-                Codec.FLOAT.optionalFieldOf("transparency", 0.5f).forGetter(xyz.amymialee.visiblebarriers.model.TransparentBlockStateModel.Unbaked::transparency)
-        ).apply(instance, xyz.amymialee.visiblebarriers.model.TransparentBlockStateModel.Unbaked::new));
+        public static final MapCodec<Unbaked> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+                BlockStateModel.Unbaked.CODEC.fieldOf("model").forGetter(Unbaked::unbaked),
+                Codec.FLOAT.optionalFieldOf("transparency", 0.5f).forGetter(Unbaked::transparency)
+        ).apply(instance, Unbaked::new));
 
         @Override
         public @NonNull MapCodec<? extends CustomUnbakedBlockStateModel> codec() {
