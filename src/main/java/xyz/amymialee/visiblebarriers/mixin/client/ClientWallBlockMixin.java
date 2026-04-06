@@ -1,12 +1,5 @@
 package xyz.amymialee.visiblebarriers.mixin.client;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.block.WallBlock;
-import net.minecraft.block.enums.WallShape;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.world.BlockView;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -17,22 +10,29 @@ import xyz.amymialee.visiblebarriers.VisibleBarriers;
 import xyz.amymialee.visiblebarriers.mixin.boxing.BlockMixin;
 
 import java.util.function.Function;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.WallBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.WallSide;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 @Mixin(WallBlock.class)
 public abstract class ClientWallBlockMixin extends BlockMixin {
     @Shadow
     @Final
-    private Function<BlockState, VoxelShape> outlineShapeFunction;
+    private Function<BlockState, VoxelShape> shapes;
 
-    @Inject(method = "getOutlineShape", at = @At("HEAD"), cancellable = true)
-    public void visibleBarriers$makeOutlineVisible(BlockState state, BlockView world, BlockPos pos, ShapeContext context, CallbackInfoReturnable<VoxelShape> cir) {
+    @Inject(method = "getShape", at = @At("HEAD"), cancellable = true)
+    public void visibleBarriers$makeOutlineVisible(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context, CallbackInfoReturnable<VoxelShape> cir) {
         if (VisibleBarriers.isVisibilityEnabled()) {
-            var east = state.get(WallBlock.EAST_WALL_SHAPE, WallShape.LOW) == WallShape.NONE;
-            var west = state.get(WallBlock.WEST_WALL_SHAPE, WallShape.LOW) == WallShape.NONE;
-            var north = state.get(WallBlock.NORTH_WALL_SHAPE, WallShape.LOW) == WallShape.NONE;
-            var south = state.get(WallBlock.SOUTH_WALL_SHAPE, WallShape.LOW) == WallShape.NONE;
-            if (east && west && north && south && !state.get(WallBlock.UP, false)) {
-                cir.setReturnValue(this.outlineShapeFunction.apply(state.withIfExists(WallBlock.UP, true)));
+            var east = state.getValueOrElse(WallBlock.EAST, WallSide.LOW) == WallSide.NONE;
+            var west = state.getValueOrElse(WallBlock.WEST, WallSide.LOW) == WallSide.NONE;
+            var north = state.getValueOrElse(WallBlock.NORTH, WallSide.LOW) == WallSide.NONE;
+            var south = state.getValueOrElse(WallBlock.SOUTH, WallSide.LOW) == WallSide.NONE;
+            if (east && west && north && south && !state.getValueOrElse(WallBlock.UP, false)) {
+                cir.setReturnValue(this.shapes.apply(state.trySetValue(WallBlock.UP, true)));
             }
         }
     }

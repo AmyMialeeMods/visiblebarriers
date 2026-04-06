@@ -1,75 +1,74 @@
 package xyz.amymialee.visiblebarriers;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
-import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommands;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.InputUtil;
-import net.minecraft.command.argument.TimeArgumentType;
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.commands.arguments.TimeArgument;
 import org.lwjgl.glfw.GLFW;
 import xyz.amymialee.visiblebarriers.common.VisibleBarriersCommon;
 
 public class VisibleInput {
 
-    private static final KeyBinding.Category CATEGORY = KeyBinding.Category.create(VisibleBarriersCommon.id(VisibleBarriersCommon.MOD_ID));
+    private static final KeyMapping.Category CATEGORY = KeyMapping.Category.register(VisibleBarriersCommon.id(VisibleBarriersCommon.MOD_ID));
 
-    private static KeyBinding keyBindingVisibility;
-    private static KeyBinding keyBindingBarriers;
-    private static KeyBinding keyBindingLights;
-    private static KeyBinding keyBindingStructureVoids;
-    private static KeyBinding keyBindingBubbleColumns;
-    private static KeyBinding keyBindingFullBright;
-    private static KeyBinding keyBindingTime;
-    private static KeyBinding keyBindingZoom;
+    private static KeyMapping keyBindingVisibility;
+    private static KeyMapping keyBindingBarriers;
+    private static KeyMapping keyBindingLights;
+    private static KeyMapping keyBindingStructureVoids;
+    private static KeyMapping keyBindingBubbleColumns;
+    private static KeyMapping keyBindingFullBright;
+    private static KeyMapping keyBindingTime;
+    private static KeyMapping keyBindingZoom;
 
     public static void initKeys() {
-        keyBindingVisibility = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+        keyBindingVisibility = KeyMappingHelper.registerKeyMapping(new KeyMapping(
                 "key.visiblebarriers.visible",
                 GLFW.GLFW_KEY_B,
                 CATEGORY
         ));
-        keyBindingBarriers = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+        keyBindingBarriers = KeyMappingHelper.registerKeyMapping(new KeyMapping(
                 "key.visiblebarriers.barriers",
-                InputUtil.UNKNOWN_KEY.getCode(),
+                InputConstants.UNKNOWN.getValue(),
                 CATEGORY
         ));
-        keyBindingLights = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+        keyBindingLights = KeyMappingHelper.registerKeyMapping(new KeyMapping(
                 "key.visiblebarriers.lights",
-                InputUtil.UNKNOWN_KEY.getCode(),
+                InputConstants.UNKNOWN.getValue(),
                 CATEGORY
         ));
-        keyBindingStructureVoids = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+        keyBindingStructureVoids = KeyMappingHelper.registerKeyMapping(new KeyMapping(
                 "key.visiblebarriers.structurevoids",
-                InputUtil.UNKNOWN_KEY.getCode(),
+                InputConstants.UNKNOWN.getValue(),
                 CATEGORY
         ));
-        keyBindingBubbleColumns = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+        keyBindingBubbleColumns = KeyMappingHelper.registerKeyMapping(new KeyMapping(
                 "key.visiblebarriers.bubblecolumns",
-                InputUtil.UNKNOWN_KEY.getCode(),
+                InputConstants.UNKNOWN.getValue(),
                 CATEGORY
         ));
-        keyBindingFullBright = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+        keyBindingFullBright = KeyMappingHelper.registerKeyMapping(new KeyMapping(
                 "key.visiblebarriers.fullbright",
-                InputUtil.GLFW_KEY_M,
+                InputConstants.KEY_M,
                 CATEGORY
         ));
-        keyBindingTime = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+        keyBindingTime = KeyMappingHelper.registerKeyMapping(new KeyMapping(
                 "key.visiblebarriers.time",
-                InputUtil.UNKNOWN_KEY.getCode(),
+                InputConstants.UNKNOWN.getValue(),
                 CATEGORY
         ));
-        keyBindingZoom = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+        keyBindingZoom = KeyMappingHelper.registerKeyMapping(new KeyMapping(
                 "key.visiblebarriers.zoom",
-                InputUtil.GLFW_KEY_Z,
+                InputConstants.KEY_Z,
                 CATEGORY
         ));
 
-        ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            if (keyBindingVisibility.wasPressed()) {
+        ClientTickEvents.END_CLIENT_TICK.register(_ -> {
+            if (keyBindingVisibility.consumeClick()) {
                 VisibleBarriers.toggleVisible();
                 //if vis is determined to be false/off and barriers are still true/on, turn the barriers off again
                 if (!VisibleBarriers.isVisibilityEnabled() && VisibleBarriers.areBarriersEnabled()) {
@@ -85,25 +84,25 @@ public class VisibleInput {
                     VisibleConfig.setVisibleBarrier(false);
                 }
             }
-            if (keyBindingBarriers.wasPressed()) {
+            if (keyBindingBarriers.consumeClick()) {
                 VisibleBarriers.toggleBarriers();
             }
-            if (keyBindingLights.wasPressed()) {
+            if (keyBindingLights.consumeClick()) {
                 VisibleBarriers.toggleLights();
             }
-            if (keyBindingStructureVoids.wasPressed()) {
+            if (keyBindingStructureVoids.consumeClick()) {
                 VisibleBarriers.toggleStructureVoids();
             }
-            if (keyBindingBubbleColumns.wasPressed()) {
+            if (keyBindingBubbleColumns.consumeClick()) {
                 VisibleBarriers.toggleBubbleColumns();
             }
-            if (keyBindingFullBright.wasPressed()) {
+            if (keyBindingFullBright.consumeClick()) {
                 VisibleBarriers.toggleFullBright();
             }
-            if (keyBindingTime.wasPressed()) {
+            if (keyBindingTime.consumeClick()) {
                 VisibleBarriers.toggleTime();
             }
-            if (keyBindingZoom.isPressed()) {
+            if (keyBindingZoom.isDown()) {
                 VisibleBarriers.holdingZoom = true;
                 VisibleBarriers.sendFeedback("visiblebarriers.feedback.zoom", "%.0f".formatted(10000f / (VisibleBarriers.getZoomModifier() * 100)));
             } else {
@@ -117,10 +116,10 @@ public class VisibleInput {
     }
 
     public static void initCommands() {
-        ClientCommandRegistrationCallback.EVENT.register((commandDispatcher, commandRegistryAccess) -> commandDispatcher.register(
-                ClientCommandManager.literal("visiblebarriers")
+        ClientCommandRegistrationCallback.EVENT.register((commandDispatcher, _) -> commandDispatcher.register(
+                ClientCommands.literal("visiblebarriers")
                         //Reload Config
-                        .then(ClientCommandManager.literal("reload").executes(context -> {
+                        .then(ClientCommands.literal("reload").executes(_ -> {
                             VisibleConfig.loadConfig();
                             VisibleConfig.saveConfig();
                             VisibleBarriers.reloadWorldRenderer();
@@ -128,23 +127,23 @@ public class VisibleInput {
                             return 1;
                         }))
                         //Visibility
-                        .then(ClientCommandManager.literal("visibility")
+                        .then(ClientCommands.literal("visibility")
                                 //Universal Visibility
-                                .then(ClientCommandManager.literal("everything").executes(context -> {
+                                .then(ClientCommands.literal("everything").executes(_ -> {
                                     VisibleBarriers.toggleVisible();
                                     return 1;
-                                }).then(ClientCommandManager.argument("visible", BoolArgumentType.bool()).executes(context -> {
+                                }).then(ClientCommands.argument("visible", BoolArgumentType.bool()).executes(context -> {
                                     VisibleBarriers.toggleVisible = BoolArgumentType.getBool(context, "visible");
                                     VisibleBarriers.reloadWorldRenderer();
                                     VisibleBarriers.booleanFeedback("visiblebarriers.feedback.visibility", VisibleBarriers.toggleVisible);
                                     return 1;
                                 })))
                                 //Barriers
-                                .then(ClientCommandManager.literal("barriers").executes(context -> {
+                                .then(ClientCommands.literal("barriers").executes(_ -> {
                                     VisibleConfig.setVisibleBarrier(!VisibleConfig.isBarrierVisible());
                                     VisibleBarriers.toggleBarriers();
                                     return 1;
-                                }).then(ClientCommandManager.argument("visible", BoolArgumentType.bool()).executes(context -> {
+                                }).then(ClientCommands.argument("visible", BoolArgumentType.bool()).executes(context -> {
                                     VisibleConfig.setVisibleBarrier(BoolArgumentType.getBool(context, "visible"));
                                     VisibleBarriers.toggleBarriers = BoolArgumentType.getBool(context, "visible");
                                     VisibleBarriers.reloadWorldRenderer();
@@ -152,30 +151,30 @@ public class VisibleInput {
                                     return 1;
                                 })))
                                 //Lights
-                                .then(ClientCommandManager.literal("lights").executes(context -> {
+                                .then(ClientCommands.literal("lights").executes(_ -> {
                                     VisibleBarriers.toggleLights();
                                     return 1;
-                                }).then(ClientCommandManager.argument("visible", BoolArgumentType.bool()).executes(context -> {
+                                }).then(ClientCommands.argument("visible", BoolArgumentType.bool()).executes(context -> {
                                     VisibleBarriers.toggleLights = BoolArgumentType.getBool(context, "visible");
                                     VisibleBarriers.reloadWorldRenderer();
                                     VisibleBarriers.booleanFeedback("visiblebarriers.feedback.lights", VisibleBarriers.toggleLights);
                                     return 1;
                                 })))
                                 //Structure Voids
-                                .then(ClientCommandManager.literal("structurevoids").executes(context -> {
+                                .then(ClientCommands.literal("structurevoids").executes(_ -> {
                                     VisibleBarriers.toggleStructureVoids();
                                     return 1;
-                                }).then(ClientCommandManager.argument("visible", BoolArgumentType.bool()).executes(context -> {
+                                }).then(ClientCommands.argument("visible", BoolArgumentType.bool()).executes(context -> {
                                     VisibleBarriers.toggleStructureVoids = BoolArgumentType.getBool(context, "visible");
                                     VisibleBarriers.reloadWorldRenderer();
                                     VisibleBarriers.booleanFeedback("visiblebarriers.feedback.structurevoids", VisibleBarriers.toggleStructureVoids);
                                     return 1;
                                 })))
                                 //Bubble columns
-                                .then(ClientCommandManager.literal("bubblecolumns").executes(context -> {
+                                .then(ClientCommands.literal("bubblecolumns").executes(_ -> {
                                     VisibleBarriers.toggleBubbleColumns();
                                     return 1;
-                                }).then(ClientCommandManager.argument("visible", BoolArgumentType.bool()).executes(context -> {
+                                }).then(ClientCommands.argument("visible", BoolArgumentType.bool()).executes(context -> {
                                     VisibleBarriers.toggleBubbleColumns = BoolArgumentType.getBool(context, "visible");
                                     VisibleBarriers.reloadWorldRenderer();
                                     VisibleBarriers.booleanFeedback("visiblebarriers.feedback.bubblecolumns", VisibleBarriers.toggleBubbleColumns);
@@ -183,52 +182,49 @@ public class VisibleInput {
                                 })))
                         )
                         //Fullbright
-                        .then(ClientCommandManager.literal("fullbright").executes(context -> {
+                        .then(ClientCommands.literal("fullbright").executes(_ -> {
                             VisibleBarriers.toggleFullBright();
                             return 1;
-                        }).then(ClientCommandManager.argument("visible", BoolArgumentType.bool()).executes(context -> {
+                        }).then(ClientCommands.argument("visible", BoolArgumentType.bool()).executes(context -> {
                             VisibleBarriers.toggleFullBright = BoolArgumentType.getBool(context, "visible");
                             VisibleBarriers.reloadWorldRenderer();
                             VisibleBarriers.booleanFeedback("visiblebarriers.feedback.fullbright", VisibleBarriers.toggleFullBright);
                             return 1;
                         })))
                         //Set Time
-                        .then(ClientCommandManager.literal("time")
-                                .then(ClientCommandManager.literal("enable").executes(context -> {
-                                    if (MinecraftClient.getInstance().world != null) {
-                                        MinecraftClient.getInstance().world.setTime(VisibleConfig.getForcedTime(), VisibleConfig.getForcedTime(), false);
-                                    }
+                        .then(ClientCommands.literal("time")
+                                .then(ClientCommands.literal("enable").executes(_ -> {
                                     VisibleBarriers.toggleTime = true;
                                     VisibleBarriers.booleanFeedback("visiblebarriers.feedback.time", true);
                                     return 0;
                                 }))
-                                .then(ClientCommandManager.literal("disable").executes(context -> {
+                                .then(ClientCommands.literal("disable").executes(_ -> {
                                     VisibleBarriers.toggleTime = false;
                                     VisibleBarriers.booleanFeedback("visiblebarriers.feedback.time", false);
                                     return 0;
                                 }))
-                                .then(ClientCommandManager.literal("set")
-                                        .then(ClientCommandManager.literal("day").executes(context -> {
+                                .then(ClientCommands.literal("set")
+                                        .then(ClientCommands.literal("day").executes(_ -> {
                                             VisibleConfig.setForcedTime(1000);
                                             VisibleBarriers.sendFeedback("visiblebarriers.command.time.day");
                                             return 0;
                                         }))
-                                        .then(ClientCommandManager.literal("noon").executes(context -> {
+                                        .then(ClientCommands.literal("noon").executes(_ -> {
                                             VisibleConfig.setForcedTime(6000);
                                             VisibleBarriers.sendFeedback("visiblebarriers.command.time.noon");
                                             return 0;
                                         }))
-                                        .then(ClientCommandManager.literal("night").executes(context -> {
+                                        .then(ClientCommands.literal("night").executes(_ -> {
                                             VisibleConfig.setForcedTime(13000);
                                             VisibleBarriers.sendFeedback("visiblebarriers.command.time.night");
                                             return 0;
                                         }))
-                                        .then(ClientCommandManager.literal("midnight").executes(context -> {
+                                        .then(ClientCommands.literal("midnight").executes(_ -> {
                                             VisibleConfig.setForcedTime(18000);
                                             VisibleBarriers.sendFeedback("visiblebarriers.command.time.midnight");
                                             return 0;
                                         }))
-                                        .then(ClientCommandManager.argument("time", TimeArgumentType.time()).executes(context -> {
+                                        .then(ClientCommands.argument("time", TimeArgument.time()).executes(context -> {
                                             var time = IntegerArgumentType.getInteger(context, "time");
                                             VisibleConfig.setForcedTime(time);
                                             VisibleBarriers.sendFeedback("visiblebarriers.command.time.custom", time);
@@ -237,33 +233,33 @@ public class VisibleInput {
                                 )
                         )
                         //Set Weather
-                        .then(ClientCommandManager.literal("weather")
-                                .then(ClientCommandManager.literal("default").executes(context -> {
+                        .then(ClientCommands.literal("weather")
+                                .then(ClientCommands.literal("default").executes(_ -> {
                                     VisibleBarriers.setWeather(VisibleBarriers.Weather.DEFAULT);
                                     return 0;
                                 }))
-                                .then(ClientCommandManager.literal("clear").executes(context -> {
+                                .then(ClientCommands.literal("clear").executes(_ -> {
                                     VisibleBarriers.setWeather(VisibleBarriers.Weather.CLEAR);
                                     return 0;
                                 }))
-                                .then(ClientCommandManager.literal("rain").executes(context -> {
+                                .then(ClientCommands.literal("rain").executes(_ -> {
                                     VisibleBarriers.setWeather(VisibleBarriers.Weather.RAIN);
                                     return 0;
                                 }))
-                                .then(ClientCommandManager.literal("thunder").executes(context -> {
+                                .then(ClientCommands.literal("thunder").executes(_ -> {
                                     VisibleBarriers.setWeather(VisibleBarriers.Weather.THUNDER);
                                     return 0;
                                 }))
                         )
                         //Settings
-                        .then(ClientCommandManager.literal("settings")
+                        .then(ClientCommands.literal("settings")
                                 //Persist Visible Barriers
-                                .then(ClientCommandManager.literal("visiblebarrier").executes(context -> {
+                                .then(ClientCommands.literal("visiblebarrier").executes(_ -> {
                                     VisibleConfig.setVisibleBarrier(!VisibleConfig.isBarrierVisible());
                                     VisibleBarriers.toggleBarriers();
                                     VisibleBarriers.booleanFeedback("visiblebarriers.feedback.barriers", VisibleBarriers.toggleBarriers);
                                     return 1;
-                                }).then(ClientCommandManager.argument("visible", BoolArgumentType.bool()).executes(context -> {
+                                }).then(ClientCommands.argument("visible", BoolArgumentType.bool()).executes(context -> {
                                     VisibleConfig.setVisibleBarrier(BoolArgumentType.getBool(context, "visible"));
                                     VisibleBarriers.toggleBarriers = BoolArgumentType.getBool(context, "visible");
                                     VisibleBarriers.reloadWorldRenderer();
@@ -271,33 +267,33 @@ public class VisibleInput {
                                     return 1;
                                 })))
                                 //Visible Air
-                                .then(ClientCommandManager.literal("visibleair").executes(context -> {
+                                .then(ClientCommands.literal("visibleair").executes(_ -> {
                                     VisibleConfig.setVisibleAir(!VisibleConfig.isAirVisible());
                                     VisibleBarriers.reloadWorldRenderer();
                                     VisibleBarriers.booleanFeedback("visiblebarriers.settings.visibleair", VisibleConfig.isAirVisible());
                                     return 1;
-                                }).then(ClientCommandManager.argument("visible", BoolArgumentType.bool()).executes(context -> {
+                                }).then(ClientCommands.argument("visible", BoolArgumentType.bool()).executes(context -> {
                                     VisibleConfig.setVisibleAir(BoolArgumentType.getBool(context, "visible"));
                                     VisibleBarriers.reloadWorldRenderer();
                                     VisibleBarriers.booleanFeedback("visiblebarriers.settings.visibleair", VisibleConfig.isAirVisible());
                                     return 1;
                                 })))
                                 //Hide Particles
-                                .then(ClientCommandManager.literal("hiddenparticles").executes(context -> {
+                                .then(ClientCommands.literal("hiddenparticles").executes(_ -> {
                                     VisibleConfig.setHideParticles(!VisibleConfig.shouldHideParticles());
                                     VisibleBarriers.booleanFeedback("visiblebarriers.settings.hiddenparticles", VisibleConfig.shouldHideParticles());
                                     return 1;
-                                }).then(ClientCommandManager.argument("visible", BoolArgumentType.bool()).executes(context -> {
+                                }).then(ClientCommands.argument("visible", BoolArgumentType.bool()).executes(context -> {
                                     VisibleConfig.setHideParticles(BoolArgumentType.getBool(context, "visible"));
                                     VisibleBarriers.booleanFeedback("visiblebarriers.settings.hiddenparticles", VisibleConfig.shouldHideParticles());
                                     return 1;
                                 })))
                                 //Send Feedback
-                                .then(ClientCommandManager.literal("sendfeedback").executes(context -> {
+                                .then(ClientCommands.literal("sendfeedback").executes(_ -> {
                                     VisibleConfig.setSendFeedback(!VisibleConfig.shouldSendFeedback());
                                     VisibleBarriers.booleanFeedback("visiblebarriers.settings.sendfeedback", VisibleConfig.shouldSendFeedback());
                                     return 1;
-                                }).then(ClientCommandManager.argument("visible", BoolArgumentType.bool()).executes(context -> {
+                                }).then(ClientCommands.argument("visible", BoolArgumentType.bool()).executes(context -> {
                                     VisibleConfig.setSendFeedback(BoolArgumentType.getBool(context, "visible"));
                                     VisibleBarriers.booleanFeedback("visiblebarriers.settings.sendfeedback", VisibleConfig.shouldSendFeedback());
                                     return 1;

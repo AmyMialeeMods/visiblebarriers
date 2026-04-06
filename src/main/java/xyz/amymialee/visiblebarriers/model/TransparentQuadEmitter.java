@@ -1,111 +1,130 @@
 package xyz.amymialee.visiblebarriers.model;
 
-import net.fabricmc.fabric.api.renderer.v1.mesh.*;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.fabricmc.fabric.api.client.renderer.v1.mesh.*;
 import net.fabricmc.fabric.api.util.TriState;
-import net.minecraft.client.render.BlockRenderLayer;
-import net.minecraft.client.render.item.ItemRenderState;
-import net.minecraft.client.render.model.BakedQuad;
-import net.minecraft.util.math.Direction;
+import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
+import net.minecraft.client.renderer.item.ItemStackRenderState;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.resources.model.geometry.BakedQuad;
+import net.minecraft.core.Direction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector3fc;
+import org.jspecify.annotations.NonNull;
 
 public record TransparentQuadEmitter(QuadEmitter emitter, float transparency) implements QuadEmitter {
 
     @Override
-    public QuadEmitter pos(int vertexIndex, float x, float y, float z) {
+    public @NonNull QuadEmitter pos(int vertexIndex, float x, float y, float z) {
         return this.emitter.pos(vertexIndex, x, y, z);
     }
 
     @Override
-    public QuadEmitter color(int vertexIndex, int color) {
+    public @NonNull QuadEmitter color(int vertexIndex, int color) {
         return this.emitter.color(vertexIndex, color);
     }
 
     @Override
-    public QuadEmitter uv(int vertexIndex, float u, float v) {
+    public @NonNull QuadEmitter uv(int vertexIndex, float u, float v) {
         return this.emitter.uv(vertexIndex, u, v);
     }
 
     @Override
-    public QuadEmitter lightmap(int vertexIndex, int lightmap) {
+    public @NonNull QuadEmitter lightmap(int vertexIndex, int lightmap) {
         return this.emitter.lightmap(vertexIndex, lightmap);
     }
 
     @Override
-    public QuadEmitter normal(int vertexIndex, float x, float y, float z) {
+    public @NonNull QuadEmitter normal(int vertexIndex, float x, float y, float z) {
         return this.emitter.normal(vertexIndex, x, y, z);
     }
 
     @Override
-    public QuadEmitter nominalFace(@Nullable Direction face) {
+    public @NonNull QuadEmitter nominalFace(@Nullable Direction face) {
         return this.emitter.nominalFace(face);
     }
 
     @Override
-    public QuadEmitter cullFace(@Nullable Direction face) {
+    public @NonNull QuadEmitter cullFace(@Nullable Direction face) {
         return this.emitter.cullFace(face);
     }
 
     @Override
-    public QuadEmitter renderLayer(@Nullable BlockRenderLayer renderLayer) {
-        return this.emitter.renderLayer(BlockRenderLayer.TRANSLUCENT);
+    public @NonNull QuadEmitter chunkLayer(@NonNull ChunkSectionLayer chunkSectionLayer) {
+        return this.emitter.chunkLayer(chunkSectionLayer);
     }
 
     @Override
-    public QuadEmitter emissive(boolean emissive) {
+    public @NonNull QuadEmitter itemRenderType(@NonNull RenderType renderType) {
+        return this.emitter.itemRenderType(renderType);
+    }
+
+    @Override
+    public @NonNull QuadEmitter emissive(boolean emissive) {
         return this.emitter.emissive(emissive);
     }
 
     @Override
-    public QuadEmitter diffuseShade(boolean shade) {
+    public @NonNull QuadEmitter diffuseShade(boolean shade) {
         return this.emitter.diffuseShade(shade);
     }
 
     @Override
-    public QuadEmitter ambientOcclusion(TriState ao) {
+    public @NonNull QuadEmitter ambientOcclusion(@NonNull TriState ao) {
         return this.emitter.ambientOcclusion(ao);
     }
 
     @Override
-    public QuadEmitter glint(ItemRenderState.@Nullable Glint glint) {
-        return this.emitter.glint(glint);
+    public @NonNull QuadEmitter foilType(@Nullable ItemStackRenderState.FoilType foilType) {
+        return this.emitter.foilType(foilType);
     }
 
     @Override
-    public QuadEmitter shadeMode(ShadeMode mode) {
+    public @NonNull QuadEmitter shadeMode(@NonNull ShadeMode mode) {
         return this.emitter.shadeMode(mode);
     }
 
     @Override
-    public QuadEmitter atlas(QuadAtlas quadAtlas) {
+    public @NonNull QuadEmitter animated(boolean b) {
+        return this.emitter.animated(b);
+    }
+
+    @Override
+    public @NonNull QuadEmitter atlas(@NonNull QuadAtlas quadAtlas) {
         return this.emitter.atlas(quadAtlas);
     }
 
     @Override
-    public QuadEmitter tintIndex(int tintIndex) {
+    public @NonNull QuadEmitter tintIndex(int tintIndex) {
         return this.emitter.tintIndex(tintIndex);
     }
 
     @Override
-    public QuadEmitter tag(int tag) {
+    public @NonNull QuadEmitter tag(int tag) {
         return this.emitter.tag(tag);
     }
 
     @Override
-    public QuadEmitter copyFrom(QuadView quad) {
+    public @NonNull QuadEmitter copyFrom(@NonNull QuadView quad) {
         return this.emitter.copyFrom(quad);
     }
 
     @Override
-    public QuadEmitter fromBakedQuad(BakedQuad quad) {
+    public @NonNull QuadEmitter fromBakedQuad(@NonNull BakedQuad quad) {
         return this.emitter.fromBakedQuad(quad);
     }
 
     @Override
-    public void pushTransform(QuadTransform transform) {
+    public @NonNull QuadEmitter clear() {
+        return this.emitter.clear();
+    }
+
+    @Override
+    public void pushTransform(@NonNull QuadTransform transform) {
         this.emitter.pushTransform(transform);
     }
 
@@ -115,12 +134,22 @@ public record TransparentQuadEmitter(QuadEmitter emitter, float transparency) im
     }
 
     @Override
-    public QuadEmitter emit() {
+    public void buffer(int i, @NonNull VertexConsumer vertexConsumer) {
+        this.emitter.buffer(i, vertexConsumer);
+    }
+
+    @Override
+    public void buffer(int i, PoseStack.@NonNull Pose pose, @NonNull VertexConsumer vertexConsumer) {
+        this.emitter.buffer(i, pose, vertexConsumer);
+    }
+
+    @Override
+    public @NonNull QuadEmitter emit() {
         for (int i = 0; i < 4; i++) {
             int color = this.emitter.color(i);
             this.emitter.color(i, (color & 0x00FFFFFF) | ((int)((1.0f - this.transparency) * 255.0f) << 24));
         }
-        this.emitter.renderLayer(BlockRenderLayer.TRANSLUCENT);
+        this.emitter.chunkLayer(ChunkSectionLayer.TRANSLUCENT);
         return this.emitter.emit();
     }
 
@@ -145,7 +174,7 @@ public record TransparentQuadEmitter(QuadEmitter emitter, float transparency) im
     }
 
     @Override
-    public Vector3f copyPos(int vertexIndex, @Nullable Vector3f target) {
+    public @NonNull Vector3f copyPos(int vertexIndex, @Nullable Vector3f target) {
         return this.emitter.copyPos(vertexIndex, target);
     }
 
@@ -165,7 +194,7 @@ public record TransparentQuadEmitter(QuadEmitter emitter, float transparency) im
     }
 
     @Override
-    public Vector2f copyUv(int vertexIndex, @Nullable Vector2f target) {
+    public @NonNull Vector2f copyUv(int vertexIndex, @Nullable Vector2f target) {
         return this.emitter.copyUv(vertexIndex, target);
     }
 
@@ -200,7 +229,7 @@ public record TransparentQuadEmitter(QuadEmitter emitter, float transparency) im
     }
 
     @Override
-    public Vector3fc faceNormal() {
+    public @NonNull Vector3fc faceNormal() {
         return this.emitter.faceNormal();
     }
 
@@ -220,8 +249,13 @@ public record TransparentQuadEmitter(QuadEmitter emitter, float transparency) im
     }
 
     @Override
-    public @Nullable BlockRenderLayer renderLayer() {
-        return this.emitter.renderLayer();
+    public @NonNull ChunkSectionLayer chunkLayer() {
+        return this.emitter.chunkLayer();
+    }
+
+    @Override
+    public @NonNull RenderType itemRenderType() {
+        return this.emitter.itemRenderType();
     }
 
     @Override
@@ -235,22 +269,27 @@ public record TransparentQuadEmitter(QuadEmitter emitter, float transparency) im
     }
 
     @Override
-    public TriState ambientOcclusion() {
+    public @NonNull TriState ambientOcclusion() {
         return this.emitter.ambientOcclusion();
     }
 
     @Override
-    public ItemRenderState.@Nullable Glint glint() {
-        return this.emitter.glint();
+    public @Nullable ItemStackRenderState.FoilType foilType() {
+        return this.emitter.foilType();
     }
 
     @Override
-    public ShadeMode shadeMode() {
+    public @NonNull ShadeMode shadeMode() {
         return this.emitter.shadeMode();
     }
 
     @Override
-    public QuadAtlas atlas() {
+    public boolean animated() {
+        return false;
+    }
+
+    @Override
+    public @NonNull QuadAtlas atlas() {
         return this.emitter.atlas();
     }
 

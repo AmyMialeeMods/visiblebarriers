@@ -5,15 +5,16 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.fabricmc.fabric.api.client.model.loading.v1.CustomUnbakedBlockStateModel;
 import net.fabricmc.fabric.api.client.model.loading.v1.wrapper.WrapperBlockStateModel;
-import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.render.model.Baker;
-import net.minecraft.client.render.model.BlockStateModel;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.BlockRenderView;
+import net.fabricmc.fabric.api.client.renderer.v1.mesh.QuadEmitter;
+import net.minecraft.client.renderer.block.BlockAndTintGetter;
+import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
+import net.minecraft.client.resources.model.ModelBaker;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 
 import java.util.function.Predicate;
 
@@ -27,9 +28,9 @@ public class TransparentBlockStateModel extends WrapperBlockStateModel {
     }
 
     @Override
-    public void emitQuads(QuadEmitter emitter, BlockRenderView blockView, BlockPos pos, BlockState state, Random random, Predicate<@Nullable Direction> cullTest) {
+    public void emitQuads(@NonNull QuadEmitter emitter, @NonNull BlockAndTintGetter level, @NonNull BlockPos pos, @NonNull BlockState state, @NonNull RandomSource random, @NonNull Predicate<@Nullable Direction> cullTest) {
         emitter = new TransparentQuadEmitter(emitter, this.transparency);
-        super.emitQuads(emitter, blockView, pos, state, random, cullTest);
+        super.emitQuads(emitter, level, pos, state, random, cullTest);
     }
 
     public record Unbaked(
@@ -43,18 +44,18 @@ public class TransparentBlockStateModel extends WrapperBlockStateModel {
         ).apply(instance, Unbaked::new));
 
         @Override
-        public MapCodec<? extends CustomUnbakedBlockStateModel> codec() {
+        public @NonNull MapCodec<? extends CustomUnbakedBlockStateModel> codec() {
             return CODEC;
         }
 
         @Override
-        public BlockStateModel bake(Baker baker) {
+        public @NonNull BlockStateModel bake(@NonNull ModelBaker baker) {
             return new TransparentBlockStateModel(this.unbaked.bake(baker), this.transparency);
         }
 
         @Override
-        public void resolve(Resolver resolver) {
-            this.unbaked.resolve(resolver);
+        public void resolveDependencies(@NonNull Resolver resolver) {
+            this.unbaked.resolveDependencies(resolver);
         }
     }
 }

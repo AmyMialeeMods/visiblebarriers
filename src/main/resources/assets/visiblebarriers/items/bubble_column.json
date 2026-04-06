@@ -1,6 +1,20 @@
 {
   "model": {
-    "type": "minecraft:model",
-    "model": "visiblebarriers:item/bubble_column"
+    "type": "minecraft:select",
+    "property": "minecraft:block_state",
+    "block_state_property": "drag",
+    "cases": [
+      {
+        "when": "true",
+        "model": {
+          "type": "minecraft:model",
+          "model": "visiblebarriers:item/bubble_column_down"
+        }
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "visiblebarriers:item/bubble_column"
+    }
   }
 }

@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.14-SNAPSHOT'
+    id 'net.fabricmc.fabric-loom' version '1.15-SNAPSHOT'
     id 'maven-publish'
     id "me.modmuss50.mod-publish-plugin" version "0.8.4"
 }
@@ -18,51 +18,9 @@ repositories {
 
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    modImplementation include("eu.pb4:polymer-core:${project.polymer_version}")
-    modImplementation include("org.ladysnake.cardinal-components-api:cardinal-components-base:${project.cca_version}")
-    modImplementation include("org.ladysnake.cardinal-components-api:cardinal-components-entity:${project.cca_version}")
-}
-
-publishMods {
-    file = remapJar.archiveFile
-    additionalFiles.files.add(remapSourcesJar.archiveFile.get().getAsFile())
-    displayName = "${project.version.toString().split("\\+")[0]} for Fabric $minecraft_version"
-    changelog = new File("CHANGELOG.md").text
-    type = STABLE
-    modLoaders.addAll("fabric", "quilt")
-    dryRun = !providers.gradleProperty("curseforge_api_key").isPresent() || !providers.gradleProperty("modrinth_api_key").isPresent() || !providers.gradleProperty("discord_webhook").isPresent()
-    curseforge {
-        accessToken = providers.gradleProperty('curseforge_api_key')
-        projectId = curseforge_id
-        minecraftVersionRange {
-            start = minecraft_version_range_start
-            end = minecraft_version_range_end
-        }
-        announcementTitle = "Download from CurseForge"
-        javaVersions.addAll(JavaVersion.VERSION_21, JavaVersion.VERSION_22)
-        clientRequired = true;
-        serverRequired = false;
-        projectSlug = curseforge_slug
-        requires("fabric-api")
-        embeds("polymer")
-        embeds("cardinal-components-api")
-    }
-    modrinth {
-        accessToken = providers.gradleProperty("modrinth_api_key")
-        projectId = modrinth_id
-        minecraftVersionRange {
-            start = minecraft_version_range_start
-            end = minecraft_version_range_end
-            includeSnapshots = true
-        }
-        announcementTitle = "Download from Modrinth"
-        requires("fabric-api")
-        embeds("polymer")
-        embeds("cardinal-components-api")
-    }
+    implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    implementation include("eu.pb4:polymer-core:${project.polymer_version}")
 }
 
 loom {
@@ -84,13 +42,13 @@ processResources {
 
 tasks.withType(JavaCompile).configureEach {
     it.options.encoding = "UTF-8"
-    it.options.release.set(21)
+    it.options.release.set(25)
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
-    toolchain.languageVersion = JavaLanguageVersion.of(21)
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
+    toolchain.languageVersion = JavaLanguageVersion.of(25)
     withSourcesJar()
 }
 
@@ -115,5 +73,44 @@ publishing {
                 basic(BasicAuthentication)
             }
         }
+    }
+}
+
+publishMods {
+    file = jar.archiveFile
+    additionalFiles.files.add(sourcesJar.archiveFile.get().getAsFile())
+    displayName = "${project.version.toString().split("\\+")[0]} for Fabric $minecraft_version"
+    changelog = new File("CHANGELOG.md").text
+    type = STABLE
+    modLoaders.addAll("fabric", "quilt")
+    dryRun = !providers.gradleProperty("curseforge_api_key").isPresent() || !providers.gradleProperty("modrinth_api_key").isPresent() || !providers.gradleProperty("discord_webhook").isPresent()
+    curseforge {
+        accessToken = providers.gradleProperty('curseforge_api_key')
+        projectId = curseforge_id
+        minecraftVersionRange {
+            start = minecraft_version_range_start
+            end = minecraft_version_range_end
+        }
+        announcementTitle = "Download from CurseForge"
+        javaVersions.addAll(JavaVersion.VERSION_25)
+        clientRequired = true;
+        serverRequired = false;
+        projectSlug = curseforge_slug
+        requires("fabric-api")
+        embeds("polymer")
+        embeds("cardinal-components-api")
+    }
+    modrinth {
+        accessToken = providers.gradleProperty("modrinth_api_key")
+        projectId = modrinth_id
+        minecraftVersionRange {
+            start = minecraft_version_range_start
+            end = minecraft_version_range_end
+            includeSnapshots = true
+        }
+        announcementTitle = "Download from Modrinth"
+        requires("fabric-api")
+        embeds("polymer")
+        embeds("cardinal-components-api")
     }
 }

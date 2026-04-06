@@ -4,17 +4,14 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.model.loading.v1.CustomUnbakedBlockStateModel;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
-import net.minecraft.block.Blocks;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.BlockRenderLayer;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.math.MathHelper;
+import net.fabricmc.fabric.api.client.networking.v1.ClientConfigurationNetworking;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.player.Player;
 import xyz.amymialee.visiblebarriers.common.VisibleBarriersCommon;
+import xyz.amymialee.visiblebarriers.common.VisibleBarriersNetworking;
 import xyz.amymialee.visiblebarriers.model.TransparentBlockStateModel;
 
 @Environment(EnvType.CLIENT)
@@ -35,35 +32,25 @@ public class VisibleBarriers implements ClientModInitializer {
         VisibleInput.initKeys();
         VisibleInput.initCommands();
         VisibleConfig.loadConfig();
-        BlockRenderLayerMap.putBlock(Blocks.BARRIER, BlockRenderLayer.TRANSLUCENT);
-        BlockRenderLayerMap.putBlock(Blocks.STRUCTURE_VOID, BlockRenderLayer.TRANSLUCENT);
-        BlockRenderLayerMap.putBlock(Blocks.LIGHT, BlockRenderLayer.TRANSLUCENT);
-        BlockRenderLayerMap.putBlock(Blocks.AIR, BlockRenderLayer.TRANSLUCENT);
-        BlockRenderLayerMap.putBlock(Blocks.CAVE_AIR, BlockRenderLayer.TRANSLUCENT);
-        BlockRenderLayerMap.putBlock(Blocks.VOID_AIR, BlockRenderLayer.TRANSLUCENT);
-        BlockRenderLayerMap.putBlock(Blocks.MOVING_PISTON, BlockRenderLayer.TRANSLUCENT);
-        BlockRenderLayerMap.putBlock(Blocks.BUBBLE_COLUMN, BlockRenderLayer.TRANSLUCENT);
-        ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
-            ClientPlayNetworking.send(new VisibleBarriersCommon.ModData(new byte[0]));
-        });
+        ClientConfigurationNetworking.registerGlobalReceiver(VisibleBarriersNetworking.ModInstalledPayload.TYPE, (_, _) -> {});
         CustomUnbakedBlockStateModel.register(VisibleBarriersCommon.id("transparent"), TransparentBlockStateModel.Unbaked.CODEC);
     }
 
     public static void sendFeedback(String translatable, Object... args) {
         if (VisibleConfig.shouldSendFeedback()) {
-            PlayerEntity player = MinecraftClient.getInstance().player;
+            Player player = Minecraft.getInstance().player;
             if (player != null) {
-                player.sendMessage(Text.translatable(translatable, args).formatted(Formatting.GRAY), true);
+                player.sendOverlayMessage(Component.translatable(translatable, args).withStyle(ChatFormatting.GRAY));
             }
         }
     }
 
     public static void booleanFeedback(String key, boolean value) {
-        sendFeedback("[Visible Barriers] %s %s", Text.translatable(key), Text.translatable(value ? "visiblebarriers.enabled" : "visiblebarriers.disabled"));
+        sendFeedback("[Visible Barriers] %s %s", Component.translatable(key), Component.translatable(value ? "visiblebarriers.enabled" : "visiblebarriers.disabled"));
     }
 
     public static void reloadWorldRenderer() {
-        if (MinecraftClient.getInstance().worldRenderer != null) MinecraftClient.getInstance().worldRenderer.reload();
+        if (Minecraft.getInstance().levelRenderer != null) Minecraft.getInstance().levelRenderer.allChanged();
     }
 
     public static boolean isVisibilityEnabled() {
@@ -168,7 +155,7 @@ public class VisibleBarriers implements ClientModInitializer {
 
     public static void setWeather(Weather weather) {
         setWeather = weather;
-        sendFeedback("visiblebarriers.command.weather", Text.translatable(setWeather.getTranslationKey()));
+        sendFeedback("visiblebarriers.command.weather", Component.translatable(setWeather.getTranslationKey()));
     }
 
     public static boolean isHoldingZoom() {
@@ -176,30 +163,13 @@ public class VisibleBarriers implements ClientModInitializer {
     }
 
     public static float getZoomModifier() {
-        return (float) MathHelper.clamp(4f / Math.pow(zoomScroll, 2), 0.001f, 1);
+        return (float) Mth.clamp(4f / Math.pow(zoomScroll, 2), 0.001f, 1);
     }
 
     public static void modifyZoomModifier(float amount) {
         zoomScroll -= amount;
-        zoomScroll = MathHelper.clamp(zoomScroll, 0.01f, 1000);
+        zoomScroll = Mth.clamp(zoomScroll, 0.01f, 1000);
         sendFeedback("visiblebarriers.feedback.zoom", "%.0f".formatted(10000f / (getZoomModifier() * 100)));
-    }
-
-    static {
-//        ModelPredicateProviderRegistry.register(VisibleBarriersCommon.MOVING_PISTON_BLOCK_ITEM, Identifier.of("sticky"), (stack, world, entity, seed) -> {
-//            var blockState = stack.getComponents().get(DataComponentTypes.BLOCK_STATE);
-//            if (blockState != null && blockState.getValue(Properties.PISTON_TYPE) == PistonType.STICKY) {
-//                return 1.0F;
-//            }
-//            return 0.0F;
-//        });
-//        ModelPredicateProviderRegistry.register(VisibleBarriersCommon.BUBBLE_COLUMN_BLOCK_ITEM, Identifier.of("drag"), (stack, world, entity, seed) -> {
-//            var blockState = stack.getComponents().get(DataComponentTypes.BLOCK_STATE);
-//            if (blockState != null && blockState.getValue(Properties.DRAG) == Boolean.TRUE) {
-//                return 1.0F;
-//            }
-//            return 0.0F;
-//        });
     }
 
     public enum Weather {

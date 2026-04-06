@@ -1,6 +1,6 @@
 package xyz.amymialee.visiblebarriers.access;
 
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 
 public interface EntityRenderStateAccess {
 
