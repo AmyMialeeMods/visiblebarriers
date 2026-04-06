@@ -9,10 +9,11 @@
     "AmyMialee"
   ],
   "contributors": [
-    "BuggyAl"
+    "BuggyAl",
+    "ThatGravyBoat"
   ],
   "contact": {
-    "homepage": "https://amymialee.xyz",
+    "homepage": "https://amymialee.dev",
     "sources": "https://github.com/AmyMialeeMods/visiblebarriers",
     "issues": "https://github.com/AmyMialeeMods/visiblebarriers/issues"
   },
@@ -36,7 +37,7 @@
   "custom": {
     "modmenu": {
       "links": {
-        "modmenu.discord": "https://discord.amymialee.xyz"
+        "modmenu.discord": "https://discord.amymialee.dev"
       }
     }
   }

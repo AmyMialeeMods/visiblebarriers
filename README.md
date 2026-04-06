@@ -11,11 +11,11 @@ It also has several other features, such as a zoom keybind, fullbright, and the 
         <th><b>Join my Discord</b></th>
         <th><b>Find the mod on Curseforge!</b></th>
         <th><b>Find the mod on Modrinth!</b></th>
-        <th><b>Support me on Ko-fi!</b></th>
+        <th><b>Support me on Patreon!</b></th>
     </tr>
     <tr>
         <th>
-            <a href="http://discord.amymialee.xyz">
+            <a href="https://discord.gg/aEghXGbm3J">
                 <img src="https://github.com/user-attachments/assets/9009250b-20e1-4985-a081-9760ffff93aa" width="150" height="150" alt="">
             </a>
         </th>
@@ -30,16 +30,16 @@ It also has several other features, such as a zoom keybind, fullbright, and the 
             </a>
         </th>
         <th>
-            <a href="http://kofi.amymialee.xyz">
-                <img src="https://storage.ko-fi.com/cdn/kofi_stroke_cup.svg" width="150" height="150" alt="">
-            </a>
+            <a href="https://www.patreon.com/cw/AmyMialee"><div style="display:flex; justify-content:center;">
+                <span style="width: 110px; height: 110px; mask: url('https://cdn.simpleicons.org/patreon/white') no-repeat center; background:#f96854;"></span>
+            </div></a>
         </th>
     </tr>
 </table>
 
 <b>Interested in hosting a server for any of my mods?</b>  
 Be sure to go with Bloom Host at:  
-<a href="http://bloom.amymialee.xyz">
+<a href="https://billing.bloom.host/aff.php?aff=10/">
     <img src="https://i.imgur.com/h4556XW.gif">
 </a>  
 <b>Buying a server using this link supports me directly!</b>

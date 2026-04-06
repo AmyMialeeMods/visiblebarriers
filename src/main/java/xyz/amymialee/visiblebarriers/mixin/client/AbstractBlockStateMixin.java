@@ -17,20 +17,15 @@ import xyz.amymialee.visiblebarriers.VisibleConfig;
 
 @Mixin(BlockBehaviour.BlockStateBase.class)
 public abstract class AbstractBlockStateMixin {
-    @Shadow
-    public abstract Block getBlock();
-
-    @Shadow
-    public abstract boolean isAir();
-
-    @Shadow
-    protected abstract BlockState asState();
+    @Shadow public abstract Block getBlock();
+    @Shadow public abstract boolean isAir();
+    @Shadow protected abstract BlockState asState();
 
     @Inject(method = "getRenderShape", at = @At("RETURN"), cancellable = true)
     private void visibleBarriers$invisibleModels(CallbackInfoReturnable<RenderShape> cir) {
         if (VisibleBarriers.isVisibilityEnabled()) {
             if (cir.getReturnValue() == RenderShape.INVISIBLE && (VisibleConfig.isAirVisible() || !this.isAir())) {
-                cir.setReturnValue(RenderShape.MODEL);
+                if (this.getBlock() != Blocks.AIR) cir.setReturnValue(RenderShape.MODEL);
             }
         } else {
             if (this.getBlock() == Blocks.BARRIER && VisibleBarriers.areBarriersEnabled()) {

@@ -12,9 +12,7 @@ import xyz.amymialee.visiblebarriers.VisibleConfig;
 public class MinecraftMixin {
     @WrapOperation(method = "continueAttack", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;isAir()Z"))
     private boolean visibleBarriers$breakAir(BlockState state, Operation<Boolean> original) {
-        if (VisibleConfig.isAirVisible()) {
-            return false;
-        }
+        if (VisibleConfig.isAirVisible()) return false;
         return original.call(state);
     }
 }
