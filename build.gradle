@@ -4,40 +4,25 @@ plugins {
     id "me.modmuss50.mod-publish-plugin" version "0.8.4"
 }
 
-base {
-    archivesName = project.archives_base_name + "-" + project.minecraft_version
-}
-
+base { archivesName = project.archives_base_name + "-" + project.minecraft_version }
 version = project.mod_version
 group = project.maven_group
 
-repositories {
-    maven { url "https://maven.nucleoid.xyz" }
-    maven { url "https://maven.ladysnake.org/releases" }
-}
 
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     implementation "net.fabricmc:fabric-loader:${project.loader_version}"
     implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    implementation include("eu.pb4:polymer-core:${project.polymer_version}")
 }
 
-loom {
-    accessWidenerPath = file("src/main/resources/visiblebarriers.accesswidener")
-}
-
-fabricApi {
-    configureDataGeneration() {
-        modId = "visiblebarriers"
-    }
-}
+repositories {}
+loom { accessWidenerPath = file("src/main/resources/visiblebarriers.accesswidener") }
+fabricApi { configureDataGeneration() { modId = "visiblebarriers" } }
+jar { from("LICENSE.md") { rename { "${it}_${project.base.archivesName.get()}"} } }
 
 processResources {
     inputs.property "version", project.version
-    filesMatching("fabric.mod.json") {
-        expand "version": project.version
-    }
+    filesMatching("fabric.mod.json") { expand "version": project.version }
 }
 
 tasks.withType(JavaCompile).configureEach {
@@ -52,11 +37,6 @@ java {
     withSourcesJar()
 }
 
-jar {
-    from("LICENSE.md") {
-        rename { "${it}_${project.base.archivesName.get()}"}
-    }
-}
 
 publishing {
     publications {
@@ -80,7 +60,7 @@ publishMods {
     file = jar.archiveFile
     additionalFiles.files.add(sourcesJar.archiveFile.get().getAsFile())
     displayName = "${project.version.toString().split("\\+")[0]} for Fabric $minecraft_version"
-    changelog = new File("CHANGELOG.md").text
+    changelog = ""
     type = STABLE
     modLoaders.addAll("fabric", "quilt")
     dryRun = !providers.gradleProperty("curseforge_api_key").isPresent() || !providers.gradleProperty("modrinth_api_key").isPresent() || !providers.gradleProperty("discord_webhook").isPresent()

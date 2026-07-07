@@ -1,39 +1,33 @@
 {
     "required": true,
     "minVersion": "0.8",
-    "package": "xyz.amymialee.visiblebarriers.mixin",
-    "compatibilityLevel": "JAVA_17",
+    "package": "dev.amymialee.visiblebarriers.mixin",
+    "compatibilityLevel": "JAVA_25",
     "mixins": [
-        "AirBlockMixin",
-        "BubbleColumnBlockMixin",
-        "EntityTypeBuilderMixin",
-        "MarkerMixin",
-        "MovingPistonBlockMixin",
-        "boxing.BlockBehaviourMixin",
-        "boxing.BlockMixin",
-        "boxing.LevelMixin"
+        "blocks.AirBlockMixin",
+        "blocks.BlockBehaviourMixin",
+        "blocks.BlockMixin",
+        "blocks.BubbleColumnBlockMixin",
+        "LevelMixin",
+        "blocks.MovingPistonBlockMixin"
     ],
     "client": [
-        "boxing.EntityRendererMixin",
-        "client.AbstractBlockStateMixin",
-        "client.ClientBarrierBlockMixin",
-        "client.ClientBubbleColumnBlockMixin",
-        "client.ClientLevelMixin",
-        "client.ClientLevelMixin$ClientLevelDataMixin",
-        "client.ClientMovingPistonBlockMixin",
-        "client.ClientMultiPlayerGameModeMixin",
-        "client.ClientWallBlockMixin",
-        "client.CreativeModeTabItemDisplayParametersMixin",
-        "client.EntityMixin",
-        "client.EntityRenderStateMixin",
-        "client.CameraMixin",
-        "client.LightBlockMixin",
-        "client.LightmapRenderStateExtractorMixin",
-        "client.MinecraftMixin",
-        "client.MouseHandlerMixin",
-        "client.NoopRendererMixin"
+        "blocks.BlockStateBaseMixin",
+        "zoom.CameraMixin",
+        "blocks.BarrierBlockMixin",
+        "blocks.BubbleColumnBlockMixin",
+        "ClientLevelMixin",
+        "ClientLevelMixin$ClientLevelDataMixin",
+        "blocks.WallBlockMixin",
+        "blocks.LightBlockMixin",
+        "fullbright.LightmapRenderStateExtractorMixin",
+        "MinecraftMixin",
+        "zoom.MouseHandlerMixin",
+        "entities.EntityMixin",
+        "entities.EntityRendererMixin",
+        "entities.NoopRendererMixin"
     ],
     "injectors": {
         "defaultRequire": 1
-  }
+    }
 }
