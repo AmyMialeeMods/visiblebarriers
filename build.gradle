@@ -80,7 +80,7 @@ publishMods {
     file = jar.archiveFile
     additionalFiles.files.add(sourcesJar.archiveFile.get().getAsFile())
     displayName = "${project.version.toString().split("\\+")[0]} for Fabric $minecraft_version"
-    changelog = new File("CHANGELOG.md").text
+    changelog = ""
     type = STABLE
     modLoaders.addAll("fabric", "quilt")
     dryRun = !providers.gradleProperty("curseforge_api_key").isPresent() || !providers.gradleProperty("modrinth_api_key").isPresent() || !providers.gradleProperty("discord_webhook").isPresent()
