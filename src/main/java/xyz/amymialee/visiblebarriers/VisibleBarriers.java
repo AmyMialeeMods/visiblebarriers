@@ -50,7 +50,10 @@ public class VisibleBarriers implements ClientModInitializer {
     }
 
     public static void reloadWorldRenderer() {
-        if (Minecraft.getInstance().levelRenderer != null) Minecraft.getInstance().levelRenderer.allChanged();
+        var mc = Minecraft.getInstance();
+        if (mc.levelRenderer != null && mc.level != null) {
+            mc.levelRenderer.invalidateCompiledGeometry(mc.level, mc.options, mc.gameRenderer.mainCamera(), mc.getBlockColors());
+        }
     }
 
     public static boolean isVisibilityEnabled() {
