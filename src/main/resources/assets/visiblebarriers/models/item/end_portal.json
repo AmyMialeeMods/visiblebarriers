@@ -1,3 +1,21 @@
 {
-  "parent": "minecraft:block/obsidian"
+  "model": {
+    "type": "minecraft:composite",
+    "models": [
+      {
+        "type": "minecraft:special",
+        "base": "minecraft:item/generated",
+        "model": {
+          "type": "minecraft:end_cube",
+          "effect": "portal"
+        },
+        "transformation": {
+          "left_rotation": [0, 0, 0, 1],
+          "right_rotation": [-0.0, -0.0, -0.0, 1.0],
+          "scale": [1, 1, 0.0623],
+          "translation": [0, 0, 0.46885]
+        }
+      }
+    ]
+  }
 }
