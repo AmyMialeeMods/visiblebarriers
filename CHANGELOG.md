@@ -1,2 +1,1 @@
-- Update to 26.1 (Thanks ThatGravyBoat)
-- Remove normal air visibility (it breaks LOD mods)
+- Update to include End Portal / End Gateway models (Thanks ReweMC)
