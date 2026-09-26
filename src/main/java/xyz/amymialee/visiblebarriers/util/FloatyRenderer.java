@@ -14,6 +14,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Matrix4f;
 
 import java.util.function.Supplier;
 
@@ -49,7 +50,7 @@ public class FloatyRenderer {
         state.count = 1;
         matrixStack.pushPose();
         matrixStack.translate(0.0D, entity.getBbHeight() / 2, 0.0D);
-        matrixStack.mulPose(Axis.YP.rotation(-((entity.tickCount + tickDelta) * 8) / 20.0f));
+        matrixStack.mulPose(new Matrix4f().rotation(Axis.YP.rotation(-((entity.tickCount + tickDelta) * 8) / 20.0f)));
         ItemEntityRenderer.renderMultipleFromCount(matrixStack, queue, light, state, this.random);
         matrixStack.popPose();
     }

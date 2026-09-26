@@ -64,13 +64,23 @@ public record TransparentQuadEmitter(QuadEmitter emitter, float transparency) im
     }
 
     @Override
+    public QuadEmitter itemGlintRenderType(RenderType renderType) {
+        return this.emitter.itemGlintRenderType(renderType);
+    }
+
+    @Override
+    public @NonNull QuadEmitter itemGlintSpecialRenderType(@Nullable RenderType renderType) {
+        return this.emitter.itemGlintSpecialRenderType(renderType);
+    }
+
+    @Override
     public @NonNull QuadEmitter emissive(boolean emissive) {
         return this.emitter.emissive(emissive);
     }
 
     @Override
-    public @NonNull QuadEmitter diffuseShade(boolean shade) {
-        return this.emitter.diffuseShade(shade);
+    public QuadEmitter shadeDirectionOverride(@Nullable Direction shadeDirection) {
+        return this.emitter.shadeDirectionOverride(shadeDirection);
     }
 
     @Override
@@ -259,13 +269,23 @@ public record TransparentQuadEmitter(QuadEmitter emitter, float transparency) im
     }
 
     @Override
+    public RenderType itemGlintRenderType() {
+        return this.emitter.itemGlintRenderType();
+    }
+
+    @Override
+    public @Nullable RenderType itemGlintSpecialRenderType() {
+        return this.emitter.itemGlintSpecialRenderType();
+    }
+
+    @Override
     public boolean emissive() {
         return this.emitter.emissive();
     }
 
     @Override
-    public boolean diffuseShade() {
-        return this.emitter.diffuseShade();
+    public @Nullable Direction shadeDirectionOverride() {
+        return this.emitter.shadeDirectionOverride();
     }
 
     @Override

@@ -5,8 +5,6 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.world.level.block.LiquidBlock;
-import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -17,14 +15,6 @@ import xyz.amymialee.visiblebarriers.mixin.boxing.LevelMixin;
 
 @Mixin(ClientLevel.class)
 public class ClientLevelMixin extends LevelMixin {
-
-    @WrapOperation(method = "addBreakingBlockEffect", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;shouldSpawnTerrainParticles()Z"))
-    private boolean visibleBarriers$removeWaterBreakParticles(BlockState state, Operation<Boolean> operation) {
-        if (state.getBlock() instanceof LiquidBlock) {
-            return false;
-        }
-        return operation.call(state);
-    }
 
     @WrapMethod(method = "tickTime")
     private void visibleBarriers$stopTime(Operation<Void> original) {

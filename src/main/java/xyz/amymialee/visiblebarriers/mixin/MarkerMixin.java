@@ -1,9 +1,9 @@
 package xyz.amymialee.visiblebarriers.mixin;
 
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.server.level.ServerEntity;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Marker;
@@ -20,9 +20,8 @@ public abstract class MarkerMixin extends Entity {
     }
 
     @Inject(method = "getAddEntityPacket", at = @At("HEAD"), cancellable = true)
-    public void visibleBarriers$forcePacket(CallbackInfoReturnable<Packet<?>> cir) {
-        var entityTrackerEntry = new ServerEntity((ServerLevel) this.level(), (Marker) ((Object) this), 0, false, null);
-        cir.setReturnValue(new ClientboundAddEntityPacket(this, entityTrackerEntry, 0));
+    public void visibleBarriers$forcePacket(ServerEntity serverEntity, CallbackInfoReturnable<Packet<ClientGamePacketListener>> cir) {
+        cir.setReturnValue(new ClientboundAddEntityPacket(this, serverEntity, 0));
     }
 
 }
