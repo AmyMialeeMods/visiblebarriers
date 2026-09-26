@@ -9,7 +9,6 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.commands.arguments.TimeArgument;
-import org.lwjgl.glfw.GLFW;
 import xyz.amymialee.visiblebarriers.common.VisibleBarriersCommon;
 
 public class VisibleInput {
@@ -28,7 +27,7 @@ public class VisibleInput {
     public static void initKeys() {
         keyBindingVisibility = KeyMappingHelper.registerKeyMapping(new KeyMapping(
                 "key.visiblebarriers.visible",
-                GLFW.GLFW_KEY_B,
+                InputConstants.KEY_B,
                 CATEGORY
         ));
         keyBindingBarriers = KeyMappingHelper.registerKeyMapping(new KeyMapping(
