@@ -49,6 +49,7 @@ public class VisibleBarriersCommon implements ModInitializer {
                 }
                 content.accept(makeVariant(BUBBLE_COLUMN_BLOCK_ITEM, BlockStateProperties.DRAG, Boolean.TRUE));
                 content.accept(makeVariant(BUBBLE_COLUMN_BLOCK_ITEM, BlockStateProperties.DRAG, Boolean.FALSE));
+                content.accept(Items.KNOWLEDGE_BOOK);
             }
         });
         VisibleBarriersNetworking.register();
