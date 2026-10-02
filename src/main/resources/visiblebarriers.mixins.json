@@ -9,6 +9,7 @@
     "EntityTypeBuilderMixin",
     "MarkerMixin",
     "MovingPistonBlockMixin",
+    "NetherPortalBlockMixin",
     "boxing.BlockBehaviourMixin",
     "boxing.BlockMixin",
     "boxing.LevelMixin",

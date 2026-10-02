@@ -15,6 +15,7 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.BlockItemStateProperties;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FrostedIceBlock;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.PistonType;
 import net.minecraft.world.level.block.state.properties.Property;
@@ -36,6 +37,8 @@ public class VisibleBarriersCommon implements ModInitializer {
     public static final BlockItem END_PORTAL_BLOCK_ITEM = registerBlockItem(Blocks.END_PORTAL, "End Portal", "end_portal");
     public static final BlockItem END_GATEWAY_BLOCK_ITEM = registerBlockItem(Blocks.END_GATEWAY, "End Gateway", "end_gateway");
     public static final BlockItem BUBBLE_COLUMN_BLOCK_ITEM = registerBlockItem(Blocks.BUBBLE_COLUMN, "Bubble Column", "bubble_column");
+    public static final BlockItem NETHER_PORTAL = registerBlockItem(Blocks.NETHER_PORTAL, "Nether Portal", "nether_portal");
+    public static final BlockItem FROSTED_ICE = registerBlockItem(Blocks.FROSTED_ICE, "Frosted Ice", "frosted_ice");
 
     @Override
     public void onInitialize() {
@@ -44,11 +47,15 @@ public class VisibleBarriersCommon implements ModInitializer {
                 for (var type : PistonType.values()) {
                     content.accept(makeVariant(MOVING_PISTON_BLOCK_ITEM, BlockStateProperties.PISTON_TYPE, type));
                 }
-                for (var item : List.of(AIR_BLOCK_ITEM, CAVE_AIR_BLOCK_ITEM, VOID_AIR_BLOCK_ITEM, END_PORTAL_BLOCK_ITEM, END_GATEWAY_BLOCK_ITEM)) {
+                for (var item : List.of(AIR_BLOCK_ITEM, CAVE_AIR_BLOCK_ITEM, VOID_AIR_BLOCK_ITEM, END_PORTAL_BLOCK_ITEM, END_GATEWAY_BLOCK_ITEM, NETHER_PORTAL)) {
                     content.accept(new ItemStack(item));
                 }
                 content.accept(makeVariant(BUBBLE_COLUMN_BLOCK_ITEM, BlockStateProperties.DRAG, Boolean.TRUE));
                 content.accept(makeVariant(BUBBLE_COLUMN_BLOCK_ITEM, BlockStateProperties.DRAG, Boolean.FALSE));
+                content.accept(makeVariant(FROSTED_ICE, FrostedIceBlock.AGE, 0));
+                content.accept(makeVariant(FROSTED_ICE, FrostedIceBlock.AGE, 1));
+                content.accept(makeVariant(FROSTED_ICE, FrostedIceBlock.AGE, 2));
+                content.accept(makeVariant(FROSTED_ICE, FrostedIceBlock.AGE, 3));
                 content.accept(Items.KNOWLEDGE_BOOK);
             }
         });

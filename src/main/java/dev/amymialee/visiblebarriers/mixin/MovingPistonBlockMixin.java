@@ -36,7 +36,7 @@ public abstract class MovingPistonBlockMixin extends BlockMixin {
     }
 
     @Override
-    public void visibleBarriers$getPlacementState(BlockPlaceContext ctx, CallbackInfoReturnable<BlockState> cir) {
+    public void visibleBarriers$getStateForPlacement(BlockPlaceContext ctx, CallbackInfoReturnable<BlockState> cir) {
         cir.setReturnValue(this.defaultBlockState().setValue(MovingPistonBlock.FACING, ctx.getNearestLookingDirection().getOpposite()));
     }
 

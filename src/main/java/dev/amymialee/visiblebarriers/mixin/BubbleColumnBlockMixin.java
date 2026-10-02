@@ -29,7 +29,7 @@ import dev.amymialee.visiblebarriers.mixin.boxing.BlockMixin;
 @Mixin(BubbleColumnBlock.class)
 public abstract class BubbleColumnBlockMixin extends BlockMixin implements PlayerPickItemEvents.PickItemFromBlock {
     @Override
-    public void visibleBarriers$getPlacementState(BlockPlaceContext ctx, CallbackInfoReturnable<BlockState> cir) {
+    public void visibleBarriers$getStateForPlacement(BlockPlaceContext ctx, CallbackInfoReturnable<BlockState> cir) {
         var stack = ctx.getItemInHand();
         var blockState = stack.getComponents().get(DataComponents.BLOCK_STATE);
         var drag = true;
