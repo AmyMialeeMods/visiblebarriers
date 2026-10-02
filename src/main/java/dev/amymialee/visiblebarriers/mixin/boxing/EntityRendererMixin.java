@@ -1,7 +1,6 @@
 package dev.amymialee.visiblebarriers.mixin.boxing;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -17,14 +16,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import dev.amymialee.visiblebarriers.VisibleBarriers;
-import dev.amymialee.visiblebarriers.access.EntityRenderStateAccess;
 import dev.amymialee.visiblebarriers.util.FloatyRenderer;
 
 @Mixin(EntityRenderer.class)
 public class EntityRendererMixin<T extends Entity, S extends EntityRenderState> {
-
-    @Unique
-    protected FloatyRenderer floater;
+    @Unique protected FloatyRenderer floater;
 
     @Inject(method = "<init>", at = @At("TAIL"))
     public void visibleBarriers$giveRenderer(@NotNull EntityRendererProvider.Context context, CallbackInfo ci) {
@@ -32,33 +28,28 @@ public class EntityRendererMixin<T extends Entity, S extends EntityRenderState> 
     }
 
     @ModifyReturnValue(method = "createRenderState(Lnet/minecraft/world/entity/Entity;F)Lnet/minecraft/client/renderer/entity/state/EntityRenderState;", at = @At("TAIL"))
-    private S visibleBarriers$getAndUpdateRenderStateTail(S original, @Local(argsOnly = true) T entity) {
-        ((EntityRenderStateAccess) original).visiblebarriers$setEntity(entity);
+    private S visibleBarriers$getAndUpdateRenderStateTail(S original, T entity) {
+        original.setData(VisibleBarriers.ENTITY, entity);
         return original;
     }
 
     @Inject(method = "extractRenderState", at = @At("TAIL"))
-    private void visibleBarriers$updateRenderStateTail(T entity, S state, float tickDelta, CallbackInfo ci) {
-        ((EntityRenderStateAccess) state).visiblebarriers$setEntity(entity);
+    private void visibleBarriers$updateRenderStateTail(T entity, S state, float partialTicks, CallbackInfo ci) {
+        state.setData(VisibleBarriers.ENTITY, entity);
     }
 
     @Inject(method = "submit", at = @At("HEAD"))
-    protected void visibleBarriers$renderHead(S renderState, PoseStack matrices, SubmitNodeCollector queue, CameraRenderState cameraState, CallbackInfo ci) {
-        if (VisibleBarriers.isVisibilityEnabled() && renderState.isInvisible) {
-            var entity = ((EntityRenderStateAccess) renderState).visiblebarriers$getEntity();
+    protected void visibleBarriers$renderHead(S state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState camera, CallbackInfo ci) {
+        if (VisibleBarriers.isVisibilityEnabled() && state.isInvisible) {
+            var entity = state.getData(VisibleBarriers.ENTITY);
             if (entity == null) return; // This happens if a mod creates a render state without extracting it from an entity.
-
             if (entity.getPickResult() != null) {
                 var stack = entity.getPickResult();
-                if (!this.floater.getItem().is(stack.getItem())) {
-                    this.floater.setItem(stack);
-                }
-                this.floater.render(entity, matrices, queue, renderState.lightCoords);
+                if (!this.floater.getItem().is(stack.getItem())) this.floater.setItem(stack);
+                this.floater.render(entity, poseStack, submitNodeCollector, state.lightCoords);
             } else {
-                if (!this.floater.getItem().is(Items.STRUCTURE_VOID)) {
-                    this.floater.setItem(Items.STRUCTURE_VOID.getDefaultInstance());
-                }
-                this.floater.render(entity, matrices, queue, renderState.lightCoords);
+                if (!this.floater.getItem().is(Items.STRUCTURE_VOID)) this.floater.setItem(Items.STRUCTURE_VOID.getDefaultInstance());
+                this.floater.render(entity, poseStack, submitNodeCollector, state.lightCoords);
             }
         }
     }

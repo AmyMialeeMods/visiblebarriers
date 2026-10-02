@@ -19,7 +19,6 @@ import org.jspecify.annotations.NonNull;
 import java.util.function.Predicate;
 
 public class TransparentBlockStateModel extends WrapperBlockStateModel {
-
     private final float transparency;
 
     protected TransparentBlockStateModel(BlockStateModel wrapped, float transparency) {

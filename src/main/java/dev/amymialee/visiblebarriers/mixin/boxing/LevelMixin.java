@@ -9,10 +9,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Level.class)
 public class LevelMixin {
     @Inject(method = "getRainLevel", at = @At("HEAD"), cancellable = true)
-    protected void visibleBarriers$setRain(float delta, CallbackInfoReturnable<Float> cir) {
+    protected void visibleBarriers$setRain(float a, CallbackInfoReturnable<Float> cir) {
     }
 
     @Inject(method = "getThunderLevel", at = @At("HEAD"), cancellable = true)
-    protected void visibleBarriers$setThunder(float delta, CallbackInfoReturnable<Float> cir) {
+    protected void visibleBarriers$setThunder(float a, CallbackInfoReturnable<Float> cir) {
     }
 }

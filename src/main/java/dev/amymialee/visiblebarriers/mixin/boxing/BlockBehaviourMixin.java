@@ -24,10 +24,10 @@ public abstract class BlockBehaviourMixin {
     }
 
     @Inject(method = "skipRendering", at = @At("HEAD"), cancellable = true)
-    public void visibleBarriers$isSideInvisible(BlockState state, BlockState stateFrom, Direction direction, CallbackInfoReturnable<Boolean> cir) {
+    public void visibleBarriers$isSideInvisible(BlockState state, BlockState neighborState, Direction direction, CallbackInfoReturnable<Boolean> cir) {
     }
 
     @Inject(method = "getCollisionShape", at = @At("HEAD"), cancellable = true)
-    public void visibleBarriers$getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context, CallbackInfoReturnable<VoxelShape> cir) {
+    public void visibleBarriers$getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context, CallbackInfoReturnable<VoxelShape> cir) {
     }
 }

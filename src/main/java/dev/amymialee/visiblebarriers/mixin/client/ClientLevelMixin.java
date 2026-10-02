@@ -24,9 +24,9 @@ public class ClientLevelMixin extends LevelMixin {
     }
 
     @WrapOperation(method = "doAnimateTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/ClientLevel;addParticle(Lnet/minecraft/core/particles/ParticleOptions;DDDDDD)V", ordinal = 0))
-    public void visibleBarriers$removeParticles(ClientLevel world, ParticleOptions parameters, double x, double y, double z, double velocityX, double velocityY, double velocityZ, Operation<Void> operation) {
+    public void visibleBarriers$removeParticles(ClientLevel world, ParticleOptions particle, double x, double y, double z, double xd, double yd, double zd, Operation<Void> operation) {
         if (!VisibleConfig.shouldHideParticles()) {
-            operation.call(world, parameters, x, y, z, velocityX, velocityY, velocityZ);
+            operation.call(world, particle, x, y, z, xd, yd, zd);
         }
     }
 

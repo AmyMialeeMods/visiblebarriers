@@ -14,8 +14,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(MultiPlayerGameMode.class)
 public class ClientMultiPlayerGameModeMixin {
     @Inject(method = "useItemOn", at = @At("HEAD"), cancellable = true)
-    private void visibleBarriers$dontInteractBlock(LocalPlayer player, InteractionHand hand, BlockHitResult hitResult, CallbackInfoReturnable<InteractionResult> cir) {
-        var state = player.level().getBlockState(hitResult.getBlockPos());
+    private void visibleBarriers$dontInteractBlock(LocalPlayer player, InteractionHand hand, BlockHitResult blockHit, CallbackInfoReturnable<InteractionResult> cir) {
+        var state = player.level().getBlockState(blockHit.getBlockPos());
         if (state.is(Blocks.MOVING_PISTON) && !player.isCreative()) {
             cir.setReturnValue(InteractionResult.FAIL);
         }

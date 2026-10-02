@@ -56,9 +56,7 @@ public class FloatyRenderer {
     }
 
     public ItemStack getItem() {
-        if (this.stack == null) {
-            this.stack = this.fallback.get();
-        }
+        if (this.stack == null) this.stack = this.fallback.get();
         return this.stack;
     }
 

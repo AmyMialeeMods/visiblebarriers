@@ -13,7 +13,6 @@ import net.minecraft.util.Unit;
 import org.jetbrains.annotations.NotNull;
 
 public class VisibleBarriersNetworking {
-
     private static final PacketContext.Key<@NotNull Unit> INSTALLED_PACKET_KEY = PacketContext.key(VisibleBarriersCommon.id("mod_installed"));
 
     public static void register() {

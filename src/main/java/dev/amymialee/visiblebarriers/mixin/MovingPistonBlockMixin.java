@@ -41,16 +41,16 @@ public abstract class MovingPistonBlockMixin extends BlockMixin {
     }
 
     @Inject(method = "useWithoutItem", at = @At("HEAD"), cancellable = true)
-    public void visibleBarriers$onUse(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit, CallbackInfoReturnable<InteractionResult> cir) {
+    public void visibleBarriers$onUse(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult, CallbackInfoReturnable<InteractionResult> cir) {
         var item = player.getItemInHand(InteractionHand.MAIN_HAND).getItem();
         if (item == VisibleBarriersCommon.MOVING_PISTON_BLOCK_ITEM && state.hasProperty(MovingPistonBlock.TYPE)) {
-            world.setBlock(pos, state.setValue(MovingPistonBlock.TYPE, state.getValue(MovingPistonBlock.TYPE) == PistonType.DEFAULT ? PistonType.STICKY : PistonType.DEFAULT), Block.UPDATE_CLIENTS);
+            level.setBlock(pos, state.setValue(MovingPistonBlock.TYPE, state.getValue(MovingPistonBlock.TYPE) == PistonType.DEFAULT ? PistonType.STICKY : PistonType.DEFAULT), Block.UPDATE_CLIENTS);
             cir.setReturnValue(InteractionResult.SUCCESS);
         }
     }
 
     @Inject(method = "getCloneItemStack", at = @At("HEAD"), cancellable = true)
-    public void visibleBarriers$pickStack(LevelReader world, BlockPos pos, BlockState state, boolean includeData, @NotNull CallbackInfoReturnable<ItemStack> cir) {
+    public void visibleBarriers$pickStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData, @NotNull CallbackInfoReturnable<ItemStack> cir) {
         var stack = new ItemStack(VisibleBarriersCommon.MOVING_PISTON_BLOCK_ITEM);
         stack.update(DataComponents.BLOCK_STATE, BlockItemStateProperties.EMPTY, c -> c.with(BlockStateProperties.PISTON_TYPE, state.getValue(MovingPistonBlock.TYPE)));
         cir.setReturnValue(stack);

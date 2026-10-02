@@ -10,13 +10,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(EntityType.Builder.class)
 public class EntityTypeBuilderMixin {
-    @Shadow
-    private int clientTrackingRange;
+    @Shadow private int clientTrackingRange;
 
     @Inject(method = "clientTrackingRange", at = @At("RETURN"))
-    public void visibleBarriers$minTrackingRange(int maxTrackingRange, CallbackInfoReturnable<EntityType.Builder<Entity>> cir) {
-        if (this.clientTrackingRange == 0) {
-            this.clientTrackingRange = 2;
-        }
+    public void visibleBarriers$minTrackingRange(int clientChunkRange, CallbackInfoReturnable<EntityType.Builder<Entity>> cir) {
+        if (this.clientTrackingRange == 0) this.clientTrackingRange = 2;
     }
 }

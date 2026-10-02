@@ -25,7 +25,7 @@ public abstract class ClientWallBlockMixin extends BlockMixin {
     private Function<BlockState, VoxelShape> shapes;
 
     @Inject(method = "getShape", at = @At("HEAD"), cancellable = true)
-    public void visibleBarriers$makeOutlineVisible(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context, CallbackInfoReturnable<VoxelShape> cir) {
+    public void visibleBarriers$makeOutlineVisible(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context, CallbackInfoReturnable<VoxelShape> cir) {
         if (VisibleBarriers.isVisibilityEnabled()) {
             var east = state.getValueOrElse(WallBlock.EAST, WallSide.LOW) == WallSide.NONE;
             var west = state.getValueOrElse(WallBlock.WEST, WallSide.LOW) == WallSide.NONE;

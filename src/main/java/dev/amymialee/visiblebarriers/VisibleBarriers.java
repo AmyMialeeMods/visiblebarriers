@@ -5,10 +5,12 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.model.loading.v1.CustomUnbakedBlockStateModel;
 import net.fabricmc.fabric.api.client.networking.v1.ClientConfigurationNetworking;
+import net.fabricmc.fabric.api.client.rendering.v1.RenderStateDataKey;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import dev.amymialee.visiblebarriers.common.VisibleBarriersCommon;
 import dev.amymialee.visiblebarriers.common.VisibleBarriersNetworking;
@@ -16,6 +18,10 @@ import dev.amymialee.visiblebarriers.model.TransparentBlockStateModel;
 
 @Environment(EnvType.CLIENT)
 public class VisibleBarriers implements ClientModInitializer {
+    /**
+     * This is incredibly jank and awful, but I don't have the time to replace it with a better system atm.
+     */
+    public static final RenderStateDataKey<Entity> ENTITY = RenderStateDataKey.create(() -> "Visible Barriers Entity");
     protected static boolean toggleVisible = false;
     protected static boolean toggleBarriers = false;
     protected static boolean toggleLights = false;

@@ -17,7 +17,6 @@ import org.joml.Vector3fc;
 import org.jspecify.annotations.NonNull;
 
 public record TransparentQuadEmitter(QuadEmitter emitter, float transparency) implements QuadEmitter {
-
     @Override
     public @NonNull QuadEmitter pos(int vertexIndex, float x, float y, float z) {
         return this.emitter.pos(vertexIndex, x, y, z);

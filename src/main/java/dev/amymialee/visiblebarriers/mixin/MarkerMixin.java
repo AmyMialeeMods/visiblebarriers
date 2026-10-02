@@ -23,5 +23,4 @@ public abstract class MarkerMixin extends Entity {
     public void visibleBarriers$forcePacket(ServerEntity serverEntity, CallbackInfoReturnable<Packet<ClientGamePacketListener>> cir) {
         cir.setReturnValue(new ClientboundAddEntityPacket(this, serverEntity, 0));
     }
-
 }

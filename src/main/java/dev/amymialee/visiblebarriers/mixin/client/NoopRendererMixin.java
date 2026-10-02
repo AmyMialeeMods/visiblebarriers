@@ -4,7 +4,6 @@ import net.minecraft.client.renderer.state.level.CameraRenderState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import dev.amymialee.visiblebarriers.VisibleBarriers;
-import dev.amymialee.visiblebarriers.access.EntityRenderStateAccess;
 import dev.amymialee.visiblebarriers.mixin.boxing.EntityRendererMixin;
 import com.mojang.blaze3d.vertex.PoseStack;
 import java.util.Optional;
@@ -24,7 +23,7 @@ public abstract class NoopRendererMixin<T extends Entity, S extends EntityRender
     @Override
     protected void visibleBarriers$renderHead(S renderState, PoseStack matrices, SubmitNodeCollector queue, CameraRenderState cameraState, CallbackInfo ci) {
         if (VisibleBarriers.isVisibilityEnabled()) {
-            var entity = ((EntityRenderStateAccess) renderState).visiblebarriers$getEntity();
+            var entity = renderState.getData(VisibleBarriers.ENTITY);
             if (entity instanceof AreaEffectCloud cloud) {
                 if (!this.floater.getItem().is(Items.LINGERING_POTION)) {
                     var potion = new ItemStack(Items.LINGERING_POTION);

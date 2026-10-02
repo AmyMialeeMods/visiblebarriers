@@ -18,7 +18,7 @@ import dev.amymialee.visiblebarriers.mixin.boxing.BlockMixin;
 @Mixin(MovingPistonBlock.class)
 public abstract class ClientMovingPistonBlockMixin extends BlockMixin {
     @Inject(method = "getShape", at = @At("HEAD"), cancellable = true)
-    public void visibleBarriers$makeOutlineVisible(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context, CallbackInfoReturnable<VoxelShape> cir) {
+    public void visibleBarriers$makeOutlineVisible(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context, CallbackInfoReturnable<VoxelShape> cir) {
         if (VisibleBarriers.isVisibilityEnabled() || context.isHoldingItem(VisibleBarriersCommon.MOVING_PISTON_BLOCK_ITEM)) {
             cir.setReturnValue(Shapes.block());
         }

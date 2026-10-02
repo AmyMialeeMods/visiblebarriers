@@ -27,7 +27,6 @@
     "client.ClientWallBlockMixin",
     "client.CreativeModeTabItemDisplayParametersMixin",
     "client.EntityMixin",
-    "client.EntityRenderStateMixin",
     "client.LightBlockMixin",
     "client.LightmapRenderStateExtractorMixin",
     "client.MinecraftMixin",

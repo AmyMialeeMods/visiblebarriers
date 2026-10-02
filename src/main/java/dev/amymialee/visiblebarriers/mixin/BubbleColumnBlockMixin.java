@@ -33,10 +33,7 @@ public abstract class BubbleColumnBlockMixin extends BlockMixin implements Playe
         var stack = ctx.getItemInHand();
         var blockState = stack.getComponents().get(DataComponents.BLOCK_STATE);
         var drag = true;
-        if (blockState != null) {
-            drag = blockState.get(BlockStateProperties.DRAG) == Boolean.TRUE;
-        }
-
+        if (blockState != null) drag = blockState.get(BlockStateProperties.DRAG) == Boolean.TRUE;
         cir.setReturnValue(this.defaultBlockState().setValue(BubbleColumnBlock.DRAG_DOWN, drag));
     }
 
@@ -49,7 +46,7 @@ public abstract class BubbleColumnBlockMixin extends BlockMixin implements Playe
 
     @Environment(EnvType.CLIENT)
     @Inject(method = "getShape", at = @At("HEAD"), cancellable = true)
-    public void visibleBarriers$visibleOutlineShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context, CallbackInfoReturnable<VoxelShape> cir) {
+    public void visibleBarriers$visibleOutlineShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context, CallbackInfoReturnable<VoxelShape> cir) {
         if (VisibleBarriers.isVisibilityEnabled() || VisibleBarriers.areBubbleColumnsEnabled() || context == CollisionContext.empty()) {
             cir.setReturnValue(Shapes.block());
         }
