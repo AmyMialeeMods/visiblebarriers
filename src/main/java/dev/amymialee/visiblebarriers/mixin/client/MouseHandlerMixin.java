@@ -2,6 +2,8 @@ package dev.amymialee.visiblebarriers.mixin.client;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import dev.amymialee.visiblebarriers.VisibleBarriers;
+import dev.amymialee.visiblebarriers.VisibleConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.MouseHandler;
 import net.minecraft.client.OptionInstance;
@@ -12,41 +14,35 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import dev.amymialee.visiblebarriers.VisibleBarriers;
 
 @Mixin(MouseHandler.class)
 public class MouseHandlerMixin {
-    @Shadow
-    @Final
-    private Minecraft minecraft;
-    @Unique
-    private double eventDeltaVerticalWheel = 0.0;
+    @Shadow @Final private Minecraft minecraft;
+
+    @Unique private double eventDeltaVerticalWheel = 0.0;
 
     @Inject(method = "onScroll", at = @At("HEAD"), cancellable = true)
     private void visibleBarriers$scroll(long handle, double xoffset, double yoffset, CallbackInfo ci) {
-        if (handle == Minecraft.getInstance().getWindow().handle() && VisibleBarriers.isHoldingZoom()) {
-            var d = (this.minecraft.options.discreteMouseScroll().get() ? Math.signum(yoffset) : yoffset) * this.minecraft.options.mouseWheelSensitivity().get();
+        if (handle != Minecraft.getInstance().getWindow().handle() || !VisibleConfig.holdingZoom) return;
 
-            if (this.eventDeltaVerticalWheel != 0.0 && Math.signum(d) != Math.signum(this.eventDeltaVerticalWheel)) {
-                this.eventDeltaVerticalWheel = 0.0;
-            }
-            this.eventDeltaVerticalWheel += d;
-            var i = (int) this.eventDeltaVerticalWheel;
-            if (i == 0) {
-                return;
-            }
-            this.eventDeltaVerticalWheel -= i;
-            VisibleBarriers.modifyZoomModifier(-i);
-            ci.cancel();
+        var d = (this.minecraft.options.discreteMouseScroll().get() ? Math.signum(yoffset) : yoffset) * this.minecraft.options.mouseWheelSensitivity().get();
+
+        if (this.eventDeltaVerticalWheel != 0.0 && Math.signum(d) != Math.signum(this.eventDeltaVerticalWheel)) {
+            this.eventDeltaVerticalWheel = 0.0;
         }
+        this.eventDeltaVerticalWheel += d;
+        var i = (int) this.eventDeltaVerticalWheel;
+        if (i == 0) return;
+
+        this.eventDeltaVerticalWheel -= i;
+        VisibleBarriers.modifyZoomModifier(-i);
+        ci.cancel();
     }
 
     @WrapOperation(method = "turnPlayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/OptionInstance;get()Ljava/lang/Object;", ordinal = 0))
     private Object visibleBarriers$zoomSlow(OptionInstance<Double> option, Operation<Object> original) {
         double value = option.get();
-        if (VisibleBarriers.isHoldingZoom()) {
-            return value * VisibleBarriers.getZoomModifier();
-        }
+        if (VisibleConfig.holdingZoom) return value * VisibleBarriers.getZoomModifier();
         return value;
     }
 }

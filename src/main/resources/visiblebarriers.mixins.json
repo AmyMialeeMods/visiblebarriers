@@ -2,7 +2,7 @@
   "required": true,
   "minVersion": "0.8",
   "package": "dev.amymialee.visiblebarriers.mixin",
-  "compatibilityLevel": "JAVA_17",
+  "compatibilityLevel": "JAVA_25",
   "mixins": [
     "AirBlockMixin",
     "BubbleColumnBlockMixin",
@@ -31,7 +31,6 @@
     "client.EntityMixin",
     "client.LightBlockMixin",
     "client.LightmapRenderStateExtractorMixin",
-    "client.MinecraftMixin",
     "client.MouseHandlerMixin",
     "client.NoopRendererMixin"
   ],

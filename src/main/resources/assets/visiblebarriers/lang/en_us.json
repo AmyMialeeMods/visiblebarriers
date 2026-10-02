@@ -1,4 +1,8 @@
 {
+  "visiblebarriers.patreon": "Visible Barriers Patreon",
+  "visiblebarriers.midnightconfig.category.mod": "Visible Barriers",
+  "visiblebarriers.midnightconfig.category.keys": "Keybinds",
+  "key.visiblebarriers.config": "Open Config",
   "key.category.visiblebarriers.visiblebarriers": "Visible Barriers",
   "key.visiblebarriers.visible": "Toggle All Visibility",
   "key.visiblebarriers.barriers": "Show Barriers",

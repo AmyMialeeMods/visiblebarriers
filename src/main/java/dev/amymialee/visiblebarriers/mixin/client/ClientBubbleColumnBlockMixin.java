@@ -1,5 +1,6 @@
 package dev.amymialee.visiblebarriers.mixin.client;
 
+import dev.amymialee.visiblebarriers.mixin.boxing.BlockMixin;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BubbleColumnBlock;
@@ -7,7 +8,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import dev.amymialee.visiblebarriers.mixin.boxing.BlockMixin;
 
 @Mixin(BubbleColumnBlock.class)
 public abstract class ClientBubbleColumnBlockMixin extends BlockMixin {

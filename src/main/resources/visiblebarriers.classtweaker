@@ -2,3 +2,5 @@ accessWidener v2 official
 
 extendable class net/minecraft/world/item/ItemStack
 accessible field net/minecraft/world/entity/AreaEffectCloud potionContents Lnet/minecraft/world/item/alchemy/PotionContents;
+accessible method net/minecraft/client/gui/components/AbstractSelectionList addEntry (Lnet/minecraft/client/gui/components/AbstractSelectionList$Entry;I)I
+accessible field net/minecraft/client/gui/components/AbstractSelectionList defaultEntryHeight I

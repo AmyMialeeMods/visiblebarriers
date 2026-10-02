@@ -1,5 +1,7 @@
 package dev.amymialee.visiblebarriers.mixin;
 
+import dev.amymialee.visiblebarriers.common.VisibleBarriersCommon;
+import dev.amymialee.visiblebarriers.mixin.boxing.BlockMixin;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
@@ -22,8 +24,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import dev.amymialee.visiblebarriers.common.VisibleBarriersCommon;
-import dev.amymialee.visiblebarriers.mixin.boxing.BlockMixin;
 
 @Mixin(MovingPistonBlock.class)
 public abstract class MovingPistonBlockMixin extends BlockMixin {

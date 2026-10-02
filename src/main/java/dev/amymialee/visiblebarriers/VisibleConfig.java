@@ -1,126 +1,97 @@
 package dev.amymialee.visiblebarriers;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import net.fabricmc.loader.api.FabricLoader;
-import dev.amymialee.visiblebarriers.common.VisibleBarriersCommon;
+import dev.amymialee.visiblebarriers.util.MidnightLibExtras;
+import dev.amymialee.visiblebarriers.util.PatreonButton;
+import eu.midnightdust.lib.config.MidnightConfig;
+import eu.midnightdust.lib.config.MidnightConfigListWidget;
+import eu.midnightdust.lib.config.MidnightConfigScreen;
 
-import java.io.FileNotFoundException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.util.Objects;
 
-public class VisibleConfig {
-    private static final Path configFile = FabricLoader.getInstance().getConfigDir().resolve("visiblebarriers.json");
-    private static boolean visibleBarrier = false;
-    private static boolean visibleAir = false;
-    private static boolean hideParticles = true;
-    private static boolean sendFeedback = true;
-    private static boolean solidLights = false;
-    private static float baseZoom = 2.8f;
-    private static long forcedTime = 6000;
+/**
+ * Using midnightlib for the time being, might make a custom screen later.
+ */
+public class VisibleConfig extends MidnightConfig {
+    public static final String MOD = "mod";
+    public static final String KEYS = "keys";
 
-    public static void setVisibleBarrier(boolean visibleBarrier) {
-        VisibleConfig.visibleBarrier = visibleBarrier;
-        saveConfig();
+    @Entry(category = MOD, name = "Visibility")
+    public static boolean visibility = false;
+    public static boolean prevVisibility = false;
+
+    @Entry(category = MOD, name = "Hide Vanilla Barrier Particles")
+    public static boolean hideParticles = true;
+
+    @Entry(category = MOD, name = "Fullbright")
+    public static boolean gamma = false;
+    @Entry(category = MOD, name = "Fullbright Power", min = 0f, max = 255f, precision = 1)
+    public static float gammaPower = 255f;
+
+    @Entry(category = MOD, name = "Forced Time Enabled")
+    public static boolean forcedTimeEnabled = false;
+    @Entry(category = MOD, name = "Forced Time", isSlider = true, min = 0, max = 24000)
+    public static int forcedTime = 6000;
+
+    @Entry(category = MOD, name = "Forced Weather")
+    public static Weather forcedWeather = Weather.UNCHANGED;
+
+    @Entry(category = MOD, name = "Base Zoom Level", isSlider = true, min = 0.1f, max = 8f, precision = 2)
+    public static float baseZoom = 2.8f;
+    public static boolean holdingZoom = false;
+    public static float zoomScroll = 1.0F;
+
+    @Entry(category = MOD, name = "Show Actionbar Feedback Text")
+    public static boolean sendFeedback = false;
+
+    @Condition(requiredModId = "1234mod")
+    @Comment(category = KEYS)
+    public static Comment dummy;
+
+    @Override
+    public void onTabInit(String tabName, MidnightConfigListWidget list, MidnightConfigScreen screen) {
+        list.addEntry(new PatreonButton(), list.defaultEntryHeight);
+        if (!Objects.equals(tabName, KEYS)) return;
+        MidnightLibExtras.KeybindButton.add(VisibleInput.keyBindingConfig, list, screen);
+        MidnightLibExtras.KeybindButton.add(VisibleInput.keyBindingVisibility, list, screen);
+        MidnightLibExtras.KeybindButton.add(VisibleInput.keyBindingFullBright, list, screen);
+        MidnightLibExtras.KeybindButton.add(VisibleInput.keyBindingZoom, list, screen);
     }
 
-    public static void setVisibleAir(boolean visibleAir) {
-        VisibleConfig.visibleAir = visibleAir;
-        saveConfig();
-    }
-
-    public static void setHideParticles(boolean hideParticles) {
-        VisibleConfig.hideParticles = hideParticles;
-        saveConfig();
-    }
-
-    public static void setSendFeedback(boolean sendFeedback) {
-        VisibleConfig.sendFeedback = sendFeedback;
-        saveConfig();
-    }
-
-    public static void setForcedTime(long forcedTime) {
-        VisibleConfig.forcedTime = forcedTime;
-        VisibleBarriers.setTime(true);
-    }
-
-    public static boolean isBarrierVisible() {
-        return visibleBarrier;
-    }
-
-    public static boolean isAirVisible() {
-        return visibleAir;
-    }
-
-    public static boolean shouldHideParticles() {
-        return hideParticles;
-    }
-
-    public static boolean shouldSendFeedback() {
-        return sendFeedback;
-    }
-
-    public static float getBaseZoom() {
-        return baseZoom;
-    }
-
-    public static long getForcedTime() {
-        return forcedTime;
-    }
-
-    public static boolean areLightsSolid() {
-        return solidLights;
-    }
-
-    protected static void saveConfig() {
-        try {
-            var gson = new GsonBuilder().setPrettyPrinting().create();
-            var json = new JsonObject();
-            json.addProperty("visibleBarrier", visibleBarrier);
-            json.addProperty("visibleAir", visibleAir);
-            json.addProperty("hideParticles", hideParticles);
-            json.addProperty("sendFeedback", sendFeedback);
-            json.addProperty("baseZoom", baseZoom);
-            if (solidLights) json.addProperty("solidLights", true);
-            var jsonData = gson.toJson(json);
-            Files.writeString(configFile, jsonData);
-        } catch (Exception e) {
-            VisibleBarriersCommon.LOGGER.info(e.toString());
+    @Override
+    public void writeChanges() {
+        super.writeChanges();
+        if (prevVisibility != visibility) {
+            prevVisibility = visibility;
+            VisibleBarriers.reloadWorldRenderer();
         }
     }
 
-    protected static void loadConfig() {
-        try {
-            var gson = new Gson();
-            var reader = Files.readString(configFile);
-            var data = gson.fromJson(reader, JsonObject.class);
-            if (data.has("visibleBarrier")) {
-                visibleBarrier = data.get("visibleBarrier").getAsBoolean();
-                if (visibleBarrier) {
-                    VisibleBarriers.toggleBarriers();
-                }
-            }
-            if (data.has("visibleAir")) {
-                visibleAir = data.get("visibleAir").getAsBoolean();
-            }
-            if (data.has("hideParticles")) {
-                hideParticles = data.get("hideParticles").getAsBoolean();
-            }
-            if (data.has("sendFeedback")) {
-                sendFeedback = data.get("sendFeedback").getAsBoolean();
-            }
-            if (data.has("baseZoom")) {
-                baseZoom = data.get("baseZoom").getAsFloat();
-            }
-            if (data.has("solidLights")) {
-                solidLights = data.get("solidLights").getAsBoolean();
-            }
-        } catch (FileNotFoundException e) {
-            VisibleBarriersCommon.LOGGER.info("Config data not found.");
-        } catch (Exception e) {
-            VisibleBarriersCommon.LOGGER.info("Error loading config data.");
-            VisibleBarriersCommon.LOGGER.info(e.toString());
+    public enum Weather {
+        UNCHANGED(-1, -1, "visiblebarriers.weather.default"),
+        CLEAR(0, 0, "visiblebarriers.weather.clear"),
+        RAIN(1, 0, "visiblebarriers.weather.rain"),
+        THUNDER(1, 1, "visiblebarriers.weather.thunder");
+
+        private final int rain;
+        private final int thunder;
+        private final String translationKey;
+
+        Weather(int rain, int thunder, String translationKey) {
+            this.rain = rain;
+            this.thunder = thunder;
+            this.translationKey = translationKey;
+        }
+
+        public int getRain() {
+            return this.rain;
+        }
+
+        public int getThunder() {
+            return this.thunder;
+        }
+
+        public String getTranslationKey() {
+            return this.translationKey;
         }
     }
 }

@@ -2,6 +2,9 @@ package dev.amymialee.visiblebarriers.mixin.boxing;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.mojang.blaze3d.vertex.PoseStack;
+import dev.amymialee.visiblebarriers.VisibleBarriers;
+import dev.amymialee.visiblebarriers.VisibleConfig;
+import dev.amymialee.visiblebarriers.util.FloatyRenderer;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -15,8 +18,6 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import dev.amymialee.visiblebarriers.VisibleBarriers;
-import dev.amymialee.visiblebarriers.util.FloatyRenderer;
 
 @Mixin(EntityRenderer.class)
 public class EntityRendererMixin<T extends Entity, S extends EntityRenderState> {
@@ -40,7 +41,7 @@ public class EntityRendererMixin<T extends Entity, S extends EntityRenderState> 
 
     @Inject(method = "submit", at = @At("HEAD"))
     protected void visibleBarriers$renderHead(S state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState camera, CallbackInfo ci) {
-        if (VisibleBarriers.isVisibilityEnabled() && state.isInvisible) {
+        if (VisibleConfig.visibility && state.isInvisible) {
             var entity = state.getData(VisibleBarriers.ENTITY);
             if (entity == null) return; // This happens if a mod creates a render state without extracting it from an entity.
             if (entity.getPickResult() != null) {

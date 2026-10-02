@@ -1,5 +1,8 @@
 package dev.amymialee.visiblebarriers.mixin;
 
+import dev.amymialee.visiblebarriers.VisibleConfig;
+import dev.amymialee.visiblebarriers.common.VisibleBarriersCommon;
+import dev.amymialee.visiblebarriers.mixin.boxing.BlockMixin;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.event.player.PlayerPickItemEvents;
@@ -22,9 +25,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import dev.amymialee.visiblebarriers.VisibleBarriers;
-import dev.amymialee.visiblebarriers.common.VisibleBarriersCommon;
-import dev.amymialee.visiblebarriers.mixin.boxing.BlockMixin;
 
 @Mixin(BubbleColumnBlock.class)
 public abstract class BubbleColumnBlockMixin extends BlockMixin implements PlayerPickItemEvents.PickItemFromBlock {
@@ -47,8 +47,6 @@ public abstract class BubbleColumnBlockMixin extends BlockMixin implements Playe
     @Environment(EnvType.CLIENT)
     @Inject(method = "getShape", at = @At("HEAD"), cancellable = true)
     public void visibleBarriers$visibleOutlineShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context, CallbackInfoReturnable<VoxelShape> cir) {
-        if (VisibleBarriers.isVisibilityEnabled() || VisibleBarriers.areBubbleColumnsEnabled() || context == CollisionContext.empty()) {
-            cir.setReturnValue(Shapes.block());
-        }
+        if (VisibleConfig.visibility || context == CollisionContext.empty()) cir.setReturnValue(Shapes.block());
     }
 }

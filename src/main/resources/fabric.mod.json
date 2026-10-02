@@ -27,6 +27,9 @@
     ],
     "client": [
       "dev.amymialee.visiblebarriers.VisibleBarriers"
+    ],
+    "modmenu": [
+      "dev.amymialee.visiblebarriers.VBModMenu"
     ]
   },
   "mixins": [
