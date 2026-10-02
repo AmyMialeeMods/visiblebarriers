@@ -39,6 +39,11 @@ public class VisibleBarriersCommon implements ModInitializer {
     public static final BlockItem BUBBLE_COLUMN_BLOCK_ITEM = registerBlockItem(Blocks.BUBBLE_COLUMN, "Bubble Column", "bubble_column");
     public static final BlockItem NETHER_PORTAL = registerBlockItem(Blocks.NETHER_PORTAL, "Nether Portal", "nether_portal");
     public static final BlockItem FROSTED_ICE = registerBlockItem(Blocks.FROSTED_ICE, "Frosted Ice", "frosted_ice");
+    public static final BlockItem WATER = registerBlockItem(Blocks.WATER, "Water", "water");
+    public static final BlockItem LAVA = registerBlockItem(Blocks.LAVA, "Lava", "lava");
+    public static final BlockItem LAVA_CAULDRON = registerBlockItem(Blocks.LAVA_CAULDRON, "Lava Cauldron", "lava_cauldron");
+    public static final BlockItem POWDER_SNOW_CAULDRON = registerBlockItem(Blocks.POWDER_SNOW_CAULDRON, "Powder Snow Cauldron", "powder_snow_cauldron");
+    public static final BlockItem WATER_CAULDRON = registerBlockItem(Blocks.WATER_CAULDRON, "Water Cauldron", "water_cauldron");
 
     @Override
     public void onInitialize() {
@@ -56,6 +61,11 @@ public class VisibleBarriersCommon implements ModInitializer {
                 content.accept(makeVariant(FROSTED_ICE, FrostedIceBlock.AGE, 1));
                 content.accept(makeVariant(FROSTED_ICE, FrostedIceBlock.AGE, 2));
                 content.accept(makeVariant(FROSTED_ICE, FrostedIceBlock.AGE, 3));
+                content.accept(WATER);
+                content.accept(LAVA);
+                content.accept(LAVA_CAULDRON);
+                content.accept(POWDER_SNOW_CAULDRON);
+                content.accept(WATER_CAULDRON);
                 content.accept(Items.KNOWLEDGE_BOOK);
             }
         });
