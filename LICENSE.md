@@ -1,2 +1,2 @@
-Copyright (c) 2022 AmyMialee
+Copyright © 2026 AmyMialee  
 All rights reserved.

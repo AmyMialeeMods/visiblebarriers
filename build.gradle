@@ -1,43 +1,45 @@
 plugins {
-    id 'net.fabricmc.fabric-loom' version '1.15-SNAPSHOT'
+    id 'net.fabricmc.fabric-loom' version "${loom_version}"
     id 'maven-publish'
     id "me.modmuss50.mod-publish-plugin" version "0.8.4"
 }
 
-base {
-    archivesName = project.archives_base_name + "-" + project.minecraft_version
-}
-
 version = project.mod_version
 group = project.maven_group
+base { archivesName = project.mod_id + "-" + project.minecraft_version }
 
 repositories {
-    maven { url "https://maven.nucleoid.xyz" }
+    maven { url "https://maven.terraformersmc.com/releases/" }
     maven { url "https://maven.ladysnake.org/releases" }
+    maven { url "https://maven.uuid.gg/releases" }
+    maven { url "https://maven.nucleoid.xyz" }
 }
 
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     implementation "net.fabricmc:fabric-loader:${project.loader_version}"
-    implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    implementation include("eu.pb4:polymer-core:${project.polymer_version}")
+    implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+    implementation "com.terraformersmc:modmenu:${project.modmenu_version}"
+
+    implementation include ("eu.pb4:polymer-core:${project.polymer_version}")
+    implementation include ("dev.upcraft.datasync:${project.datasync_version}")
 }
 
 loom {
-    accessWidenerPath = file("src/main/resources/visiblebarriers.accesswidener")
+    accessWidenerPath = file("src/main/resources/visiblebarriers.classtweaker")
 }
 
 fabricApi {
     configureDataGeneration() {
         modId = "visiblebarriers"
+        client = true
     }
 }
 
 processResources {
     inputs.property "version", project.version
-    filesMatching("fabric.mod.json") {
-        expand "version": project.version
-    }
+    filteringCharset "UTF-8"
+    filesMatching("fabric.mod.json") { expand "version": project.version }
 }
 
 tasks.withType(JavaCompile).configureEach {
@@ -46,21 +48,18 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_25
-    targetCompatibility = JavaVersion.VERSION_25
     toolchain.languageVersion = JavaLanguageVersion.of(25)
     withSourcesJar()
 }
 
 jar {
-    from("LICENSE.md") {
-        rename { "${it}_${project.base.archivesName.get()}"}
-    }
+    from("LICENSE.md") { rename { "${it}_${project.mod_id}" } }
 }
 
 publishing {
     publications {
-        mavenJava(MavenPublication) {
+        create("mavenJava", MavenPublication) {
+            artifactId = project.mod_id
             from components.java
         }
     }

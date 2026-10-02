@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "visiblebarriers",
   "version": "${version}",
-  "accessWidener": "visiblebarriers.accesswidener",
+  "accessWidener": "visiblebarriers.classtweaker",
   "name": "Visible Barriers",
   "description": "Various tools for Minecraft Mapmaking.",
   "authors": [
@@ -23,10 +23,10 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "xyz.amymialee.visiblebarriers.common.VisibleBarriersCommon"
+      "dev.amymialee.visiblebarriers.common.VisibleBarriersCommon"
     ],
     "client": [
-      "xyz.amymialee.visiblebarriers.VisibleBarriers"
+      "dev.amymialee.visiblebarriers.VisibleBarriers"
     ]
   },
   "mixins": [

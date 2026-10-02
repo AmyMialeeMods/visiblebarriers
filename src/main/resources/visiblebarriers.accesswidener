@@ -1,4 +1,0 @@
-accessWidener v2 official
-extendable class net/minecraft/world/item/ItemStack
-accessible field net/minecraft/world/entity/AreaEffectCloud potionContents Lnet/minecraft/world/item/alchemy/PotionContents;
-
