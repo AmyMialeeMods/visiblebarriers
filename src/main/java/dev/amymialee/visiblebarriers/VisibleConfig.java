@@ -32,6 +32,11 @@ public class VisibleConfig extends MidnightConfig {
     @Entry(category = MOD, name = "Forced Time", isSlider = true, min = 0, max = 24000)
     public static int forcedTime = 6000;
 
+    @Entry(category = MOD, name = "Forced Game Time Enabled")
+    public static boolean forcedGameTimeEnabled = false;
+    @Entry(category = MOD, name = "Forced GameTime", isSlider = true, min = 0, max = 24000)
+    public static int forcedGameTime = 6000;
+
     @Entry(category = MOD, name = "Forced Weather")
     public static Weather forcedWeather = Weather.UNCHANGED;
 

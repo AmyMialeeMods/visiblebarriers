@@ -97,6 +97,26 @@ public class VisibleInput {
                             }))
                     )
             );
+            commandDispatcher.register(ClientCommands.literal("vbgametime")
+                    .then(ClientCommands.literal("enable").executes(_ -> {
+                        VisibleConfig.forcedGameTimeEnabled = true;
+                        VisibleBarriers.booleanFeedback("visiblebarriers.feedback.gametime", true);
+                        return 0;
+                    }))
+                    .then(ClientCommands.literal("disable").executes(_ -> {
+                        VisibleConfig.forcedGameTimeEnabled = false;
+                        VisibleBarriers.booleanFeedback("visiblebarriers.feedback.gametime", false);
+                        return 0;
+                    }))
+                    .then(ClientCommands.literal("set")
+                            .then(ClientCommands.argument("time", TimeArgument.time()).executes(context -> {
+                                var time = IntegerArgumentType.getInteger(context, "time");
+                                VisibleConfig.forcedGameTime = time;
+                                VisibleBarriers.sendFeedback("visiblebarriers.command.gametime.custom", time);
+                                return 0;
+                            }))
+                    )
+            );
             commandDispatcher.register(ClientCommands.literal("vbweather")
                     .then(ClientCommands.literal("unchanged").executes(_ -> {
                         VisibleConfig.forcedWeather = VisibleConfig.Weather.UNCHANGED;

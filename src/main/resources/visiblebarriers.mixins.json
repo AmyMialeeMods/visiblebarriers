@@ -22,6 +22,7 @@
     "client.CameraMixin",
     "client.ClientBarrierBlockMixin",
     "client.ClientBubbleColumnBlockMixin",
+    "client.ClientClockInstanceMixin",
     "client.ClientLevelMixin",
     "client.ClientLevelMixin$ClientLevelDataMixin",
     "client.ClientMovingPistonBlockMixin",
