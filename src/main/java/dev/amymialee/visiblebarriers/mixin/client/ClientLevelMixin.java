@@ -45,7 +45,7 @@ public class ClientLevelMixin extends LevelMixin {
     static class ClientLevelDataMixin {
         @Inject(method = "getGameTime", at = @At("HEAD"), cancellable = true)
         private void visibleBarriers$forceGameTime(CallbackInfoReturnable<Long> cir) {
-            if (VisibleConfig.forcedTimeEnabled) cir.setReturnValue((long) VisibleConfig.forcedTime);
+            if (VisibleConfig.forcedGameTimeEnabled) cir.setReturnValue((long) VisibleConfig.forcedGameTime);
         }
     }
 }
