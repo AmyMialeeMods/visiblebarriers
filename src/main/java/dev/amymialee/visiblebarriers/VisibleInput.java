@@ -70,27 +70,32 @@ public class VisibleInput {
                     }))
                     .then(ClientCommands.literal("set")
                             .then(ClientCommands.literal("day").executes(_ -> {
+                                VisibleConfig.forcedTimeEnabled = true;
                                 VisibleConfig.forcedTime = 1000;
                                 VisibleBarriers.sendFeedback("visiblebarriers.command.time.day");
                                 return 0;
                             }))
                             .then(ClientCommands.literal("noon").executes(_ -> {
+                                VisibleConfig.forcedTimeEnabled = true;
                                 VisibleConfig.forcedTime = 6000;
                                 VisibleBarriers.sendFeedback("visiblebarriers.command.time.noon");
                                 return 0;
                             }))
                             .then(ClientCommands.literal("night").executes(_ -> {
+                                VisibleConfig.forcedTimeEnabled = true;
                                 VisibleConfig.forcedTime = 13000;
                                 VisibleBarriers.sendFeedback("visiblebarriers.command.time.night");
                                 return 0;
                             }))
                             .then(ClientCommands.literal("midnight").executes(_ -> {
+                                VisibleConfig.forcedTimeEnabled = true;
                                 VisibleConfig.forcedTime = 18000;
                                 VisibleBarriers.sendFeedback("visiblebarriers.command.time.midnight");
                                 return 0;
                             }))
                             .then(ClientCommands.argument("time", TimeArgument.time()).executes(context -> {
                                 var time = IntegerArgumentType.getInteger(context, "time");
+                                VisibleConfig.forcedTimeEnabled = true;
                                 VisibleConfig.forcedTime = time;
                                 VisibleBarriers.sendFeedback("visiblebarriers.command.time.custom", time);
                                 return 0;
@@ -111,6 +116,7 @@ public class VisibleInput {
                     .then(ClientCommands.literal("set")
                             .then(ClientCommands.argument("time", TimeArgument.time()).executes(context -> {
                                 var time = IntegerArgumentType.getInteger(context, "time");
+                                VisibleConfig.forcedGameTimeEnabled = true;
                                 VisibleConfig.forcedGameTime = time;
                                 VisibleBarriers.sendFeedback("visiblebarriers.command.gametime.custom", time);
                                 return 0;
